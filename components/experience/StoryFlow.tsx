@@ -3,6 +3,9 @@
 import { useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Experience } from "@/lib/types";
+import { SonicProfileScreen } from "./SonicProfileScreen";
+import { CourseCard } from "./CourseCard";
+import { FullMenuScreen } from "./FullMenuScreen";
 
 // Screens: 0=Arrival, 1=SonicProfile, 2-6=Courses, 7=FullMenu
 const TOTAL_SCREENS = 8;
@@ -80,13 +83,16 @@ export function StoryFlow({ experience }: { experience: Experience }) {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="absolute inset-0"
           >
-            {/* Screen routing -- filled in by Task 9 */}
             {currentScreen === 0 && <ArrivalScreen experience={experience} />}
-            {currentScreen >= 1 && (
-              <div className="flex items-center justify-center h-full" style={{ color: palette.text + "44" }}>
-                Screen {currentScreen}
-              </div>
+            {currentScreen === 1 && <SonicProfileScreen experience={experience} />}
+            {currentScreen >= 2 && currentScreen <= 6 && experience.courses?.[currentScreen - 2] && experience.tracks?.[currentScreen - 2] && (
+              <CourseCard
+                course={experience.courses[currentScreen - 2]}
+                track={experience.tracks[currentScreen - 2]}
+                palette={palette}
+              />
             )}
+            {currentScreen === 7 && <FullMenuScreen experience={experience} />}
           </motion.div>
         </AnimatePresence>
 
