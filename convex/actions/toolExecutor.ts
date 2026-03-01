@@ -4,6 +4,24 @@ import * as spoonacular from "../lib/spoonacular";
 import { Mistral } from "@mistralai/mistralai";
 
 /**
+ * Parse JSON from an agent response, stripping markdown fences if present.
+ * Throws if parsing fails after cleanup.
+ */
+export function parseAgentJson(raw: string): unknown {
+  // Try direct parse first
+  try {
+    return JSON.parse(raw);
+  } catch {
+    // Strip markdown code fences
+    const cleaned = raw
+      .replace(/^```(?:json)?\s*\n?/i, "")
+      .replace(/\n?```\s*$/i, "")
+      .trim();
+    return JSON.parse(cleaned);
+  }
+}
+
+/**
  * Execute a single tool call by name, dispatching to the appropriate API helper.
  * Returns a JSON-stringified result for feeding back to the Mistral conversation.
  */
@@ -117,6 +135,10 @@ export async function runAgentConversation(
   });
 
   for (let turn = 0; turn < maxTurns; turn++) {
+    if (!response.outputs || response.outputs.length === 0) {
+      throw new Error("Agent returned empty outputs");
+    }
+
     const lastOutput = response.outputs[response.outputs.length - 1];
 
     // If the agent produced a final message, extract text and return
@@ -163,6 +185,9 @@ export async function runAgentConversation(
   }
 
   // Fallback: return last output content as-is
+  if (!response.outputs || response.outputs.length === 0) {
+    throw new Error("Agent returned empty outputs");
+  }
   const last = response.outputs[response.outputs.length - 1];
   const fallbackContent = (last as { content?: string | unknown[] }).content;
   if (typeof fallbackContent === "string") return fallbackContent;

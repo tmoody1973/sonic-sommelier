@@ -4,7 +4,7 @@ import { internalAction } from "../_generated/server";
 import { internal } from "../_generated/api";
 import { v } from "convex/values";
 import { createMistralClient } from "../lib/agents";
-import { runAgentConversation } from "./toolExecutor";
+import { runAgentConversation, parseAgentJson } from "./toolExecutor";
 import { nanoid } from "nanoid";
 
 /**
@@ -15,63 +15,81 @@ import { nanoid } from "nanoid";
 export const run = internalAction({
   args: { experienceId: v.id("experiences") },
   handler: async (ctx, args) => {
-    const client = createMistralClient(process.env.MISTRAL_API_KEY!);
-    const agentId = process.env.SOMMELIER_AGENT_ID!;
+    try {
+      const client = createMistralClient(process.env.MISTRAL_API_KEY!);
+      const agentId = process.env.SOMMELIER_AGENT_ID!;
 
-    const experience = await ctx.runQuery(
-      internal.experiences.getInternal,
-      { id: args.experienceId }
-    );
-    if (!experience?.tracks || !experience?.courses)
-      throw new Error("Missing tracks or courses data");
+      const experience = await ctx.runQuery(
+        internal.experiences.getInternal,
+        { id: args.experienceId }
+      );
+      if (!experience?.tracks || !experience?.courses)
+        throw new Error("Missing tracks or courses data");
 
-    const coursesInput = experience.courses.map((course, i) => {
-      const track = experience.tracks![i];
-      return {
-        courseNumber: course.courseNumber,
-        courseName: course.courseType,
-        dishName: course.dishName,
-        cuisineType: course.cuisineType,
-        trackName: `${track.name} - ${track.artist}`,
-        artistName: track.artist,
-        sonicProfile: track.audioFeatures,
-      };
-    });
+      const coursesInput = experience.courses.map((course, i) => {
+        const track = experience.tracks![i];
+        return {
+          courseNumber: course.courseNumber,
+          courseName: course.courseType,
+          dishName: course.dishName,
+          cuisineType: course.cuisineType,
+          trackName: `${track.name} - ${track.artist}`,
+          artistName: track.artist,
+          sonicProfile: track.audioFeatures,
+        };
+      });
 
-    const prompt = `Pair each course with wine or sake. At least one course MUST be sake.
+      const prompt = `Pair each course with wine or sake. At least one course MUST be sake.
 
 ${JSON.stringify({ courses: coursesInput }, null, 2)}
 
 Return a JSON object with a "pairings" array of 5 objects matching the output format in your instructions.`;
 
-    const result = await runAgentConversation(
-      client,
-      agentId,
-      prompt,
-      20
-    );
-    const parsed = JSON.parse(result);
-    const pairings = parsed.pairings ?? parsed;
+      const result = await runAgentConversation(
+        client,
+        agentId,
+        prompt,
+        20
+      );
 
-    await ctx.runMutation(internal.experiences.updatePairings, {
-      id: args.experienceId,
-      pairings: pairings.map(
-        (p: Record<string, unknown>) => ({
-          courseNumber: p.courseNumber as number,
-          beverageType: p.beverageType as "wine" | "sake",
-          beverageName: p.beverageName as string,
-          classification: (p.classification as string) ?? "",
-          region: (p.region as string) ?? "",
-          servingTemp: (p.servingTemp as string) ?? "",
-          tastingNote: (p.tastingNote as string) ?? "",
-        })
-      ),
-    });
+      let parsed;
+      try {
+        parsed = parseAgentJson(result) as any;
+      } catch {
+        await ctx.runMutation(internal.experiences.updateStatus, {
+          id: args.experienceId,
+          status: "error",
+        });
+        return;
+      }
+      const pairings = parsed.pairings ?? parsed;
 
-    // Mark experience ready with a share slug (media generation is a later task)
-    await ctx.runMutation(internal.experiences.markReady, {
-      id: args.experienceId,
-      shareSlug: nanoid(10),
-    });
+      await ctx.runMutation(internal.experiences.updatePairings, {
+        id: args.experienceId,
+        pairings: pairings.map(
+          (p: Record<string, unknown>) => ({
+            courseNumber: p.courseNumber as number,
+            beverageType: p.beverageType as "wine" | "sake",
+            beverageName: p.beverageName as string,
+            classification: (p.classification as string) ?? "",
+            region: (p.region as string) ?? "",
+            servingTemp: (p.servingTemp as string) ?? "",
+            tastingNote: (p.tastingNote as string) ?? "",
+          })
+        ),
+      });
+
+      // Mark experience ready with a share slug (media generation is a later task)
+      await ctx.runMutation(internal.experiences.markReady, {
+        id: args.experienceId,
+        shareSlug: nanoid(10),
+      });
+    } catch (err) {
+      console.error(`Pipeline step failed:`, err);
+      await ctx.runMutation(internal.experiences.updateStatus, {
+        id: args.experienceId,
+        status: "error",
+      });
+    }
   },
 });
