@@ -17,7 +17,13 @@ export default function ExperiencePage() {
   }
 
   if (experience.status !== "ready") {
-    return <LoadingState status={experience.status} palette={experience.palette} />;
+    return (
+      <LoadingState
+        status={experience.status}
+        palette={experience.palette}
+        thoughts={experience.thoughts}
+      />
+    );
   }
 
   return <StoryFlow experience={experience} />;

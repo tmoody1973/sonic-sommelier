@@ -8,12 +8,20 @@ import { runAgentConversation } from "./toolExecutor";
 
 /**
  * Step 1: Maitre D' — parses raw user input into a structured creative brief.
- * Writes brief/title/subtitle to the experience, then schedules the Music Curator.
  */
 export const run = internalAction({
   args: { experienceId: v.id("experiences"), userInput: v.string() },
   handler: async (ctx, args) => {
+    const think = (message: string) =>
+      ctx.runMutation(internal.experiences.addThought, {
+        id: args.experienceId,
+        agent: "maitre_d",
+        message,
+      });
+
     try {
+      await think("Good evening. Let me study your request...");
+
       const client = createMistralClient(process.env.MISTRAL_API_KEY!);
       const agentId = process.env.MAITRE_D_AGENT_ID!;
 
@@ -23,7 +31,6 @@ export const run = internalAction({
       try {
         brief = JSON.parse(result);
       } catch {
-        // Fallback if agent doesn't return valid JSON
         brief = {
           mood: args.userInput,
           cuisineDirection: "eclectic",
@@ -33,6 +40,11 @@ export const run = internalAction({
           subtitle: "A 5-course dining experience curated from sound",
         };
       }
+
+      await think(
+        `I sense ${brief.mood}. This calls for ${brief.cuisineDirection} cuisine.`
+      );
+      await think(`Your evening: "${brief.title}" — ${brief.subtitle}`);
 
       await ctx.runMutation(internal.experiences.updateBrief, {
         id: args.experienceId,
@@ -48,7 +60,8 @@ export const run = internalAction({
           "A 5-course dining experience curated from sound",
       });
 
-      // Schedule step 2: Music Curator
+      await think("Calling the Music Curator to build your sonic journey...");
+
       await ctx.scheduler.runAfter(0, internal.actions.curate.run, {
         experienceId: args.experienceId,
       });

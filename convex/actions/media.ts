@@ -22,6 +22,13 @@ import { nanoid } from "nanoid";
 export const run = internalAction({
   args: { experienceId: v.id("experiences") },
   handler: async (ctx, args) => {
+    const think = (message: string) =>
+      ctx.runMutation(internal.experiences.addThought, {
+        id: args.experienceId,
+        agent: "maitre_d",
+        message,
+      });
+
     try {
       const experience = await ctx.runQuery(
         internal.experiences.getInternal,
@@ -30,6 +37,8 @@ export const run = internalAction({
       if (!experience?.courses || !experience?.tracks) {
         throw new Error("Missing courses or tracks data");
       }
+
+      await think("Writing the narration for your dining experience...");
 
       const mistralClient = createMistralClient(process.env.MISTRAL_API_KEY!);
       const maitreDAgentId = process.env.MAITRE_D_AGENT_ID!;
@@ -122,6 +131,8 @@ Return ONLY valid JSON. No markdown fences. No commentary.`;
         introNarrationText: narrationData.intro,
         courseMedia: courseNarrationMedia,
       });
+
+      await think("Your table is ready. Please, follow me...");
 
       // Mark ready NOW so the user sees the full menu immediately
       const shareSlug = nanoid(10);

@@ -14,7 +14,16 @@ import { runAgentConversation, parseAgentJson } from "./toolExecutor";
 export const run = internalAction({
   args: { experienceId: v.id("experiences") },
   handler: async (ctx, args) => {
+    const think = (message: string) =>
+      ctx.runMutation(internal.experiences.addThought, {
+        id: args.experienceId,
+        agent: "sommelier",
+        message,
+      });
+
     try {
+      await think("Examining the menu and sonic profiles. Selecting wines...");
+
       const client = createMistralClient(process.env.MISTRAL_API_KEY!);
       const agentId = process.env.SOMMELIER_AGENT_ID!;
 
@@ -63,6 +72,13 @@ Return a JSON object with a "pairings" array of 5 objects matching the output fo
       }
       const pairings = parsed.pairings ?? parsed;
 
+      // Report each pairing to the thought stream
+      for (const p of pairings) {
+        await think(
+          `Course ${(p as any).courseNumber}: ${(p as any).beverageName}`
+        );
+      }
+
       await ctx.runMutation(internal.experiences.updatePairings, {
         id: args.experienceId,
         pairings: pairings.map(
@@ -77,6 +93,8 @@ Return a JSON object with a "pairings" array of 5 objects matching the output fo
           })
         ),
       });
+
+      await think("Wines selected. Preparing your experience presentation...");
 
       // Schedule step 5: Media Generation (ElevenLabs voice + Gemini images)
       await ctx.scheduler.runAfter(0, internal.actions.media.run, {

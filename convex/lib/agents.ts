@@ -46,38 +46,8 @@ function functionTool(
 
 export const musicCuratorTools = [
   functionTool(
-    "search_tracks_by_mood",
-    "Search for tracks that match a given mood. Returns a list of track candidates with IDs and metadata.",
-    {
-      type: "object",
-      properties: {
-        mood: {
-          type: "string",
-          enum: ["happy", "sad", "energetic", "relaxed", "danceable"],
-          description:
-            "The mood to search by. Must be one of: happy, sad, energetic, relaxed, danceable.",
-        },
-      },
-      required: ["mood"],
-    }
-  ),
-  functionTool(
-    "get_track_audio_features",
-    "Retrieve audio features (energy, valence, tempo, danceability, acousticness, key, mode) for a Spotify track by its ID.",
-    {
-      type: "object",
-      properties: {
-        spotify_id: {
-          type: "string",
-          description: "The Spotify track ID.",
-        },
-      },
-      required: ["spotify_id"],
-    }
-  ),
-  functionTool(
     "search_spotify_tracks",
-    "Search Spotify for tracks matching a free-text query (artist name, song title, genre, etc.).",
+    "Search Spotify for tracks matching a free-text query (artist name, song title, genre, etc.). Use this to verify tracks exist and get their Spotify IDs.",
     {
       type: "object",
       properties: {
@@ -88,55 +58,6 @@ export const musicCuratorTools = [
         },
       },
       required: ["query"],
-    }
-  ),
-  functionTool(
-    "get_similar_tracks",
-    "Get tracks similar to a given Spotify track, based on audio features and genre proximity.",
-    {
-      type: "object",
-      properties: {
-        spotify_id: {
-          type: "string",
-          description:
-            "The Spotify track ID to find similar tracks for.",
-        },
-      },
-      required: ["spotify_id"],
-    }
-  ),
-  functionTool(
-    "search_tracks_by_features",
-    "Search for Spotify tracks within specified audio feature ranges. All parameters are optional — only provide the ranges you want to constrain.",
-    {
-      type: "object",
-      properties: {
-        energy_min: {
-          type: "number",
-          description: "Minimum energy value (0.0-1.0).",
-        },
-        energy_max: {
-          type: "number",
-          description: "Maximum energy value (0.0-1.0).",
-        },
-        valence_min: {
-          type: "number",
-          description: "Minimum valence value (0.0-1.0).",
-        },
-        valence_max: {
-          type: "number",
-          description: "Maximum valence value (0.0-1.0).",
-        },
-        tempo_min: {
-          type: "number",
-          description: "Minimum tempo in BPM.",
-        },
-        tempo_max: {
-          type: "number",
-          description: "Maximum tempo in BPM.",
-        },
-      },
-      required: [],
     }
   ),
 ];

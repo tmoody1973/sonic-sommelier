@@ -15,6 +15,13 @@ import * as spoonacular from "../lib/spoonacular";
 export const run = internalAction({
   args: { experienceId: v.id("experiences") },
   handler: async (ctx, args) => {
+    const think = (message: string) =>
+      ctx.runMutation(internal.experiences.addThought, {
+        id: args.experienceId,
+        agent: "chef",
+        message,
+      });
+
     try {
       const client = createMistralClient(process.env.MISTRAL_API_KEY!);
       const agentId = process.env.CULINARY_CHEF_AGENT_ID!;
@@ -49,6 +56,8 @@ Audio: energy=${t.audioFeatures.energy}, valence=${t.audioFeatures.valence}, tem
         })
         .join("\n\n");
 
+      await think("Translating sound into flavor. Designing your menu...");
+
       const prompt = `Design a 5-course menu for this experience.
 Cuisine Direction: ${experience.brief?.cuisineDirection ?? "eclectic"}
 
@@ -68,6 +77,15 @@ Apply the sonic-to-culinary mapping for each dish. Include a recipeSearchQuery f
         });
         return;
       }
+
+      // Report each dish to the thought stream
+      for (const c of courses) {
+        await think(
+          `Course ${(c as any).courseNumber}: "${(c as any).dishName}" — ${(c as any).cuisineType}`
+        );
+      }
+
+      await think("Finding real recipes from our kitchen library...");
 
       // Enrich each course with a real recipe from Spoonacular
       const enrichedCourses = await Promise.all(
@@ -134,6 +152,8 @@ Apply the sonic-to-culinary mapping for each dish. Include a recipeSearchQuery f
         id: args.experienceId,
         courses: enrichedCourses,
       });
+
+      await think("Menu complete. Calling the Sommelier for wine pairings...");
 
       // Schedule step 4: Wine Sommelier
       await ctx.scheduler.runAfter(0, internal.actions.pair.run, {

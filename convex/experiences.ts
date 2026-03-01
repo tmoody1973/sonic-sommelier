@@ -303,6 +303,29 @@ export const updateMedia = internalMutation({
 });
 
 /**
+ * Append a thought/status message from an agent during pipeline processing.
+ * The frontend subscribes to these and displays them in real-time.
+ */
+export const addThought = internalMutation({
+  args: {
+    id: v.id("experiences"),
+    agent: v.string(),
+    message: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const experience = await ctx.db.get(args.id);
+    if (!experience) return;
+    const thoughts = experience.thoughts ?? [];
+    thoughts.push({
+      agent: args.agent,
+      message: args.message,
+      timestamp: Date.now(),
+    });
+    await ctx.db.patch(args.id, { thoughts });
+  },
+});
+
+/**
  * Mark the experience as ready and set the share slug.
  */
 export const markReady = internalMutation({

@@ -1,6 +1,5 @@
 "use node";
 
-import * as soundstat from "../lib/soundstat";
 import * as spotify from "../lib/spotify";
 import * as spoonacular from "../lib/spoonacular";
 import { Mistral } from "@mistralai/mistralai";
@@ -31,22 +30,11 @@ export async function executeToolCall(
   toolName: string,
   args: Record<string, unknown>
 ): Promise<string> {
-  const ssKey = process.env.SOUNDSTAT_API_KEY!;
   const spClientId = process.env.SPOTIFY_CLIENT_ID!;
   const spSecret = process.env.SPOTIFY_CLIENT_SECRET!;
   const spoonKey = process.env.SPOONACULAR_API_KEY!;
 
   switch (toolName) {
-    case "search_tracks_by_mood":
-      return JSON.stringify(
-        await soundstat.searchByMood(args.mood as string, ssKey)
-      );
-
-    case "get_track_audio_features":
-      return JSON.stringify(
-        await soundstat.getTrackFeatures(args.spotify_id as string, ssKey)
-      );
-
     case "search_spotify_tracks":
       return JSON.stringify(
         await spotify.searchTrack(
@@ -55,33 +43,6 @@ export async function executeToolCall(
           spSecret
         )
       );
-
-    case "get_similar_tracks":
-      return JSON.stringify(
-        await soundstat.getSimilarTracks(args.spotify_id as string, ssKey)
-      );
-
-    case "search_tracks_by_features": {
-      const features: Record<string, unknown> = {};
-      if (args.energy_min != null)
-        features.energy = [
-          args.energy_min as number,
-          (args.energy_max as number) ?? 1,
-        ];
-      if (args.valence_min != null)
-        features.valence = [
-          args.valence_min as number,
-          (args.valence_max as number) ?? 1,
-        ];
-      if (args.tempo_min != null)
-        features.tempo = [
-          args.tempo_min as number,
-          (args.tempo_max as number) ?? 200,
-        ];
-      return JSON.stringify(
-        await soundstat.searchByFeatures(features, ssKey)
-      );
-    }
 
     case "search_recipes":
       return JSON.stringify(

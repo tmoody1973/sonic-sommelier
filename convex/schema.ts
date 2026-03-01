@@ -93,6 +93,15 @@ export default defineSchema({
     fullNarrationUrl: v.optional(v.string()),
     heroImageUrl: v.optional(v.string()),
     shareSlug: v.optional(v.string()),
+    thoughts: v.optional(
+      v.array(
+        v.object({
+          agent: v.string(),
+          message: v.string(),
+          timestamp: v.number(),
+        })
+      )
+    ),
     createdAt: v.number(),
   })
     .index("by_user", ["userId"])

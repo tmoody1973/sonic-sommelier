@@ -78,5 +78,7 @@ export interface Experience {
   introNarrationUrl?: string;
   heroImageUrl?: string;
   shareSlug?: string;
+  thoughts?: Array<{ agent: string; message: string; timestamp: number }>;
+  introNarrationText?: string;
   createdAt: number;
 }
