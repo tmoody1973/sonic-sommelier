@@ -34,15 +34,24 @@ Mood: ${experience.brief.mood}
 Cuisine Direction: ${experience.brief.cuisineDirection}
 Occasion: ${experience.brief.occasion}
 
-Select 5 REAL tracks by real artists that exist on Spotify. Curate them the way Rhythm Lab Radio would — crossing genre boundaries, finding unexpected connections between sounds and cultures, blending the familiar with the adventurous. The set should feel like a journey:
+The music MUST complement the food and wine. Think about how sound pairs with flavor:
+- Light, delicate dishes → airy, textured, acoustic sounds
+- Rich, bold dishes → deep grooves, warm bass, soulful vocals
+- Spicy, vibrant cuisine → rhythmic, percussive, energetic tracks
+- French/Italian → jazz, chanson, sophisticated arrangements
+- Japanese/Asian → ambient, minimalist, contemplative textures
+- Latin/Caribbean → Afro-Latin rhythms, bossa nova, tropical bass
+- American comfort → soul, R&B, blues, hip-hop with warmth
 
-1. Arrival (atmospheric) — Set the tone. Something textured and inviting — ambient, downtempo, or a soulful intro that draws the listener into the world.
-2. Opening (warming) — Build warmth. A groove-driven track that opens up the space — neo-soul, jazzy hip-hop, or a deep electronic cut.
-3. Deepening (complex) — Add layers. A track with depth and complexity — world music fusion, progressive soul, or something genre-bending.
-4. Peak (intense) — The emotional climax. A powerful, memorable track — Afrobeat, electronic, hip-hop, or whatever delivers the most energy for this mood.
-5. Resolution (gentle) — Bring it home. A reflective closer — acoustic, ambient, or a beautiful vocal performance that leaves the listener satisfied.
+Select 5 REAL tracks by real artists that exist on Spotify. Curate them the way Rhythm Lab Radio would — crossing genre boundaries, finding unexpected connections between sounds, cuisines, and cultures. The set should feel like a journey through a meal:
 
-Think across the full spectrum of global music. Prioritize quality curation over obvious choices.`;
+1. Arrival (atmospheric) — An amuse-bouche for the ears. Something textured and inviting that sets the mood for the cuisine to come.
+2. Opening (warming) — The first course energy. A groove that opens the palate — match the warmth of the dish.
+3. Deepening (complex) — The main course moment. Layers, depth, complexity — mirror the richness of the food and wine.
+4. Peak (intense) — The bold pairing. A powerful track that matches the most intense flavors on the table.
+5. Resolution (gentle) — The dessert wine feeling. A reflective closer that pairs with the final taste lingering on the palate.
+
+Think across the full spectrum of global music. The best pairing is when music, food, and wine feel like they belong together.`;
 
       const result = await runAgentConversation(client, agentId, prompt, 20);
 
