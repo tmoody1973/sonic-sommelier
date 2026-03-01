@@ -1,6 +1,6 @@
 /**
  * Gemini image generation helper.
- * Uses Gemini 2.0 Flash to generate dish images from text prompts.
+ * Uses Gemini 3.1 Flash to generate dish images from text prompts.
  * Returns base64-encoded image data or null on failure.
  */
 
@@ -9,13 +9,16 @@ export async function generateImage(
   apiKey: string
 ): Promise<string | null> {
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${apiKey}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image-preview:generateContent?key=${apiKey}`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { responseModalities: ["IMAGE", "TEXT"] },
+        generationConfig: {
+          responseModalities: ["TEXT", "IMAGE"],
+          imageConfig: { aspectRatio: "4:3" },
+        },
       }),
     }
   );
