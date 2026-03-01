@@ -10,8 +10,14 @@ import { generateImage } from "../lib/gemini";
 import { nanoid } from "nanoid";
 
 /**
- * Step 5: Media Generation — generates narration audio (ElevenLabs) and
- * dish images (Gemini) for the completed experience, then marks it ready.
+ * Step 5: Media Generation — progressive loading.
+ *
+ * Phase A: Generate narration text → save + mark "ready" immediately
+ *          so the user sees the full menu right away.
+ * Phase B: Generate audio narration + dish images per-course,
+ *          saving each course's media as it completes (real-time push via Convex).
+ *
+ * This gives a restaurant-like experience — courses "arrive" one at a time.
  */
 export const run = internalAction({
   args: { experienceId: v.id("experiences") },
@@ -30,7 +36,9 @@ export const run = internalAction({
       const elevenLabsKey = process.env.ELEVENLABS_API_KEY!;
       const geminiKey = process.env.GEMINI_API_KEY!;
 
-      // ── 1. Generate narration text via Maitre D' agent ──────────────────
+      // ══════════════════════════════════════════════════════════════════════
+      // PHASE A — Generate narration text, save it, and mark "ready"
+      // ══════════════════════════════════════════════════════════════════════
 
       const narrationPrompt = `You are narrating a luxury dining experience called "${experience.title}" (${experience.subtitle}).
 Mood: ${experience.brief?.mood ?? "eclectic"}
@@ -62,11 +70,38 @@ Return ONLY valid JSON. No markdown fences. No commentary.`;
         10
       );
 
-      let narrationData: { intro: string; courses: Array<{ courseNumber: number; narration: string }> };
+      let narrationData: {
+        intro: string;
+        courses: Array<{ courseNumber: number; narration: string }>;
+      };
       try {
-        narrationData = parseAgentJson(narrationResult) as typeof narrationData;
+        const parsed = parseAgentJson(narrationResult) as Record<
+          string,
+          unknown
+        >;
+        // Handle both string and {text: "..."} formats from the agent
+        const rawIntro = parsed.intro;
+        const intro =
+          typeof rawIntro === "string"
+            ? rawIntro
+            : (rawIntro as { text?: string })?.text ??
+              `Welcome to ${experience.title}.`;
+        const rawCourses = parsed.courses as Array<Record<string, unknown>>;
+        narrationData = {
+          intro,
+          courses: (rawCourses ?? []).map((c) => {
+            const rawNarration = c.narration;
+            const narration =
+              typeof rawNarration === "string"
+                ? rawNarration
+                : (rawNarration as { text?: string })?.text ?? "";
+            return {
+              courseNumber: Number(c.courseNumber),
+              narration,
+            };
+          }),
+        };
       } catch {
-        // Fallback: use a simple intro if the agent output can't be parsed
         narrationData = {
           intro: `Welcome to ${experience.title}. ${experience.subtitle}.`,
           courses: experience.courses.map((c) => ({
@@ -76,85 +111,117 @@ Return ONLY valid JSON. No markdown fences. No commentary.`;
         };
       }
 
-      // ── 2. Generate intro narration audio (ElevenLabs) ──────────────────
-
-      let introNarrationUrl: string | undefined;
-      try {
-        const introAudio = await synthesizeSpeech(narrationData.intro, elevenLabsKey);
-        const introBlob = new Blob([introAudio], { type: "audio/mpeg" });
-        const introStorageId = await ctx.storage.store(introBlob);
-        introNarrationUrl = await ctx.storage.getUrl(introStorageId) ?? undefined;
-      } catch (err) {
-        console.error("Failed to generate intro narration audio:", err);
-      }
-
-      // ── 3. Generate course narration audio + dish images ────────────────
-
-      const courseMedia: Array<{
-        courseNumber: number;
-        narrationText?: string;
-        narrationAudioUrl?: string;
-        aiImageUrl?: string;
-      }> = [];
-
-      for (const course of experience.courses) {
-        const courseNarration = narrationData.courses.find(
-          (n) => n.courseNumber === course.courseNumber
-        );
-        const narrationText = courseNarration?.narration ??
-          `${course.dishName}. ${course.dishDescription}`;
-
-        let narrationAudioUrl: string | undefined;
-        let aiImageUrl: string | undefined;
-
-        // Generate narration audio for this course
-        try {
-          const courseAudio = await synthesizeSpeech(narrationText, elevenLabsKey);
-          const courseBlob = new Blob([courseAudio], { type: "audio/mpeg" });
-          const storageId = await ctx.storage.store(courseBlob);
-          narrationAudioUrl = await ctx.storage.getUrl(storageId) ?? undefined;
-        } catch (err) {
-          console.error(`Failed to generate audio for course ${course.courseNumber}:`, err);
-        }
-
-        // Generate dish image via Gemini
-        try {
-          const imagePrompt = `Professional food photography of "${course.dishName}" — ${course.dishDescription}. ${course.cuisineType} cuisine. Beautifully plated on elegant dinnerware. Soft, warm lighting. Shallow depth of field. Top-down or 45-degree angle. Fine dining presentation. No text or watermarks.`;
-          const base64Image = await generateImage(imagePrompt, geminiKey);
-          if (base64Image) {
-            const imageBuffer = Buffer.from(base64Image, "base64");
-            const imageBlob = new Blob([imageBuffer], { type: "image/png" });
-            const storageId = await ctx.storage.store(imageBlob);
-            aiImageUrl = await ctx.storage.getUrl(storageId) ?? undefined;
-          }
-        } catch (err) {
-          console.error(`Failed to generate image for course ${course.courseNumber}:`, err);
-        }
-
-        courseMedia.push({
-          courseNumber: course.courseNumber,
-          narrationText,
-          narrationAudioUrl,
-          aiImageUrl,
-        });
-      }
-
-      // ── 4. Update experience with all media ─────────────────────────────
+      // Save narration text for every course immediately
+      const courseNarrationMedia = narrationData.courses.map((c) => ({
+        courseNumber: c.courseNumber,
+        narrationText: c.narration,
+      }));
 
       await ctx.runMutation(internal.experiences.updateMedia, {
         id: args.experienceId,
         introNarrationText: narrationData.intro,
-        introNarrationUrl,
-        courseMedia,
+        courseMedia: courseNarrationMedia,
       });
 
-      // ── 5. Mark experience as ready ─────────────────────────────────────
-
+      // Mark ready NOW so the user sees the full menu immediately
       const shareSlug = nanoid(10);
       await ctx.runMutation(internal.experiences.markReady, {
         id: args.experienceId,
         shareSlug,
       });
+
+      // ══════════════════════════════════════════════════════════════════════
+      // PHASE B — Generate audio + images per-course, saving progressively
+      // ══════════════════════════════════════════════════════════════════════
+
+      // Generate intro narration audio first
+      try {
+        const introAudio = await synthesizeSpeech(
+          narrationData.intro,
+          elevenLabsKey
+        );
+        const introBlob = new Blob([introAudio], { type: "audio/mpeg" });
+        const introStorageId = await ctx.storage.store(introBlob);
+        const introNarrationUrl =
+          (await ctx.storage.getUrl(introStorageId)) ?? undefined;
+        await ctx.runMutation(internal.experiences.updateMedia, {
+          id: args.experienceId,
+          introNarrationUrl,
+        });
+      } catch (err) {
+        console.error("Failed to generate intro narration audio:", err);
+      }
+
+      // Process each course — audio + image, then save immediately
+      for (const course of experience.courses) {
+        const courseNarration = narrationData.courses.find(
+          (n) => n.courseNumber === course.courseNumber
+        );
+        const narrationText =
+          courseNarration?.narration ??
+          `${course.dishName}. ${course.dishDescription}`;
+
+        let narrationAudioUrl: string | undefined;
+        let aiImageUrl: string | undefined;
+
+        // Generate audio + image in parallel for each course
+        const [audioResult, imageResult] = await Promise.allSettled([
+          // Audio
+          (async () => {
+            const audioData = await synthesizeSpeech(
+              narrationText,
+              elevenLabsKey
+            );
+            const blob = new Blob([audioData], { type: "audio/mpeg" });
+            const storageId = await ctx.storage.store(blob);
+            return (await ctx.storage.getUrl(storageId)) ?? undefined;
+          })(),
+          // Image
+          (async () => {
+            const imagePrompt = `Professional food photography of "${course.dishName}" — ${course.dishDescription}. ${course.cuisineType} cuisine. Beautifully plated on elegant dinnerware. Soft, warm lighting. Shallow depth of field. Top-down or 45-degree angle. Fine dining presentation. No text or watermarks.`;
+            const base64Image = await generateImage(imagePrompt, geminiKey);
+            if (base64Image) {
+              const imageBuffer = Buffer.from(base64Image, "base64");
+              const blob = new Blob([imageBuffer], { type: "image/png" });
+              const storageId = await ctx.storage.store(blob);
+              return (await ctx.storage.getUrl(storageId)) ?? undefined;
+            }
+            return undefined;
+          })(),
+        ]);
+
+        if (audioResult.status === "fulfilled") {
+          narrationAudioUrl = audioResult.value;
+        } else {
+          console.error(
+            `Audio failed for course ${course.courseNumber}:`,
+            audioResult.reason
+          );
+        }
+
+        if (imageResult.status === "fulfilled") {
+          aiImageUrl = imageResult.value;
+        } else {
+          console.error(
+            `Image failed for course ${course.courseNumber}:`,
+            imageResult.reason
+          );
+        }
+
+        // Save this course's media immediately — Convex pushes update to frontend
+        if (narrationAudioUrl || aiImageUrl) {
+          await ctx.runMutation(internal.experiences.updateMedia, {
+            id: args.experienceId,
+            courseMedia: [
+              {
+                courseNumber: course.courseNumber,
+                ...(narrationAudioUrl && { narrationAudioUrl }),
+                ...(aiImageUrl && { aiImageUrl }),
+              },
+            ],
+          });
+        }
+      }
     } catch (error) {
       console.error("Media generation failed:", error);
       await ctx.runMutation(internal.experiences.updateStatus, {
