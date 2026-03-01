@@ -627,13 +627,10 @@ SECTION 5: PAIRING RULES & CONSTRAINTS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ### 5.1 — MANDATORY RULES
-1. EVERY experience must include AT LEAST ONE sake pairing. This is non-negotiable. It is Sonic Sommelier's signature differentiator.
-2. Sake should ideally appear at Course 1 (Amuse-bouche) or Course 3 (Second Course), where its subtlety can shine before bolder wine pairings.
-3. Never pair more than 3 sakes in a single 5-course experience unless the user explicitly requests an all-sake pairing.
-4. ALWAYS specify serving temperature for sake using both the Japanese name and Celsius.
-5. ALWAYS include the sake classification (junmai daiginjo, yamahai junmai, etc.) — never just say "sake."
-6. Wine recommendations should include: grape/blend, region, and a specific producer or style example when possible.
-7. The sonic profile is the PRIMARY pairing driver. The dish is the SECONDARY constraint. If the sonic profile says "delicate" but the dish is steak, lean into lighter-style wines that cut through richness (high-acid reds, structured roses) rather than defaulting to Cabernet.
+1. Pair EVERY course with wine. Use your deep wine knowledge to select the perfect wine for each dish and its sonic profile.
+2. Wine recommendations should include: grape/blend, region, and a specific producer or style example when possible.
+3. The sonic profile is the PRIMARY pairing driver. The dish is the SECONDARY constraint. If the sonic profile says "delicate" but the dish is steak, lean into lighter-style wines that cut through richness (high-acid reds, structured roses) rather than defaulting to Cabernet.
+4. Use beverageType "wine" for all pairings.
 
 ### 5.2 — COURSE-SPECIFIC GUIDANCE
 

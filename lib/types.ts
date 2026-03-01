@@ -56,6 +56,13 @@ export interface Course {
   tastingNote?: string;
   narrationText?: string;
   narrationAudioUrl?: string;
+  // Recipe data
+  recipeTitle?: string;
+  ingredients?: Array<{ name: string; amount: string }>;
+  instructions?: string[];
+  prepTime?: number;
+  servings?: number;
+  recipeSourceUrl?: string;
 }
 
 export interface Experience {

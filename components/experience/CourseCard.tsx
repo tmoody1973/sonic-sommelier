@@ -64,10 +64,12 @@ const DISH_GRADIENTS = [
 export function CourseCard({ course, track, palette }: CourseCardProps) {
   const [revealed, setRevealed] = useState(false);
   const [pairingVisible, setPairingVisible] = useState(false);
+  const [flipped, setFlipped] = useState(false);
 
   useEffect(() => {
     setRevealed(false);
     setPairingVisible(false);
+    setFlipped(false);
     const t1 = setTimeout(() => setRevealed(true), 100);
     const t2 = setTimeout(() => setPairingVisible(true), 1600);
     return () => {
@@ -80,240 +82,452 @@ export function CourseCard({ course, track, palette }: CourseCardProps) {
     ? `url(${course.aiImageUrl})`
     : DISH_GRADIENTS[(course.courseNumber - 1) % 5];
 
+  const hasRecipe = course.ingredients && course.ingredients.length > 0;
+
   return (
     <div
-      className="absolute inset-0 overflow-hidden"
-      style={{ background: palette.secondary }}
+      className="absolute inset-0"
+      style={{ perspective: "1200px" }}
     >
-      {/* Background image with Ken Burns */}
       <div
-        className="absolute"
+        className="relative w-full h-full transition-transform duration-700"
         style={{
-          inset: "-5%",
-          width: "110%",
-          height: "110%",
-          background: bgImage,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          opacity: revealed ? 0.7 : 0,
-          transition: "opacity 0.8s ease-out, transform 8s linear",
-          transform: revealed ? "scale(1.05)" : "scale(1.0)",
+          transformStyle: "preserve-3d",
+          transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
         }}
-      />
-
-      {/* Gradient overlay */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: `linear-gradient(to bottom, transparent 0%, rgba(13,13,13,0.3) 30%, rgba(13,13,13,0.75) 55%, rgba(13,13,13,0.95) 80%)`,
-        }}
-      />
-
-      {/* Content */}
-      <div
-        className="relative h-full flex flex-col justify-end"
-        style={{ padding: "32px 28px 40px" }}
       >
-        {/* Course label -- top left */}
+        {/* ═══ FRONT — Dish + Music + Wine ═══ */}
         <div
-          className="absolute left-7"
+          className="absolute inset-0 overflow-hidden"
           style={{
-            top: "48px",
-            opacity: revealed ? 0.6 : 0,
-            transform: revealed ? "translateY(0)" : "translateY(-15px)",
-            transition: "all 0.5s ease-out 0.2s",
+            backfaceVisibility: "hidden",
+            background: palette.secondary,
           }}
         >
-          <span
-            className="font-['Space_Grotesk'] text-[11px] tracking-[0.25em] uppercase"
-            style={{ color: palette.text }}
-          >
-            Course {course.courseNumber} &middot; {course.courseType}
-          </span>
-        </div>
-
-        {/* Arc role */}
-        <div
-          className="absolute left-7"
-          style={{
-            top: "72px",
-            opacity: revealed ? 0.35 : 0,
-            transform: revealed ? "translateY(0)" : "translateY(-10px)",
-            transition: "all 0.4s ease-out 0.35s",
-          }}
-        >
-          <span
-            className="font-['Space_Grotesk'] text-[10px] tracking-[0.3em]"
-            style={{ color: palette.accent }}
-          >
-            {course.arcRole}
-          </span>
-        </div>
-
-        {/* Audio bars -- top right */}
-        <div
-          className="absolute right-7"
-          style={{
-            top: "52px",
-            opacity: revealed ? 1 : 0,
-            transition: "opacity 0.5s ease-out 2s",
-          }}
-        >
-          <AudioBars features={track.audioFeatures} color={palette.accent} />
-        </div>
-
-        {/* Dish info */}
-        <div className="mb-2">
-          <h2
-            className="font-['Playfair_Display'] text-[34px] leading-[1.1] font-normal m-0"
+          {/* Background image with Ken Burns */}
+          <div
+            className="absolute"
             style={{
-              color: palette.text,
-              opacity: revealed ? 1 : 0,
-              transform: revealed ? "translateY(0)" : "translateY(25px)",
-              transition:
-                "all 0.6s cubic-bezier(0.25,0.46,0.45,0.94) 0.4s",
+              inset: "-5%",
+              width: "110%",
+              height: "110%",
+              background: bgImage,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              opacity: revealed ? 0.7 : 0,
+              transition: "opacity 0.8s ease-out, transform 8s linear",
+              transform: revealed ? "scale(1.05)" : "scale(1.0)",
             }}
-          >
-            {course.dishName}
-          </h2>
-          <p
-            className="font-['Instrument_Serif'] text-[15px] leading-[1.55] italic mt-2.5"
+          />
+
+          {/* Gradient overlay */}
+          <div
+            className="absolute inset-0"
             style={{
-              color: palette.text + "99",
-              opacity: revealed ? 1 : 0,
-              transform: revealed ? "translateY(0)" : "translateY(15px)",
-              transition: "all 0.5s ease-out 0.65s",
+              background: `linear-gradient(to bottom, transparent 0%, rgba(13,13,13,0.3) 30%, rgba(13,13,13,0.75) 55%, rgba(13,13,13,0.95) 80%)`,
             }}
+          />
+
+          {/* Content */}
+          <div
+            className="relative h-full flex flex-col justify-end"
+            style={{ padding: "32px 28px 40px" }}
           >
-            {course.dishDescription}
-          </p>
-        </div>
-
-        {/* Narration text — appears when media step delivers it */}
-        {course.narrationText && (
-          <p
-            className="font-['Instrument_Serif'] text-[13px] leading-[1.6] italic mb-2"
-            style={{
-              color: palette.accent + "88",
-              opacity: revealed ? 1 : 0,
-              transition: "opacity 0.6s ease-out 0.8s",
-            }}
-          >
-            {course.narrationText}
-          </p>
-        )}
-
-        {/* Divider */}
-        <div
-          className="my-3"
-          style={{
-            width: pairingVisible ? "60px" : "0px",
-            height: "1px",
-            backgroundColor: palette.accent,
-            transition: "width 0.6s ease-out",
-            opacity: 0.4,
-          }}
-        />
-
-        {/* Pairing section */}
-        <div
-          style={{
-            opacity: pairingVisible ? 1 : 0,
-            transform: pairingVisible ? "translateY(0)" : "translateY(40px)",
-            transition: "all 0.7s cubic-bezier(0.25,0.46,0.45,0.94)",
-          }}
-        >
-          {/* Spotify embed player — 30s preview, no auth needed */}
-          {track.spotifyId && (
+            {/* Course label */}
             <div
-              className="mb-3 rounded-xl overflow-hidden"
-              onClick={(e) => e.stopPropagation()}
-              onTouchStart={(e) => e.stopPropagation()}
-              onTouchEnd={(e) => e.stopPropagation()}
-            >
-              <iframe
-                src={`https://open.spotify.com/embed/track/${track.spotifyId}?utm_source=generator&theme=0`}
-                width="100%"
-                height="80"
-                frameBorder="0"
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy"
-                style={{ borderRadius: "12px" }}
-              />
-            </div>
-          )}
-
-          {/* Fallback track info (if no Spotify embed) */}
-          {!track.spotifyId && (
-            <div className="flex items-center gap-3 mb-3.5">
-              <div
-                className="w-11 h-11 rounded-md flex-shrink-0 flex items-center justify-center"
-                style={{
-                  background: track.albumArt
-                    ? `url(${track.albumArt}) center/cover`
-                    : `linear-gradient(135deg, ${palette.primary}, ${palette.accent}40)`,
-                }}
-              >
-                {!track.albumArt && <span className="text-lg">&#9835;</span>}
-              </div>
-              <div>
-                <div
-                  className="font-['Space_Grotesk'] text-[13px] font-medium"
-                  style={{ color: palette.text }}
-                >
-                  {track.name}
-                </div>
-                <div
-                  className="font-['Space_Grotesk'] text-[11px]"
-                  style={{ color: palette.text + "66" }}
-                >
-                  {track.artist} &middot; {track.album}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Wine pairing */}
-          {course.beverageName && (
-            <div
-              className="rounded-xl p-3.5"
+              className="absolute left-7"
               style={{
-                background: "rgba(240,230,211,0.04)",
-                border: "1px solid rgba(240,230,211,0.06)",
+                top: "48px",
+                opacity: revealed ? 0.6 : 0,
+                transform: revealed ? "translateY(0)" : "translateY(-15px)",
+                transition: "all 0.5s ease-out 0.2s",
               }}
             >
-              <div className="flex items-center gap-2 mb-2">
-                <span
-                  className="font-['JetBrains_Mono'] text-[9px] tracking-[0.15em] uppercase opacity-80"
-                  style={{ color: palette.accent }}
-                >
-                  {course.beverageType === "sake" ? "SAKE" : "WINE"}
-                </span>
-                {course.servingTemp && (
-                  <span
-                    className="font-['JetBrains_Mono'] text-[9px]"
-                    style={{ color: palette.text + "44" }}
-                  >
-                    {course.servingTemp}
-                  </span>
-                )}
-              </div>
-              <div
-                className="font-['Instrument_Serif'] text-[15px] mb-1.5"
+              <span
+                className="font-['Space_Grotesk'] text-[11px] tracking-[0.25em] uppercase"
                 style={{ color: palette.text }}
               >
-                {course.beverageName}
-              </div>
-              {course.tastingNote && (
-                <p
-                  className="font-['Space_Grotesk'] text-xs leading-[1.5] m-0"
-                  style={{ color: palette.text + "77" }}
+                Course {course.courseNumber} &middot; {course.courseType}
+              </span>
+            </div>
+
+            {/* Arc role */}
+            <div
+              className="absolute left-7"
+              style={{
+                top: "72px",
+                opacity: revealed ? 0.35 : 0,
+                transform: revealed ? "translateY(0)" : "translateY(-10px)",
+                transition: "all 0.4s ease-out 0.35s",
+              }}
+            >
+              <span
+                className="font-['Space_Grotesk'] text-[10px] tracking-[0.3em]"
+                style={{ color: palette.accent }}
+              >
+                {course.arcRole}
+              </span>
+            </div>
+
+            {/* Audio bars */}
+            <div
+              className="absolute right-7"
+              style={{
+                top: "52px",
+                opacity: revealed ? 1 : 0,
+                transition: "opacity 0.5s ease-out 2s",
+              }}
+            >
+              <AudioBars
+                features={track.audioFeatures}
+                color={palette.accent}
+              />
+            </div>
+
+            {/* Recipe flip button */}
+            {hasRecipe && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setFlipped(true);
+                }}
+                className="absolute right-7 bottom-auto cursor-pointer bg-transparent border-none"
+                style={{
+                  top: "100px",
+                  opacity: pairingVisible ? 0.6 : 0,
+                  transition: "opacity 0.4s ease-out",
+                }}
+                aria-label="View recipe"
+              >
+                <div
+                  className="rounded-full px-3 py-1.5 flex items-center gap-1.5"
+                  style={{
+                    background: palette.accent + "15",
+                    border: `1px solid ${palette.accent}33`,
+                  }}
                 >
-                  {course.tastingNote}
-                </p>
+                  <span style={{ fontSize: "12px" }}>&#127860;</span>
+                  <span
+                    className="font-['Space_Grotesk'] text-[9px] tracking-[0.15em] uppercase"
+                    style={{ color: palette.accent }}
+                  >
+                    Recipe
+                  </span>
+                </div>
+              </button>
+            )}
+
+            {/* Dish info */}
+            <div className="mb-2">
+              <h2
+                className="font-['Playfair_Display'] text-[34px] md:text-[42px] leading-[1.1] font-normal m-0"
+                style={{
+                  color: palette.text,
+                  opacity: revealed ? 1 : 0,
+                  transform: revealed ? "translateY(0)" : "translateY(25px)",
+                  transition:
+                    "all 0.6s cubic-bezier(0.25,0.46,0.45,0.94) 0.4s",
+                }}
+              >
+                {course.dishName}
+              </h2>
+              <p
+                className="font-['Instrument_Serif'] text-[15px] md:text-[17px] leading-[1.55] italic mt-2.5"
+                style={{
+                  color: palette.text + "99",
+                  opacity: revealed ? 1 : 0,
+                  transform: revealed ? "translateY(0)" : "translateY(15px)",
+                  transition: "all 0.5s ease-out 0.65s",
+                  maxWidth: "600px",
+                }}
+              >
+                {course.dishDescription}
+              </p>
+            </div>
+
+            {/* Narration text */}
+            {course.narrationText && (
+              <p
+                className="font-['Instrument_Serif'] text-[13px] leading-[1.6] italic mb-2"
+                style={{
+                  color: palette.accent + "88",
+                  opacity: revealed ? 1 : 0,
+                  transition: "opacity 0.6s ease-out 0.8s",
+                  maxWidth: "600px",
+                }}
+              >
+                {course.narrationText}
+              </p>
+            )}
+
+            {/* Divider */}
+            <div
+              className="my-3"
+              style={{
+                width: pairingVisible ? "60px" : "0px",
+                height: "1px",
+                backgroundColor: palette.accent,
+                transition: "width 0.6s ease-out",
+                opacity: 0.4,
+              }}
+            />
+
+            {/* Pairing section */}
+            <div
+              className="flex flex-col md:flex-row md:gap-6"
+              style={{
+                opacity: pairingVisible ? 1 : 0,
+                transform: pairingVisible
+                  ? "translateY(0)"
+                  : "translateY(40px)",
+                transition:
+                  "all 0.7s cubic-bezier(0.25,0.46,0.45,0.94)",
+              }}
+            >
+              {/* Spotify embed */}
+              {track.spotifyId && (
+                <div
+                  className="mb-3 rounded-xl overflow-hidden md:flex-1 md:max-w-sm"
+                  onClick={(e) => e.stopPropagation()}
+                  onTouchStart={(e) => e.stopPropagation()}
+                  onTouchEnd={(e) => e.stopPropagation()}
+                >
+                  <iframe
+                    src={`https://open.spotify.com/embed/track/${track.spotifyId}?utm_source=generator&theme=0`}
+                    width="100%"
+                    height="80"
+                    frameBorder="0"
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
+                    style={{ borderRadius: "12px" }}
+                  />
+                </div>
+              )}
+
+              {/* Fallback track info */}
+              {!track.spotifyId && (
+                <div className="flex items-center gap-3 mb-3.5">
+                  <div
+                    className="w-11 h-11 rounded-md flex-shrink-0 flex items-center justify-center"
+                    style={{
+                      background: track.albumArt
+                        ? `url(${track.albumArt}) center/cover`
+                        : `linear-gradient(135deg, ${palette.primary}, ${palette.accent}40)`,
+                    }}
+                  >
+                    {!track.albumArt && (
+                      <span className="text-lg">&#9835;</span>
+                    )}
+                  </div>
+                  <div>
+                    <div
+                      className="font-['Space_Grotesk'] text-[13px] font-medium"
+                      style={{ color: palette.text }}
+                    >
+                      {track.name}
+                    </div>
+                    <div
+                      className="font-['Space_Grotesk'] text-[11px]"
+                      style={{ color: palette.text + "66" }}
+                    >
+                      {track.artist} &middot; {track.album}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Wine pairing */}
+              {course.beverageName && (
+                <div
+                  className="rounded-xl p-3.5 md:flex-1 md:max-w-sm"
+                  style={{
+                    background: "rgba(240,230,211,0.04)",
+                    border: "1px solid rgba(240,230,211,0.06)",
+                  }}
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <span
+                      className="font-['JetBrains_Mono'] text-[9px] tracking-[0.15em] uppercase opacity-80"
+                      style={{ color: palette.accent }}
+                    >
+                      WINE
+                    </span>
+                    {course.servingTemp && (
+                      <span
+                        className="font-['JetBrains_Mono'] text-[9px]"
+                        style={{ color: palette.text + "44" }}
+                      >
+                        {course.servingTemp}
+                      </span>
+                    )}
+                  </div>
+                  <div
+                    className="font-['Instrument_Serif'] text-[15px] mb-1.5"
+                    style={{ color: palette.text }}
+                  >
+                    {course.beverageName}
+                  </div>
+                  {course.tastingNote && (
+                    <p
+                      className="font-['Space_Grotesk'] text-xs leading-[1.5] m-0"
+                      style={{ color: palette.text + "77" }}
+                    >
+                      {course.tastingNote}
+                    </p>
+                  )}
+                </div>
               )}
             </div>
-          )}
+          </div>
+        </div>
+
+        {/* ═══ BACK — Recipe Card ═══ */}
+        <div
+          className="absolute inset-0 overflow-y-auto"
+          style={{
+            backfaceVisibility: "hidden",
+            transform: "rotateY(180deg)",
+            background: `linear-gradient(to bottom, ${palette.secondary}, ${palette.primary}22)`,
+          }}
+        >
+          <div style={{ padding: "48px 28px 40px" }}>
+            {/* Back button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setFlipped(false);
+              }}
+              className="absolute top-4 left-5 cursor-pointer bg-transparent border-none z-10"
+              aria-label="Back to course"
+            >
+              <div
+                className="rounded-full px-3 py-1.5"
+                style={{
+                  background: palette.text + "10",
+                  border: `1px solid ${palette.text}15`,
+                }}
+              >
+                <span
+                  className="font-['Space_Grotesk'] text-[10px] tracking-[0.1em] uppercase"
+                  style={{ color: palette.text + "66" }}
+                >
+                  &#8592; Back
+                </span>
+              </div>
+            </button>
+
+            {/* Recipe header */}
+            <div className="mb-6 mt-4">
+              <div
+                className="font-['JetBrains_Mono'] text-[9px] tracking-[0.3em] uppercase mb-2"
+                style={{ color: palette.accent + "66" }}
+              >
+                Recipe &middot; Course {course.courseNumber}
+              </div>
+              <h2
+                className="font-['Playfair_Display'] text-[28px] md:text-[36px] leading-[1.15] font-normal"
+                style={{ color: palette.text }}
+              >
+                {course.recipeTitle || course.dishName}
+              </h2>
+              {course.prepTime && (
+                <div
+                  className="flex gap-4 mt-3 font-['Space_Grotesk'] text-[11px]"
+                  style={{ color: palette.text + "55" }}
+                >
+                  <span>&#9201; {course.prepTime} min</span>
+                  {course.servings && (
+                    <span>&#127869; {course.servings} servings</span>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Ingredients */}
+            {course.ingredients && course.ingredients.length > 0 && (
+              <div className="mb-6">
+                <h3
+                  className="font-['Space_Grotesk'] text-[10px] tracking-[0.2em] uppercase mb-3"
+                  style={{ color: palette.accent + "88" }}
+                >
+                  Ingredients
+                </h3>
+                <ul className="list-none p-0 m-0">
+                  {course.ingredients.map((ing, i) => (
+                    <li
+                      key={i}
+                      className="font-['Space_Grotesk'] text-[13px] py-1.5"
+                      style={{
+                        color: palette.text + "cc",
+                        borderBottom: `1px solid ${palette.text}0a`,
+                      }}
+                    >
+                      {ing.amount}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Instructions */}
+            {course.instructions && course.instructions.length > 0 && (
+              <div className="mb-6">
+                <h3
+                  className="font-['Space_Grotesk'] text-[10px] tracking-[0.2em] uppercase mb-3"
+                  style={{ color: palette.accent + "88" }}
+                >
+                  Instructions
+                </h3>
+                <ol className="list-none p-0 m-0">
+                  {course.instructions.map((step, i) => (
+                    <li key={i} className="flex gap-3 mb-3">
+                      <span
+                        className="font-['JetBrains_Mono'] text-[11px] flex-shrink-0 mt-0.5"
+                        style={{ color: palette.accent + "55" }}
+                      >
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <p
+                        className="font-['Space_Grotesk'] text-[13px] leading-[1.6] m-0"
+                        style={{ color: palette.text + "bb" }}
+                      >
+                        {step}
+                      </p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
+
+            {/* Source link */}
+            {course.recipeSourceUrl && (
+              <div className="mt-4">
+                <a
+                  href={course.recipeSourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="font-['Space_Grotesk'] text-[11px] tracking-[0.1em] uppercase no-underline"
+                  style={{ color: palette.accent + "66" }}
+                >
+                  View full recipe &#8599;
+                </a>
+              </div>
+            )}
+
+            {/* No recipe fallback */}
+            {!hasRecipe && (
+              <div
+                className="text-center py-12"
+                style={{ color: palette.text + "44" }}
+              >
+                <div className="text-4xl mb-4">&#127860;</div>
+                <p className="font-['Instrument_Serif'] text-base italic">
+                  Recipe loading...
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

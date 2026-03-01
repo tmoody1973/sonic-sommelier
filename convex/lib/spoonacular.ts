@@ -166,3 +166,41 @@ export async function searchRecipes(
     params
   )) as RecipeSearchResult | null;
 }
+
+// ─── Recipe Detail ────────────────────────────────────────────────────────
+
+export interface RecipeDetail {
+  id: number;
+  title: string;
+  readyInMinutes: number;
+  servings: number;
+  sourceUrl: string;
+  image: string;
+  extendedIngredients: Array<{
+    original: string;
+    name: string;
+    amount: number;
+    unit: string;
+  }>;
+  analyzedInstructions: Array<{
+    steps: Array<{
+      number: number;
+      step: string;
+    }>;
+  }>;
+  [key: string]: unknown;
+}
+
+/**
+ * Get full recipe details by ID — ingredients, instructions, prep time.
+ * GET /recipes/{id}/information?apiKey={apiKey}
+ */
+export async function getRecipeInformation(
+  recipeId: number,
+  apiKey: string
+): Promise<RecipeDetail | null> {
+  return (await spoonacularGet(
+    `/recipes/${recipeId}/information`,
+    apiKey
+  )) as RecipeDetail | null;
+}

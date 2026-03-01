@@ -59,6 +59,15 @@ const courseValidator = v.object({
   tastingNote: v.optional(v.string()),
   narrationText: v.optional(v.string()),
   narrationAudioUrl: v.optional(v.string()),
+  // Recipe data (from Spoonacular)
+  recipeTitle: v.optional(v.string()),
+  ingredients: v.optional(
+    v.array(v.object({ name: v.string(), amount: v.string() }))
+  ),
+  instructions: v.optional(v.array(v.string())),
+  prepTime: v.optional(v.number()),
+  servings: v.optional(v.number()),
+  recipeSourceUrl: v.optional(v.string()),
 });
 
 export default defineSchema({
