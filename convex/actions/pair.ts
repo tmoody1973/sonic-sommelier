@@ -5,12 +5,11 @@ import { internal } from "../_generated/api";
 import { v } from "convex/values";
 import { createMistralClient } from "../lib/agents";
 import { runAgentConversation, parseAgentJson } from "./toolExecutor";
-import { nanoid } from "nanoid";
 
 /**
  * Step 4: Wine & Sake Sommelier — takes courses and their paired tracks,
  * pairs each course with wine or sake (at least one must be sake).
- * After pairing, marks the experience as ready with a share slug.
+ * After pairing, schedules the media generation step.
  */
 export const run = internalAction({
   args: { experienceId: v.id("experiences") },
@@ -79,10 +78,9 @@ Return a JSON object with a "pairings" array of 5 objects matching the output fo
         ),
       });
 
-      // Mark experience ready with a share slug (media generation is a later task)
-      await ctx.runMutation(internal.experiences.markReady, {
-        id: args.experienceId,
-        shareSlug: nanoid(10),
+      // Schedule step 5: Media Generation (ElevenLabs voice + Gemini images)
+      await ctx.scheduler.runAfter(0, internal.actions.media.run, {
+        experienceId: args.experienceId,
       });
     } catch (err) {
       console.error(`Pipeline step failed:`, err);
