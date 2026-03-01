@@ -149,6 +149,7 @@ export function FullMenuScreen({
         className="flex flex-col gap-3 items-center"
       >
         <button
+          aria-label="Play full experience playlist"
           className="font-['Space_Grotesk'] text-xs tracking-[0.15em] uppercase font-medium rounded-full px-9 py-3.5 cursor-pointer border-none"
           style={{ color: p.secondary, backgroundColor: p.accent }}
         >
@@ -160,6 +161,7 @@ export function FullMenuScreen({
               e.stopPropagation();
               handleShare();
             }}
+            aria-label="Share menu link"
             className="font-['Space_Grotesk'] text-[11px] tracking-[0.12em] uppercase rounded-full px-7 py-2.5 cursor-pointer bg-transparent transition-colors duration-200"
             style={{
               color: shareLabel === "Copied!" ? p.accent : p.text + "55",

@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Experience } from "@/lib/types";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { SonicProfileScreen } from "./SonicProfileScreen";
 import { CourseCard } from "./CourseCard";
 import { FullMenuScreen } from "./FullMenuScreen";
@@ -46,10 +47,20 @@ export function StoryFlow({ experience }: { experience: Experience }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#080808] flex items-center justify-center">
+    <div
+      className="min-h-screen flex items-center justify-center"
+      style={{
+        background: `linear-gradient(135deg, ${palette.secondary}, ${palette.primary}22, ${palette.gradientMid}11, ${palette.secondary})`,
+        backgroundSize: "400% 400%",
+        animation: "ambient-shift 20s ease infinite",
+      }}
+    >
       {/* Phone frame on desktop, full-screen on mobile */}
       <div
         ref={containerRef}
+        role="button"
+        aria-label={`Experience story screen ${currentScreen + 1} of ${TOTAL_SCREENS}. Tap or swipe to navigate.`}
+        tabIndex={0}
         onClick={handleClick}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
@@ -83,16 +94,18 @@ export function StoryFlow({ experience }: { experience: Experience }) {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="absolute inset-0"
           >
-            {currentScreen === 0 && <ArrivalScreen experience={experience} />}
-            {currentScreen === 1 && <SonicProfileScreen experience={experience} />}
-            {currentScreen >= 2 && currentScreen <= 6 && experience.courses?.[currentScreen - 2] && experience.tracks?.[currentScreen - 2] && (
-              <CourseCard
-                course={experience.courses[currentScreen - 2]}
-                track={experience.tracks[currentScreen - 2]}
-                palette={palette}
-              />
-            )}
-            {currentScreen === 7 && <FullMenuScreen experience={experience} />}
+            <ErrorBoundary>
+              {currentScreen === 0 && <ArrivalScreen experience={experience} />}
+              {currentScreen === 1 && <SonicProfileScreen experience={experience} />}
+              {currentScreen >= 2 && currentScreen <= 6 && experience.courses?.[currentScreen - 2] && experience.tracks?.[currentScreen - 2] && (
+                <CourseCard
+                  course={experience.courses[currentScreen - 2]}
+                  track={experience.tracks[currentScreen - 2]}
+                  palette={palette}
+                />
+              )}
+              {currentScreen === 7 && <FullMenuScreen experience={experience} />}
+            </ErrorBoundary>
           </motion.div>
         </AnimatePresence>
 

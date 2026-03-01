@@ -95,11 +95,13 @@ export function ChatInterface() {
               onChange={(e) => setInput(e.target.value)}
               placeholder="A mood, an artist, a craving..."
               disabled={isGenerating}
+              aria-label="Describe your dining experience — a mood, an artist, or a craving"
               className="flex-1 bg-[#F1E8D9]/5 rounded-full px-5 py-3 text-sm text-[#F1E8D9] placeholder-[#F1E8D9]/20 font-['Space_Grotesk'] border border-[#F1E8D9]/5 focus:outline-none focus:border-[#7C9082]/30"
             />
             <button
               type="submit"
               disabled={isGenerating || !input.trim()}
+              aria-label="Send message"
               className="w-11 h-11 rounded-full bg-[#7C9082] flex items-center justify-center text-[#0f1015] disabled:opacity-30 transition-opacity"
             >
               &rarr;

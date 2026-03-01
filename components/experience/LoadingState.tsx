@@ -1,5 +1,6 @@
 "use client";
 
+import { motion, AnimatePresence } from "framer-motion";
 import { Palette } from "@/lib/types";
 
 const STATUS_MESSAGES: Record<string, string> = {
@@ -26,16 +27,35 @@ export function LoadingState({ status, palette }: { status: string; palette: Pal
       style={{ backgroundColor: colors.secondary }}
     >
       <div className="text-center space-y-6">
-        <div
-          className="w-12 h-12 rounded-full mx-auto animate-pulse"
+        <motion.div
+          className="w-12 h-12 rounded-full mx-auto"
           style={{ backgroundColor: colors.accent + "33" }}
+          animate={{
+            scale: [1, 1.15, 1],
+            opacity: [0.6, 1, 0.6],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
         />
-        <p
-          className="font-['Instrument_Serif'] italic text-lg"
-          style={{ color: colors.text + "88" }}
-        >
-          {STATUS_MESSAGES[status] ?? "Preparing your experience..."}
-        </p>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={status}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.4 }}
+          >
+            <p
+              className="font-['Instrument_Serif'] italic text-lg"
+              style={{ color: colors.text + "88" }}
+            >
+              {STATUS_MESSAGES[status] ?? "Preparing your experience..."}
+            </p>
+          </motion.div>
+        </AnimatePresence>
         <div
           className="font-mono text-[10px] tracking-widest uppercase"
           style={{ color: colors.accent + "44" }}
