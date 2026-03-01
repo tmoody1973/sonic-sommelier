@@ -71,10 +71,15 @@ Select 5 real tracks that form the arc: Arrival (atmospheric) → Opening (warmi
             spotifyData = searchResult.tracks?.items?.[0];
           }
 
-          const videoId = await youtube.searchVideo(
-            `${track.artist} ${track.name}`,
-            ytKey
-          );
+          let videoId: string | null = null;
+          try {
+            videoId = await youtube.searchVideo(
+              `${track.artist} ${track.name}`,
+              ytKey
+            );
+          } catch {
+            // Continue without YouTube video
+          }
 
           let artistImage = "";
           if (spotifyData?.artists?.[0]?.id) {

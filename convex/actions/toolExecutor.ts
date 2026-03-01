@@ -165,7 +165,15 @@ export async function runAgentConversation(
         typeof fc.arguments === "string"
           ? JSON.parse(fc.arguments)
           : fc.arguments;
-      const result = await executeToolCall(fc.name, callArgs);
+      let result: string;
+      try {
+        result = await executeToolCall(fc.name, callArgs);
+      } catch (toolErr) {
+        console.error(`Tool call ${fc.name} failed:`, toolErr);
+        result = JSON.stringify({
+          error: `Tool ${fc.name} failed: ${toolErr instanceof Error ? toolErr.message : String(toolErr)}`,
+        });
+      }
 
       response = await client.beta.conversations.append({
         conversationId: response.conversationId,

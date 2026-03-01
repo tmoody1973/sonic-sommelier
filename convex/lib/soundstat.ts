@@ -1,12 +1,10 @@
 /**
- * SoundStat.info API — audio feature analysis.
- * Base URL: https://api.soundstat.info/api/v1
+ * SoundStat API — audio feature analysis and music recommendations.
+ * Base URL: https://soundstat.info/api/v1
  * Auth: x-api-key header.
- *
- * All functions throw on error so the pipeline is aware of failures.
  */
 
-const BASE_URL = "https://api.soundstat.info/api/v1";
+const BASE_URL = "https://soundstat.info/api/v1";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -21,49 +19,61 @@ export interface AudioFeatures {
   [key: string]: unknown;
 }
 
-export interface TrackFeaturesResponse {
-  audio_features: AudioFeatures;
+export interface TrackAnalysis {
+  audio_features?: AudioFeatures;
   [key: string]: unknown;
 }
 
 export interface MoodRecommendation {
   track_id: string;
-  name: string;
-  artist: string;
-  [key: string]: unknown;
-}
-
-export interface ProgressionResponse {
-  tracks: Array<{
-    track_id: string;
-    [key: string]: unknown;
-  }>;
+  name?: string;
+  artist?: string;
   [key: string]: unknown;
 }
 
 export interface SimilarTrack {
   track_id: string;
-  name: string;
-  artist: string;
-  [key: string]: unknown;
-}
-
-export interface FeatureSearchResult {
-  tracks: Array<{
-    track_id: string;
-    [key: string]: unknown;
-  }>;
+  name?: string;
+  artist?: string;
   [key: string]: unknown;
 }
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
+async function get(
+  path: string,
+  apiKey: string
+): Promise<unknown> {
+  const response = await fetch(`${BASE_URL}${path}`, {
+    method: "GET",
+    headers: {
+      "x-api-key": apiKey,
+    },
+  });
+
+  if (!response.ok) {
+    const text = await response.text().catch(() => "");
+    throw new Error(
+      `SoundStat GET ${path} failed (${response.status}): ${text}`
+    );
+  }
+
+  return response.json();
+}
+
 async function post(
   path: string,
   apiKey: string,
-  body: Record<string, unknown>
+  body: Record<string, unknown>,
+  queryParams?: Record<string, string>
 ): Promise<unknown> {
-  const response = await fetch(`${BASE_URL}${path}`, {
+  let url = `${BASE_URL}${path}`;
+  if (queryParams) {
+    const params = new URLSearchParams(queryParams);
+    url += `?${params.toString()}`;
+  }
+
+  const response = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -75,7 +85,7 @@ async function post(
   if (!response.ok) {
     const text = await response.text().catch(() => "");
     throw new Error(
-      `SoundStat ${path} failed (${response.status}): ${text}`
+      `SoundStat POST ${path} failed (${response.status}): ${text}`
     );
   }
 
@@ -85,74 +95,80 @@ async function post(
 // ─── Public API ─────────────────────────────────────────────────────────────
 
 /**
- * Get audio features for a track by its Spotify ID.
- * POST /track/{spotify_id}
+ * Get audio analysis for a track by its Spotify ID.
+ * GET /track/{track_id}
  */
 export async function getTrackFeatures(
   spotifyId: string,
   apiKey: string
-): Promise<TrackFeaturesResponse> {
-  return (await post(`/track/${encodeURIComponent(spotifyId)}`, apiKey, {})) as TrackFeaturesResponse;
+): Promise<TrackAnalysis> {
+  return (await get(
+    `/track/${encodeURIComponent(spotifyId)}`,
+    apiKey
+  )) as TrackAnalysis;
 }
 
 /**
- * Search for track recommendations by mood.
+ * Search for tracks matching a desired mood.
  * POST /recommendations/mood
+ * mood: happy | sad | energetic | relaxed | danceable
  */
 export async function searchByMood(
   mood: string,
   apiKey: string,
   limit: number = 10
 ): Promise<MoodRecommendation[]> {
-  return (await post("/recommendations/mood", apiKey, {
+  const result = await post("/recommendations/mood", apiKey, {
     mood,
     limit,
-  })) as MoodRecommendation[];
+  });
+  return (result as { tracks?: MoodRecommendation[] })?.tracks ?? (result as MoodRecommendation[]);
 }
 
 /**
- * Get a progression of tracks from a seed toward target audio features.
- * POST /recommendations/progression
- */
-export async function getProgression(
-  seedTrackId: string,
-  targetFeatures: Record<string, number>,
-  steps: number,
-  apiKey: string
-): Promise<ProgressionResponse> {
-  return (await post("/recommendations/progression", apiKey, {
-    seed_track_id: seedTrackId,
-    target_features: targetFeatures,
-    steps,
-  })) as ProgressionResponse;
-}
-
-/**
- * Get tracks similar to a given Spotify track.
- * POST /recommendations/similar
+ * Get tracks similar to a seed track.
+ * GET /recommendations/similar?seed_track_id=...&limit=...
  */
 export async function getSimilarTracks(
   spotifyId: string,
   apiKey: string,
   limit: number = 5
 ): Promise<SimilarTrack[]> {
-  return (await post("/recommendations/similar", apiKey, {
-    track_id: spotifyId,
-    limit,
-  })) as SimilarTrack[];
+  const result = await get(
+    `/recommendations/similar?seed_track_id=${encodeURIComponent(spotifyId)}&limit=${limit}`,
+    apiKey
+  );
+  return (result as { tracks?: SimilarTrack[] })?.tracks ?? (result as SimilarTrack[]);
 }
 
 /**
- * Search for tracks matching specific audio feature ranges.
+ * Search for tracks matching specific audio feature targets.
  * POST /recommendations/by-features
  */
 export async function searchByFeatures(
   features: Record<string, unknown>,
   apiKey: string,
   limit: number = 10
-): Promise<FeatureSearchResult> {
-  return (await post("/recommendations/by-features", apiKey, {
-    ...features,
+): Promise<unknown> {
+  return post("/recommendations/by-features", apiKey, {
+    features,
     limit,
-  })) as FeatureSearchResult;
+  });
+}
+
+/**
+ * Get a progression of tracks with changing characteristics.
+ * POST /recommendations/progression
+ */
+export async function getProgression(
+  parameter: string,
+  direction: string,
+  steps: number,
+  apiKey: string
+): Promise<unknown> {
+  return post("/recommendations/progression", apiKey, {
+    parameter,
+    direction,
+    steps,
+  });
 }
