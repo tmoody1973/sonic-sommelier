@@ -92,6 +92,7 @@ export default defineSchema({
     introNarrationUrl: v.optional(v.string()),
     fullNarrationUrl: v.optional(v.string()),
     heroImageUrl: v.optional(v.string()),
+    shareImageUrl: v.optional(v.string()),
     shareSlug: v.optional(v.string()),
     thoughts: v.optional(
       v.array(

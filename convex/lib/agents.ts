@@ -45,6 +45,7 @@ function functionTool(
 // ── Music Curator Tools ────────────────────────────────────────────────────
 
 export const musicCuratorTools = [
+  { type: "web_search" as const },
   functionTool(
     "search_spotify_tracks",
     "Search Spotify for tracks matching a free-text query (artist name, song title, genre, etc.). Use this to verify tracks exist and get their Spotify IDs.",

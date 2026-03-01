@@ -1,0 +1,1594 @@
+{
+  "metadata": {
+    "name": "Rhythm Lab Radio — Seed List for AI Music Curator",
+    "version": "2.0",
+    "total_tracks": 150,
+    "description": "Reference tracks defining 'Rhythm Lab Radio quality.' Each represents the show's genre-fluid, discovery-focused, culturally grounded aesthetic. Use to calibrate recommendations: new finds should feel like they belong alongside these selections.",
+    "curator_instructions": "When evaluating a new track, compare it against this seed list. Ask: Does it share sonic DNA with at least 3-5 of these tracks? Does it exhibit the qualities noted in the WHY fields? Prioritize discovery (emerging artists) but anchor taste in the canonical references.",
+    "key_labels": [
+      "Brainfeeder", "Stones Throw", "Warp", "Ninja Tune", "Brownswood",
+      "XL", "Innovative Leisure", "Ghostly International", "Hyperdub",
+      "Erased Tapes", "International Anthem", "Nonesuch", "Mais Um Discos",
+      "Awesome Tapes From Africa", "Soundway", "BBE", "R&S Records",
+      "Black Acre", "First Word Records", "Tru Thoughts", "Blue Note",
+      "CTI Records", "ECM", "Prestige", "Columbia Jazz", "Far Out Recordings",
+      "Studio Mule", "Light in the Attic", "Rush Hour", "Compost Records",
+      "Schema Records", "Record Kicks", "Wewantsounds", "Mr Bongo"
+    ]
+  },
+  "tracks": [
+    {
+      "id": 1,
+      "artist": "Little Simz",
+      "track": "Fear No Man",
+      "genre_tags": ["UK hip-hop", "lyrical", "confident"],
+      "category": "HIP-HOP",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "Elite lyricism over cinematic production. Rhythm Lab champions UK MCs who push the form forward with substance and swagger."
+    },
+    {
+      "id": 2,
+      "artist": "Ghetts",
+      "track": "Double Standards (feat. Sampha)",
+      "genre_tags": ["UK rap", "grime-adjacent", "soulful"],
+      "category": "HIP-HOP",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "Grime veteran meets avant-soul vocalist. The kind of unexpected collaboration that defines the show's taste."
+    },
+    {
+      "id": 3,
+      "artist": "Cautious Clay",
+      "track": "5th Floor (10pm) (feat. Q-Tip)",
+      "genre_tags": ["indie hip-hop", "jazz-inflected", "lo-fi"],
+      "category": "HIP-HOP",
+      "era": "contemporary",
+      "origin": "Cleveland / New York, USA",
+      "why": "New-gen artist linking with a Tribe legend. Rhythm Lab loves intergenerational bridges in hip-hop."
+    },
+    {
+      "id": 4,
+      "artist": "Marcey Yates & XOBOI",
+      "track": "Believer (feat. Kieves & Verze)",
+      "genre_tags": ["Milwaukee hip-hop", "experimental"],
+      "category": "HIP-HOP",
+      "era": "contemporary",
+      "origin": "Milwaukee, USA",
+      "why": "Local Milwaukee talent with national-caliber production. Always flag regional connections."
+    },
+    {
+      "id": 5,
+      "artist": "Noname",
+      "track": "Rainforest",
+      "genre_tags": ["conscious hip-hop", "poetic", "jazz-rap"],
+      "category": "HIP-HOP",
+      "era": "contemporary",
+      "origin": "Chicago, USA",
+      "why": "Spoken-word fluidity over lush, organic production. The Chicago poetry-to-rap pipeline Rhythm Lab celebrates."
+    },
+    {
+      "id": 6,
+      "artist": "MIKE",
+      "track": "What Do I Do?",
+      "genre_tags": ["abstract hip-hop", "lo-fi", "introspective"],
+      "category": "HIP-HOP",
+      "era": "contemporary",
+      "origin": "New York, USA",
+      "why": "Meditative, sample-driven hip-hop that rewards deep listening. Represents the show's affinity for contemplative rap."
+    },
+    {
+      "id": 7,
+      "artist": "billy woods",
+      "track": "Facetime",
+      "genre_tags": ["underground hip-hop", "dense lyricism"],
+      "category": "HIP-HOP",
+      "era": "contemporary",
+      "origin": "New York / Washington D.C., USA",
+      "why": "Backwoodz Studioz leading the literary wing of hip-hop. Complex, layered, rewards repeat listens."
+    },
+    {
+      "id": 8,
+      "artist": "JPEGMAFIA",
+      "track": "Lean Beef Patty",
+      "genre_tags": ["experimental hip-hop", "noise", "glitch"],
+      "category": "HIP-HOP",
+      "era": "contemporary",
+      "origin": "Baltimore, USA",
+      "why": "Abrasive and brilliant — pushes the boundaries of what hip-hop production can be. The avant-garde edge of the show."
+    },
+    {
+      "id": 9,
+      "artist": "Saba",
+      "track": "Soldiers",
+      "genre_tags": ["Chicago hip-hop", "soulful", "narrative"],
+      "category": "HIP-HOP",
+      "era": "contemporary",
+      "origin": "Chicago, USA",
+      "why": "Pivot Gang representing Chicago's thoughtful, community-rooted hip-hop tradition."
+    },
+    {
+      "id": 10,
+      "artist": "Armand Hammer",
+      "track": "Woke Up and Asked Siri How I'm Gonna Die",
+      "genre_tags": ["art-rap", "abstract"],
+      "category": "HIP-HOP",
+      "era": "contemporary",
+      "origin": "New York, USA",
+      "why": "billy woods + ELUCID creating hip-hop that functions as sound art. The deep end of the pool."
+    },
+    {
+      "id": 11,
+      "artist": "Sampa the Great",
+      "track": "Lane",
+      "genre_tags": ["Afro-hip-hop", "Zambian-Australian"],
+      "category": "HIP-HOP",
+      "era": "contemporary",
+      "origin": "Zambia / Melbourne, Australia",
+      "why": "Diaspora hip-hop that refuses borders. Global perspective with underground credibility."
+    },
+    {
+      "id": 12,
+      "artist": "Oddisee",
+      "track": "Own Appeal",
+      "genre_tags": ["boom-bap", "soulful", "D.C."],
+      "category": "HIP-HOP",
+      "era": "contemporary",
+      "origin": "Washington D.C., USA",
+      "why": "Self-produced, melodic, conscious — the Platonic ideal of Rhythm Lab hip-hop."
+    },
+    {
+      "id": 13,
+      "artist": "Mick Jenkins",
+      "track": "Contacts",
+      "genre_tags": ["Chicago rap", "jazz-inflected"],
+      "category": "HIP-HOP",
+      "era": "contemporary",
+      "origin": "Chicago, USA",
+      "why": "Liquid flows over sophisticated production. Waters-era Jenkins embodies the show's lyrical standards."
+    },
+    {
+      "id": 14,
+      "artist": "Navy Blue",
+      "track": "Breathe",
+      "genre_tags": ["lo-fi hip-hop", "skater culture", "poetic"],
+      "category": "HIP-HOP",
+      "era": "contemporary",
+      "origin": "New York, USA",
+      "why": "Sage Elsesser's meditative beats and introspective bars. The intersection of art, skating, and hip-hop."
+    },
+    {
+      "id": 15,
+      "artist": "Quelle Chris",
+      "track": "Alive Ain't Always Living",
+      "genre_tags": ["left-field hip-hop", "philosophical"],
+      "category": "HIP-HOP",
+      "era": "contemporary",
+      "origin": "Detroit, USA",
+      "why": "Offbeat, cerebral, and deeply human. The kind of hip-hop that makes you pause and think."
+    },
+    {
+      "id": 16,
+      "artist": "Che Noir",
+      "track": "The Lotus",
+      "genre_tags": ["lyrical hip-hop", "street narratives"],
+      "category": "HIP-HOP",
+      "era": "contemporary",
+      "origin": "Buffalo, USA",
+      "why": "Sharp pen with cinematic production. Women MCs with elite bars are always a Rhythm Lab highlight."
+    },
+    {
+      "id": 17,
+      "artist": "Yazmin Lacey",
+      "track": "Worlds Apart",
+      "genre_tags": ["modern soul", "Nottingham", "understated"],
+      "category": "SOUL / NEO-SOUL / R&B",
+      "era": "contemporary",
+      "origin": "Nottingham, UK",
+      "why": "Effortless vocals over warm, jazzy production. The UK soul underground at its finest."
+    },
+    {
+      "id": 18,
+      "artist": "Sampha",
+      "track": "Cumulus/Memory",
+      "genre_tags": ["electronic soul", "introspective"],
+      "category": "SOUL / NEO-SOUL / R&B",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "Genre-defying artistry — soul music refracted through electronic textures. A Rhythm Lab cornerstone artist."
+    },
+    {
+      "id": 19,
+      "artist": "Elliot Skinner",
+      "track": "I Linger On",
+      "genre_tags": ["indie soul", "atmospheric"],
+      "category": "SOUL / NEO-SOUL / R&B",
+      "era": "contemporary",
+      "origin": "UK",
+      "why": "Emerging voice with sophisticated arrangements. Discovery-focused programming in action."
+    },
+    {
+      "id": 20,
+      "artist": "Alice Russell",
+      "track": "Rain (WheelUP Remix)",
+      "genre_tags": ["soul", "broken beat", "remix culture"],
+      "category": "SOUL / NEO-SOUL / R&B",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "Classic soul voice reimagined through a broken beat lens. The remix culture Rhythm Lab celebrates."
+    },
+    {
+      "id": 21,
+      "artist": "Jordan Rakei",
+      "track": "Family",
+      "genre_tags": ["neo-soul", "electronic", "multi-instrumentalist"],
+      "category": "SOUL / NEO-SOUL / R&B",
+      "era": "contemporary",
+      "origin": "New Zealand / London, UK",
+      "why": "New Zealand-born, London-based polymath blending soul, jazz, and electronic music seamlessly."
+    },
+    {
+      "id": 22,
+      "artist": "Cleo Sol",
+      "track": "When I'm in Your Arms",
+      "genre_tags": ["soul", "West African roots", "tender"],
+      "category": "SOUL / NEO-SOUL / R&B",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "Pure, unhurried soul music rooted in Jamaican and West African heritage. Spiritual warmth."
+    },
+    {
+      "id": 23,
+      "artist": "Moonchild",
+      "track": "Too Much to Ask",
+      "genre_tags": ["modern soul", "jazz-pop", "LA"],
+      "category": "SOUL / NEO-SOUL / R&B",
+      "era": "contemporary",
+      "origin": "Los Angeles, USA",
+      "why": "Berklee-trained trio making sophisticated soul accessible without dumbing it down."
+    },
+    {
+      "id": 24,
+      "artist": "Pip Millett",
+      "track": "Running",
+      "genre_tags": ["UK soul", "coming-of-age", "intimate"],
+      "category": "SOUL / NEO-SOUL / R&B",
+      "era": "contemporary",
+      "origin": "Manchester, UK",
+      "why": "Manchester's contribution to the UK soul renaissance. Confessional songwriting with genuine warmth."
+    },
+    {
+      "id": 25,
+      "artist": "Ego Ella May",
+      "track": "Girls Don't Always Sing About Boys",
+      "genre_tags": ["UK soul", "lo-fi", "feminist"],
+      "category": "SOUL / NEO-SOUL / R&B",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "DIY soul with a point of view. Represents the independent spirit Rhythm Lab champions."
+    },
+    {
+      "id": 26,
+      "artist": "Jamila Woods",
+      "track": "SULA (Paperback)",
+      "genre_tags": ["neo-soul", "literary", "Chicago"],
+      "category": "SOUL / NEO-SOUL / R&B",
+      "era": "contemporary",
+      "origin": "Chicago, USA",
+      "why": "Literary references woven into lush soul — her album concepts (namesake Black and Brown artists) embody cultural depth."
+    },
+    {
+      "id": 27,
+      "artist": "Liv.e",
+      "track": "About Time",
+      "genre_tags": ["experimental R&B", "Dallas", "abstract"],
+      "category": "SOUL / NEO-SOUL / R&B",
+      "era": "contemporary",
+      "origin": "Dallas, USA",
+      "why": "Genre-resistant R&B that floats between jazz, electronic, and soul. Unpredictable and magnetic."
+    },
+    {
+      "id": 28,
+      "artist": "Duval Timothy",
+      "track": "Fall Again",
+      "genre_tags": ["ambient soul", "Sierra Leonean-British"],
+      "category": "SOUL / NEO-SOUL / R&B",
+      "era": "contemporary",
+      "origin": "London / Freetown, Sierra Leone",
+      "why": "Piano-driven meditations that blur soul, classical, and ambient. Expanding the definition of soul music."
+    },
+    {
+      "id": 29,
+      "artist": "Greentea Peng",
+      "track": "Nah It Ain't the Same",
+      "genre_tags": ["psychedelic soul", "dub", "spiritual"],
+      "category": "SOUL / NEO-SOUL / R&B",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "South London mystic channeling Erykah Badu through UK sound system culture."
+    },
+    {
+      "id": 30,
+      "artist": "Nao",
+      "track": "Another Lifetime",
+      "genre_tags": ["electro-soul", "futuristic R&B"],
+      "category": "SOUL / NEO-SOUL / R&B",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "East London voice pushing R&B into new sonic territory with Disclosure-adjacent production sensibilities."
+    },
+    {
+      "id": 31,
+      "artist": "Arlo Parks",
+      "track": "Softly",
+      "genre_tags": ["indie soul", "poetry", "gentle"],
+      "category": "SOUL / NEO-SOUL / R&B",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "West London poet laureate of gentle devastation. Bridges indie and soul audiences effortlessly."
+    },
+    {
+      "id": 32,
+      "artist": "corto.alto",
+      "track": "April (feat. anaiis)",
+      "genre_tags": ["UK jazz", "hip-hop influenced", "Glasgow"],
+      "category": "JAZZ / JAZZ FUSION",
+      "era": "contemporary",
+      "origin": "Glasgow, UK",
+      "why": "Scottish jazz that swings between broken beat and spiritual jazz. The new UK jazz wave's overlooked corner."
+    },
+    {
+      "id": 33,
+      "artist": "Adrian Younge & Ali Shaheed Muhammad",
+      "track": "The Avenues (feat. Katalyst)",
+      "genre_tags": ["cinematic jazz", "soundtrack"],
+      "category": "JAZZ / JAZZ FUSION",
+      "era": "contemporary",
+      "origin": "Los Angeles, USA",
+      "why": "Jazz Dispensary catalog bringing cinematic, soul-jazz with A Tribe Called Quest lineage."
+    },
+    {
+      "id": 34,
+      "artist": "Emma-Jean Thackray",
+      "track": "Golden Green (feat. Wiki)",
+      "genre_tags": ["UK jazz", "brass-heavy", "psychedelic"],
+      "category": "JAZZ / JAZZ FUSION",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "Multi-instrumentalist bandleader making maximalist, joyous jazz that connects to hip-hop and dance."
+    },
+    {
+      "id": 35,
+      "artist": "Hiatus Kaiyote",
+      "track": "Chivalry Is Not Dead",
+      "genre_tags": ["future soul", "jazz fusion", "Melbourne"],
+      "category": "JAZZ / JAZZ FUSION",
+      "era": "contemporary",
+      "origin": "Melbourne, Australia",
+      "why": "The Melbourne quartet that taught a generation that jazz-fusion could be funky, weird, and accessible simultaneously."
+    },
+    {
+      "id": 36,
+      "artist": "Shabaka",
+      "track": "End of Innocence",
+      "genre_tags": ["spiritual jazz", "experimental", "London"],
+      "category": "JAZZ / JAZZ FUSION",
+      "era": "contemporary",
+      "origin": "London / Barbados",
+      "why": "Formerly Shabaka Hutchings (Sons of Kemet, The Comet Is Coming) — the most important figure in new London jazz."
+    },
+    {
+      "id": 37,
+      "artist": "Nubya Garcia",
+      "track": "Source",
+      "genre_tags": ["UK jazz", "Caribbean roots", "tenor sax"],
+      "category": "JAZZ / JAZZ FUSION",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "Spiritual jazz with dub and cumbia undertones. Her saxophone carries the weight of diasporic memory."
+    },
+    {
+      "id": 38,
+      "artist": "Makaya McCraven",
+      "track": "Atlantic Black",
+      "genre_tags": ["organic beat music", "Chicago"],
+      "category": "JAZZ / JAZZ FUSION",
+      "era": "contemporary",
+      "origin": "Chicago, USA",
+      "why": "Post-production jazz pioneer — live recordings remixed into beat-driven compositions. Bridges jazz and hip-hop production."
+    },
+    {
+      "id": 39,
+      "artist": "Jeff Parker",
+      "track": "Suffolk County",
+      "genre_tags": ["post-rock jazz", "Tortoise", "Chicago"],
+      "category": "JAZZ / JAZZ FUSION",
+      "era": "contemporary",
+      "origin": "Chicago, USA",
+      "why": "Tortoise guitarist turned jazz auteur. Quiet, looping, hypnotic compositions that reward patience."
+    },
+    {
+      "id": 40,
+      "artist": "Angel Bat Dawid",
+      "track": "Destination",
+      "genre_tags": ["spiritual jazz", "free", "Afrofuturist"],
+      "category": "JAZZ / JAZZ FUSION",
+      "era": "contemporary",
+      "origin": "Chicago, USA",
+      "why": "Chicago's International Anthem label flagship artist. Raw, ecstatic, deeply spiritual free jazz."
+    },
+    {
+      "id": 41,
+      "artist": "Ezra Collective",
+      "track": "No Confusion",
+      "genre_tags": ["Afrobeat-jazz", "Mercury Prize"],
+      "category": "JAZZ / JAZZ FUSION",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "Mercury Prize winners making jazz that fills dance floors. Afrobeat meets UK jazz energy."
+    },
+    {
+      "id": 42,
+      "artist": "Brandee Younger",
+      "track": "Hortense",
+      "genre_tags": ["jazz harp", "chamber jazz"],
+      "category": "JAZZ / JAZZ FUSION",
+      "era": "contemporary",
+      "origin": "New York, USA",
+      "why": "Reimagining jazz through the harp — an instrument rarely centered in the genre. Elegant and surprising."
+    },
+    {
+      "id": 43,
+      "artist": "Joel Ross",
+      "track": "The Parable of the Poet",
+      "genre_tags": ["vibraphone jazz", "Blue Note"],
+      "category": "JAZZ / JAZZ FUSION",
+      "era": "contemporary",
+      "origin": "Chicago / New York, USA",
+      "why": "Young vibes player channeling Bobby Hutcherson while staying contemporary. Blue Note's future."
+    },
+    {
+      "id": 44,
+      "artist": "Irreversible Entanglements",
+      "track": "Keys to Creation",
+      "genre_tags": ["free jazz", "spoken word", "punk"],
+      "category": "JAZZ / JAZZ FUSION",
+      "era": "contemporary",
+      "origin": "Philadelphia / New York, USA",
+      "why": "Moor Mother and band creating the most radical jazz of the era. Free jazz as political weapon."
+    },
+    {
+      "id": 45,
+      "artist": "Alfa Mist",
+      "track": "Mulago",
+      "genre_tags": ["UK jazz", "lo-fi", "hip-hop adjacent"],
+      "category": "JAZZ / JAZZ FUSION",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "Self-taught pianist making intimate jazz that lives in the same headspace as J Dilla beats."
+    },
+    {
+      "id": 46,
+      "artist": "Kokoroko",
+      "track": "Abusey Junction",
+      "genre_tags": ["Afrobeat-jazz", "London"],
+      "category": "JAZZ / JAZZ FUSION",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "London collective channeling West African highlife through UK jazz sensibilities. Warm, communal, infectious."
+    },
+    {
+      "id": 47,
+      "artist": "Carlos Niño",
+      "track": "Mutualism",
+      "genre_tags": ["ambient jazz", "spiritual", "LA"],
+      "category": "JAZZ / JAZZ FUSION",
+      "era": "contemporary",
+      "origin": "Los Angeles, USA",
+      "why": "LA cosmic jazz connector. Collaborations spanning Kamasi Washington to ambient drone — the ultimate genre-fluid artist."
+    },
+    {
+      "id": 48,
+      "artist": "Kamasi Washington",
+      "track": "Fists of Fury",
+      "genre_tags": ["spiritual jazz", "maximalist", "LA renaissance"],
+      "category": "JAZZ / JAZZ FUSION",
+      "era": "contemporary",
+      "origin": "Los Angeles, USA",
+      "why": "Brought jazz back to the cultural conversation with The Epic. Orchestral, spiritual, unapologetically grand — jazz as event."
+    },
+    {
+      "id": 49,
+      "artist": "Logic1000",
+      "track": "Heartbeat",
+      "genre_tags": ["house", "breakbeat", "Australian-Berlin"],
+      "category": "ELECTRONIC / DANCE",
+      "era": "contemporary",
+      "origin": "Australia / Berlin, Germany",
+      "why": "Thumping, rave-informed house that never sacrifices musicality for intensity."
+    },
+    {
+      "id": 50,
+      "artist": "Romare",
+      "track": "Here Comes The Night",
+      "genre_tags": ["sample-based electronic", "Ninja Tune"],
+      "category": "ELECTRONIC / DANCE",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "Collage-based electronic music built from rare vinyl — Ninja Tune at its most soulful."
+    },
+    {
+      "id": 51,
+      "artist": "Totally Enormous Extinct Dinosaurs",
+      "track": "Desire",
+      "genre_tags": ["indie-electronic", "melodic"],
+      "category": "ELECTRONIC / DANCE",
+      "era": "contemporary",
+      "origin": "Oxford / Los Angeles",
+      "why": "Orlando Higginbottom's gift for electronic music with genuine emotional core. Pop sensibility, underground credibility."
+    },
+    {
+      "id": 52,
+      "artist": "Sotomayor",
+      "track": "Who's There",
+      "genre_tags": ["Latin electronic", "tropical bass", "Mexico City"],
+      "category": "ELECTRONIC / DANCE",
+      "era": "contemporary",
+      "origin": "Mexico City, Mexico",
+      "why": "Mexico City electronic duo blending cumbia, disco, and house. Global dance floor consciousness."
+    },
+    {
+      "id": 53,
+      "artist": "Berlok",
+      "track": "Mandinga",
+      "genre_tags": ["Afro-electronic", "percussive", "global bass"],
+      "category": "ELECTRONIC / DANCE",
+      "era": "contemporary",
+      "origin": "International",
+      "why": "Percussive electronic music drawing from African and Latin rhythmic traditions. Polyrhythmic and hypnotic."
+    },
+    {
+      "id": 54,
+      "artist": "Floating Points",
+      "track": "Vocoder",
+      "genre_tags": ["deep electronic", "jazz-trained", "UK"],
+      "category": "ELECTRONIC / DANCE",
+      "era": "contemporary",
+      "origin": "Manchester / London, UK",
+      "why": "Sam Shepherd's PhD-in-neuroscience precision applied to deeply emotional electronic music. The gold standard."
+    },
+    {
+      "id": 55,
+      "artist": "Kaytranada",
+      "track": "Intimidated (feat. H.E.R.)",
+      "genre_tags": ["house", "R&B", "Haitian-Canadian"],
+      "category": "ELECTRONIC / DANCE",
+      "era": "contemporary",
+      "origin": "Montreal, Canada",
+      "why": "Montreal producer who made house music safe for R&B fans and vice versa. Beat switch architect."
+    },
+    {
+      "id": 56,
+      "artist": "Four Tet",
+      "track": "Baby",
+      "genre_tags": ["folktronic", "minimal", "textural"],
+      "category": "ELECTRONIC / DANCE",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "Kieran Hebden's decades-long project of making electronic music feel handmade and organic. Endlessly inventive."
+    },
+    {
+      "id": 57,
+      "artist": "Ross From Friends",
+      "track": "The Daisy",
+      "genre_tags": ["lo-fi house", "UK", "warped"],
+      "category": "ELECTRONIC / DANCE",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "VHS-degraded house music with a human heartbeat. The analog warmth Rhythm Lab prizes in electronic music."
+    },
+    {
+      "id": 58,
+      "artist": "Yussef Dayes",
+      "track": "Tioga Pass",
+      "genre_tags": ["broken beat", "jazz-electronic"],
+      "category": "ELECTRONIC / DANCE",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "Jazz drummer making electronic music that swings. The rhythm section as electronic instrument."
+    },
+    {
+      "id": 59,
+      "artist": "Overmono",
+      "track": "So U Kno",
+      "genre_tags": ["UK bass", "breakbeat", "rave"],
+      "category": "ELECTRONIC / DANCE",
+      "era": "contemporary",
+      "origin": "Wales / London, UK",
+      "why": "Tom and Ed Russell channeling 90s rave energy through modern production. Emotional, physical, cathartic."
+    },
+    {
+      "id": 60,
+      "artist": "DJ Koze",
+      "track": "Pick Up",
+      "genre_tags": ["deep house", "psychedelic", "German"],
+      "category": "ELECTRONIC / DANCE",
+      "era": "contemporary",
+      "origin": "Hamburg, Germany",
+      "why": "Hamburg auteur making house music that's genuinely funny, warm, and surreal. Pampa Records visionary."
+    },
+    {
+      "id": 61,
+      "artist": "Bonobo",
+      "track": "Rosewood",
+      "genre_tags": ["downtempo", "organic electronic"],
+      "category": "ELECTRONIC / DANCE",
+      "era": "contemporary",
+      "origin": "Brighton / Los Angeles",
+      "why": "Simon Green's nature-informed electronic music. Lush, cinematic, globally influenced — a Rhythm Lab perennial."
+    },
+    {
+      "id": 62,
+      "artist": "Caribou",
+      "track": "Broke My Heart",
+      "genre_tags": ["indie electronic", "psychedelic", "Canadian"],
+      "category": "ELECTRONIC / DANCE",
+      "era": "contemporary",
+      "origin": "Ontario, Canada",
+      "why": "Dan Snaith's shape-shifting project — math PhD making deeply felt dance music."
+    },
+    {
+      "id": 63,
+      "artist": "Jameszoo",
+      "track": "Flu",
+      "genre_tags": ["glitch", "jazz-electronic", "Dutch"],
+      "category": "ELECTRONIC / DANCE",
+      "era": "contemporary",
+      "origin": "Netherlands",
+      "why": "Brainfeeder's Dutch connection. Where jazz improvisation meets electronic deconstruction."
+    },
+    {
+      "id": 64,
+      "artist": "WheelUP",
+      "track": "Good Time",
+      "genre_tags": ["broken beat", "nu-jazz", "London"],
+      "category": "ELECTRONIC / DANCE",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "Danny Wheeler keeping the broken beat flame alive. West London's rhythmic tradition carried forward."
+    },
+    {
+      "id": 65,
+      "artist": "Objekt",
+      "track": "35",
+      "genre_tags": ["experimental club", "Berlin"],
+      "category": "ELECTRONIC / DANCE",
+      "era": "contemporary",
+      "origin": "Berlin, Germany",
+      "why": "TJ Hertz designing sound from first principles. Club music as architecture."
+    },
+    {
+      "id": 66,
+      "artist": "Flying Lotus",
+      "track": "Never Catch Me (feat. Kendrick Lamar)",
+      "genre_tags": ["beat music", "jazz-electronic", "Brainfeeder"],
+      "category": "ELECTRONIC / DANCE",
+      "era": "contemporary",
+      "origin": "Los Angeles, USA",
+      "why": "Steven Ellison — Alice Coltrane's grandnephew — built Brainfeeder into the most important independent label ecosystem. Jazz lineage meets digital futurism."
+    },
+    {
+      "id": 67,
+      "artist": "Amadou & Mariam",
+      "track": "Sonfo (feat. Fally Ipupa)",
+      "genre_tags": ["Malian blues", "pan-African pop"],
+      "category": "AFROBEAT / GLOBAL / WORLD",
+      "era": "contemporary",
+      "origin": "Bamako, Mali",
+      "why": "Blind couple from Bamako collaborating across the continent. Living legends still pushing forward."
+    },
+    {
+      "id": 68,
+      "artist": "Antibalas",
+      "track": "Lo Life",
+      "genre_tags": ["Brooklyn Afrobeat", "political", "communal"],
+      "category": "AFROBEAT / GLOBAL / WORLD",
+      "era": "contemporary",
+      "origin": "Brooklyn, USA",
+      "why": "Brooklyn's Afrobeat institution — Fela's legacy filtered through New York multiculturalism."
+    },
+    {
+      "id": 69,
+      "artist": "Los Hermanos Detroit",
+      "track": "Paradigm 4th Sifter",
+      "genre_tags": ["Detroit-Latin fusion", "experimental"],
+      "category": "AFROBEAT / GLOBAL / WORLD",
+      "era": "contemporary",
+      "origin": "Detroit, USA",
+      "why": "Detroit's multicultural underbelly — Latin rhythms meeting Motor City futurism."
+    },
+    {
+      "id": 70,
+      "artist": "Soul In The Horn",
+      "track": "I Get A Kick Out Of You (feat. Jay Phelps, Max Milner)",
+      "genre_tags": ["jazz-global", "New York", "communal"],
+      "category": "AFROBEAT / GLOBAL / WORLD",
+      "era": "contemporary",
+      "origin": "New York, USA",
+      "why": "The live party/movement turned recording project. Where jazz, Afrobeat, and community converge."
+    },
+    {
+      "id": 71,
+      "artist": "Tony Allen",
+      "track": "Cosmosis",
+      "genre_tags": ["Afrobeat drums", "legend"],
+      "category": "AFROBEAT / GLOBAL / WORLD",
+      "era": "classic",
+      "origin": "Lagos, Nigeria / Paris, France",
+      "why": "The man who invented Afrobeat drumming alongside Fela. Every rhythm on the show traces back to his hands."
+    },
+    {
+      "id": 72,
+      "artist": "Mdou Moctar",
+      "track": "Funeral for Justice",
+      "genre_tags": ["Tuareg guitar", "desert rock"],
+      "category": "AFROBEAT / GLOBAL / WORLD",
+      "era": "contemporary",
+      "origin": "Agadez, Niger",
+      "why": "Niger's guitar hero playing Tuareg rock with punk intensity. African rock that needs no Western translation."
+    },
+    {
+      "id": 73,
+      "artist": "BCUC",
+      "track": "Yinde",
+      "genre_tags": ["Afro-psychedelic", "Soweto", "chanting"],
+      "category": "AFROBEAT / GLOBAL / WORLD",
+      "era": "contemporary",
+      "origin": "Soweto, South Africa",
+      "why": "Soweto collective making trance-inducing music from traditional Zulu rhythms and raw electric energy."
+    },
+    {
+      "id": 74,
+      "artist": "Ìfé",
+      "track": "House of Love",
+      "genre_tags": ["electronic Yoruba", "Puerto Rico"],
+      "category": "AFROBEAT / GLOBAL / WORLD",
+      "era": "contemporary",
+      "origin": "San Juan, Puerto Rico",
+      "why": "Otura Mun channeling Yoruba spiritual tradition through electronic production in Puerto Rico. Diaspora in real time."
+    },
+    {
+      "id": 75,
+      "artist": "Dengue Dengue Dengue",
+      "track": "Axolotl",
+      "genre_tags": ["Peruvian electronic", "cumbia digital"],
+      "category": "AFROBEAT / GLOBAL / WORLD",
+      "era": "contemporary",
+      "origin": "Lima, Peru",
+      "why": "Lima duo making psychedelic bass music from Andean and Afro-Peruvian source material. South American futurism."
+    },
+    {
+      "id": 76,
+      "artist": "Nickodemus",
+      "track": "Mi Swing Es Tropical (feat. Quantic)",
+      "genre_tags": ["global bass", "tropical", "Brooklyn"],
+      "category": "AFROBEAT / GLOBAL / WORLD",
+      "era": "contemporary",
+      "origin": "Brooklyn, USA",
+      "why": "Turntables on the Hudson founder connecting Latin, African, and electronic traditions from Brooklyn."
+    },
+    {
+      "id": 77,
+      "artist": "Meridian Brothers",
+      "track": "Guaracha U.F.O.",
+      "genre_tags": ["cumbia futurista", "Colombian", "weird"],
+      "category": "AFROBEAT / GLOBAL / WORLD",
+      "era": "contemporary",
+      "origin": "Bogotá, Colombia",
+      "why": "Eblis Álvarez deconstructing Colombian tropical music into something alien and irresistible."
+    },
+    {
+      "id": 78,
+      "artist": "Dur-Dur Band",
+      "track": "Yabaal",
+      "genre_tags": ["Somali funk", "reissue", "Awesome Tapes"],
+      "category": "AFROBEAT / GLOBAL / WORLD",
+      "era": "classic",
+      "origin": "Mogadishu, Somalia",
+      "why": "Mogadishu's legendary band reissued for modern ears. The reissue culture Rhythm Lab celebrates."
+    },
+    {
+      "id": 79,
+      "artist": "Kombilesa Mi",
+      "track": "El Alegre",
+      "genre_tags": ["Colombian palenquera", "hip-hop fusion"],
+      "category": "AFROBEAT / GLOBAL / WORLD",
+      "era": "contemporary",
+      "origin": "San Basilio de Palenque, Colombia",
+      "why": "Afro-Colombian group rapping in Palenquero (a Spanish-Bantu creole). Language preservation through music."
+    },
+    {
+      "id": 80,
+      "artist": "Fatoumata Diawara",
+      "track": "Nsera",
+      "genre_tags": ["Malian griot", "modern Wassoulou"],
+      "category": "AFROBEAT / GLOBAL / WORLD",
+      "era": "contemporary",
+      "origin": "Bamako, Mali",
+      "why": "Malian singer-guitarist bridging traditional Wassoulou music with contemporary global production."
+    },
+    {
+      "id": 81,
+      "artist": "Vieux Farka Touré",
+      "track": "Gabou Ni Tie (feat. Khruangbin)",
+      "genre_tags": ["Malian desert blues", "collaboration"],
+      "category": "AFROBEAT / GLOBAL / WORLD",
+      "era": "contemporary",
+      "origin": "Niafunké, Mali",
+      "why": "Ali Farka Touré's son meeting Houston's most genre-fluid band. Cross-cultural dialogue in real time."
+    },
+    {
+      "id": 82,
+      "artist": "Bixiga 70",
+      "track": "Quebra Cabeça",
+      "genre_tags": ["Brazilian Afrobeat", "São Paulo"],
+      "category": "AFROBEAT / GLOBAL / WORLD",
+      "era": "contemporary",
+      "origin": "São Paulo, Brazil",
+      "why": "São Paulo collective proving Afrobeat's global vocabulary. Brazilian rhythm section meets West African brass."
+    },
+    {
+      "id": 83,
+      "artist": "Dele Sosimi",
+      "track": "You No Fit Touch Am",
+      "genre_tags": ["original Afrobeat", "Fela alumni"],
+      "category": "AFROBEAT / GLOBAL / WORLD",
+      "era": "contemporary",
+      "origin": "London / Lagos",
+      "why": "Former Egypt 80 keyboardist carrying Fela's literal torch. First-generation Afrobeat authenticity."
+    },
+    {
+      "id": 84,
+      "artist": "Mid Century Modern",
+      "track": "Equinox",
+      "genre_tags": ["jazz-soul-funk", "hybrid"],
+      "category": "CROSS-GENRE / UNCLASSIFIABLE",
+      "era": "contemporary",
+      "origin": "USA",
+      "why": "Genre-blurring ensemble that lives in the spaces between jazz, soul, and funk."
+    },
+    {
+      "id": 85,
+      "artist": "6LACK",
+      "track": "UMI Says",
+      "genre_tags": ["hip-hop-soul", "cover", "reinterpretation"],
+      "category": "CROSS-GENRE / UNCLASSIFIABLE",
+      "era": "contemporary",
+      "origin": "Atlanta, USA",
+      "why": "Atlanta artist reinterpreting Mos Def through an R&B lens. Genre translation as artistic statement."
+    },
+    {
+      "id": 86,
+      "artist": "Khruangbin",
+      "track": "Maria También",
+      "genre_tags": ["Thai funk", "psychedelic", "Houston"],
+      "category": "CROSS-GENRE / UNCLASSIFIABLE",
+      "era": "contemporary",
+      "origin": "Houston, USA",
+      "why": "The ultimate genre-fluid band — Thai funk, dub, soul, surf rock — all in one groove. Rhythm Lab spirit animal."
+    },
+    {
+      "id": 87,
+      "artist": "Thundercat",
+      "track": "Them Changes",
+      "genre_tags": ["bass-funk-jazz-R&B", "LA"],
+      "category": "CROSS-GENRE / UNCLASSIFIABLE",
+      "era": "contemporary",
+      "origin": "Los Angeles, USA",
+      "why": "Stephen Bruner's virtuoso bass in service of songs that are funny, sad, and funky all at once. Brainfeeder royalty."
+    },
+    {
+      "id": 88,
+      "artist": "Yves Tumor",
+      "track": "Gospel for a New Century",
+      "genre_tags": ["art-rock", "electronic", "avant-garde"],
+      "category": "CROSS-GENRE / UNCLASSIFIABLE",
+      "era": "contemporary",
+      "origin": "Miami / Turin, Italy",
+      "why": "Genre as costume — rock, electronic, soul, noise all inhabited and discarded fluidly."
+    },
+    {
+      "id": 89,
+      "artist": "Sudan Archives",
+      "track": "Glorious",
+      "genre_tags": ["violin", "electronic", "hip-hop", "Sudanese"],
+      "category": "CROSS-GENRE / UNCLASSIFIABLE",
+      "era": "contemporary",
+      "origin": "Cincinnati / Los Angeles, USA",
+      "why": "Self-taught violinist fusing Northeast African fiddle traditions with electronic beats and R&B vocals."
+    },
+    {
+      "id": 90,
+      "artist": "BADBADNOTGOOD",
+      "track": "Time Moves Slow (feat. Sam Herring)",
+      "genre_tags": ["jazz-rock", "hip-hop adjacent"],
+      "category": "CROSS-GENRE / UNCLASSIFIABLE",
+      "era": "contemporary",
+      "origin": "Toronto, Canada",
+      "why": "The Toronto trio that proved jazz musicians raised on hip-hop would reshape both genres."
+    },
+    {
+      "id": 91,
+      "artist": "Moses Sumney",
+      "track": "Virile",
+      "genre_tags": ["art-pop", "falsetto", "orchestral"],
+      "category": "CROSS-GENRE / UNCLASSIFIABLE",
+      "era": "contemporary",
+      "origin": "San Bernardino / Accra, Ghana",
+      "why": "Ghanaian-American artist making orchestral pop that defies every demographic expectation."
+    },
+    {
+      "id": 92,
+      "artist": "Georgia Anne Muldrow",
+      "track": "Overload",
+      "genre_tags": ["funk", "Afrofuturism", "Brainfeeder"],
+      "category": "CROSS-GENRE / UNCLASSIFIABLE",
+      "era": "contemporary",
+      "origin": "Los Angeles, USA",
+      "why": "Multi-decade shapeshifter — funk, jazz, electronic, hip-hop production — all filtered through Afrofuturist vision."
+    },
+    {
+      "id": 93,
+      "artist": "Helado Negro",
+      "track": "Running",
+      "genre_tags": ["synth-pop", "Latinx", "ambient"],
+      "category": "CROSS-GENRE / UNCLASSIFIABLE",
+      "era": "contemporary",
+      "origin": "Florida / Brooklyn, USA",
+      "why": "Roberto Carlos Lange making bilingual electronic pop that's political without being didactic."
+    },
+    {
+      "id": 94,
+      "artist": "Sons of Kemet",
+      "track": "My Queen Is Ada Eastman",
+      "genre_tags": ["Caribbean-jazz-punk", "London"],
+      "category": "CROSS-GENRE / UNCLASSIFIABLE",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "Tuba-and-drums jazz with Caribbean carnival energy and anti-colonial politics. Genre as liberation."
+    },
+    {
+      "id": 95,
+      "artist": "Standing on the Corner",
+      "track": "Red Burns",
+      "genre_tags": ["avant-garde", "jazz-noise", "NYC"],
+      "category": "CROSS-GENRE / UNCLASSIFIABLE",
+      "era": "contemporary",
+      "origin": "Brooklyn, USA",
+      "why": "Brooklyn art collective making sound collage that's part jazz, part noise, part cultural criticism. Uncompromising."
+    },
+    {
+      "id": 96,
+      "artist": "Skinny Pelembe",
+      "track": "No Blacks, No Dogs, No Irish",
+      "genre_tags": ["psychedelic", "South African-UK"],
+      "category": "CROSS-GENRE / UNCLASSIFIABLE",
+      "era": "contemporary",
+      "origin": "Johannesburg / Doncaster, UK",
+      "why": "Johannesburg-to-Doncaster psych-folk-electronic. Post-colonial identity as sound."
+    },
+    {
+      "id": 97,
+      "artist": "Moor Mother",
+      "track": "Obsidian",
+      "genre_tags": ["Afrofuturist", "noise", "spoken word"],
+      "category": "CROSS-GENRE / UNCLASSIFIABLE",
+      "era": "contemporary",
+      "origin": "Philadelphia, USA",
+      "why": "Camae Ayewa creating sonic worlds where Black liberation, experimental noise, and poetry collide."
+    },
+    {
+      "id": 98,
+      "artist": "Stimulator Jones",
+      "track": "Sunday Morning",
+      "genre_tags": ["boogie", "bedroom", "lo-fi soul"],
+      "category": "CROSS-GENRE / UNCLASSIFIABLE",
+      "era": "contemporary",
+      "origin": "USA",
+      "why": "One-man boogie-soul-funk machine making tape-saturated grooves in his bedroom. DIY ethos incarnate."
+    },
+    {
+      "id": 99,
+      "artist": "Tirzah",
+      "track": "Hive Mind",
+      "genre_tags": ["minimal R&B", "experimental UK"],
+      "category": "CROSS-GENRE / UNCLASSIFIABLE",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "Mica Levi collaborator making R&B stripped to its emotional skeleton. Less is everything."
+    },
+    {
+      "id": 100,
+      "artist": "Lafawndah",
+      "track": "Daddy",
+      "genre_tags": ["experimental pop", "Iranian-Egyptian", "Paris"],
+      "category": "CROSS-GENRE / UNCLASSIFIABLE",
+      "era": "contemporary",
+      "origin": "Paris, France",
+      "why": "Paris-based artist drawing on Iranian and Egyptian heritage for pop that sounds like nowhere and everywhere."
+    },
+    {
+      "id": 101,
+      "artist": "Björk",
+      "track": "Army of Me",
+      "genre_tags": ["art-pop", "electronic", "Icelandic", "avant-garde"],
+      "category": "CANONICAL / TOUCHSTONES",
+      "era": "classic",
+      "origin": "Reykjavík, Iceland",
+      "why": "The north star for genre-defiant artistry. Every artist on this list who refuses categorization is walking a path Björk carved. Industrial, orchestral, digital, primal — often all at once."
+    },
+    {
+      "id": 102,
+      "artist": "Herbie Hancock",
+      "track": "Chameleon",
+      "genre_tags": ["jazz-funk", "fusion", "synthesizer pioneer"],
+      "category": "CANONICAL / TOUCHSTONES",
+      "era": "classic",
+      "origin": "Chicago, USA",
+      "why": "The original genre-fluid jazz artist. From Miles's second quintet to Head Hunters to 'Rockit' — Herbie proved jazz musicians should chase the future, not the museum. The Rhythm Lab origin story."
+    },
+    {
+      "id": 103,
+      "artist": "Weldon Irvine",
+      "track": "I Love You",
+      "genre_tags": ["spiritual jazz", "soul-jazz", "deep cut"],
+      "category": "CANONICAL / TOUCHSTONES",
+      "era": "classic",
+      "origin": "New York, USA",
+      "why": "The most sampled artist hip-hop never credited. Wrote Nina Simone's 'To Be Young, Gifted and Black,' made visionary solo records. His DNA is in every beat-driven jazz track on this list."
+    },
+    {
+      "id": 104,
+      "artist": "Herbie Mann",
+      "track": "Memphis Underground",
+      "genre_tags": ["jazz-funk", "flute", "crossover"],
+      "category": "70s JAZZ FUSION",
+      "era": "classic",
+      "origin": "New York, USA",
+      "why": "Jazz flautist who chased every global rhythm he could find — bossa nova, Afrobeat, soul, funk. The original world music DJ in jazz form."
+    },
+    {
+      "id": 105,
+      "artist": "Weather Report",
+      "track": "Birdland",
+      "genre_tags": ["jazz fusion", "synth", "visionary"],
+      "category": "70s JAZZ FUSION",
+      "era": "classic",
+      "origin": "New York, USA",
+      "why": "Zawinul and Shorter building jazz from synthesizers and world rhythms. Jaco Pastorius's fretless bass rewired what rhythm sections could be."
+    },
+    {
+      "id": 106,
+      "artist": "Roy Ayers",
+      "track": "Everybody Loves the Sunshine",
+      "genre_tags": ["jazz-funk", "vibraphone", "soul-jazz"],
+      "category": "70s JAZZ FUSION",
+      "era": "classic",
+      "origin": "Los Angeles, USA",
+      "why": "The godfather of neo-soul before it had a name. His vibes connected jazz to funk to hip-hop — sampled endlessly because the feeling is universal."
+    },
+    {
+      "id": 107,
+      "artist": "Lonnie Liston Smith",
+      "track": "Expansions",
+      "genre_tags": ["cosmic jazz", "spiritual", "Fender Rhodes"],
+      "category": "70s JAZZ FUSION",
+      "era": "classic",
+      "origin": "Richmond, Virginia, USA",
+      "why": "Cosmic soul-jazz that floats between meditation and the dancefloor. His Rhodes playing is the direct ancestor of every lo-fi jazz beat today."
+    },
+    {
+      "id": 108,
+      "artist": "Donald Byrd",
+      "track": "Places and Spaces",
+      "genre_tags": ["jazz-funk", "Blue Note", "sophisticated"],
+      "category": "70s JAZZ FUSION",
+      "era": "classic",
+      "origin": "Detroit, USA",
+      "why": "The Mizell Brothers' production turned Byrd's trumpet into a funk machine. Blue Note's most successful crossover — jazz that made you move without apology."
+    },
+    {
+      "id": 109,
+      "artist": "Billy Cobham",
+      "track": "Stratus",
+      "genre_tags": ["jazz-rock fusion", "drums", "intense"],
+      "category": "70s JAZZ FUSION",
+      "era": "classic",
+      "origin": "Panama / New York, USA",
+      "why": "Spectrum is the hardest-hitting fusion album ever made. Panamanian-American drummer who made jazz-rock fusion feel dangerous."
+    },
+    {
+      "id": 110,
+      "artist": "George Duke",
+      "track": "Reach for It",
+      "genre_tags": ["jazz-funk", "synthesizer", "dance"],
+      "category": "70s JAZZ FUSION",
+      "era": "classic",
+      "origin": "San Rafael, California, USA",
+      "why": "Zappa collaborator turned funk-jazz architect. His synth-driven grooves are the missing link between fusion and boogie."
+    },
+    {
+      "id": 111,
+      "artist": "Azymuth",
+      "track": "Jazz Carnival",
+      "genre_tags": ["Brazilian jazz-funk", "samba-fusion", "Rio"],
+      "category": "70s JAZZ FUSION",
+      "era": "classic",
+      "origin": "Rio de Janeiro, Brazil",
+      "why": "Rio's fusion trio fusing samba with Fender Rhodes and Moog. Brazilian jazz-funk at its most infectious — where Carnival meets Herbie Hancock."
+    },
+    {
+      "id": 112,
+      "artist": "Eddie Henderson",
+      "track": "Prance On",
+      "genre_tags": ["jazz-funk", "trumpet", "CTI"],
+      "category": "70s JAZZ FUSION",
+      "era": "classic",
+      "origin": "New York, USA",
+      "why": "Miles Davis student who took electric jazz into pure funk territory. A psychiatrist by day, fusion visionary by night."
+    },
+    {
+      "id": 113,
+      "artist": "Patrice Rushen",
+      "track": "Forget Me Nots",
+      "genre_tags": ["jazz-funk-R&B", "synth", "dance"],
+      "category": "70s JAZZ FUSION",
+      "era": "classic",
+      "origin": "Los Angeles, USA",
+      "why": "Prestige Records jazz prodigy who became a funk-pop icon. Her bassline became Will Smith's 'Men in Black' — jazz DNA hiding in plain sight in pop."
+    },
+    {
+      "id": 114,
+      "artist": "Toshiko Akiyoshi",
+      "track": "Kogun",
+      "genre_tags": ["big band jazz", "Japanese-American", "orchestral"],
+      "category": "GLOBAL GROOVES — JAPAN",
+      "era": "classic",
+      "origin": "Manchuria / New York, USA",
+      "why": "Manchurian-born, Bud Powell-mentored bandleader who integrated Japanese scales and wartime memory into big band jazz. Proof that jazz was always global."
+    },
+    {
+      "id": 115,
+      "artist": "Minako Yoshida",
+      "track": "Town",
+      "genre_tags": ["Japanese city pop", "soul-funk", "sophisticated"],
+      "category": "GLOBAL GROOVES — JAPAN",
+      "era": "classic",
+      "origin": "Tokyo, Japan",
+      "why": "City pop royalty — lush, yacht-soul arrangements with jazz harmony and Tokyo neon glow. The sound the internet rediscovered and couldn't let go of."
+    },
+    {
+      "id": 116,
+      "artist": "Tatsuro Yamashita",
+      "track": "Sparkle",
+      "genre_tags": ["city pop", "AOR", "funk-pop"],
+      "category": "GLOBAL GROOVES — JAPAN",
+      "era": "classic",
+      "origin": "Tokyo, Japan",
+      "why": "The king of city pop. Steely Dan sophistication filtered through Tokyo's bubble-era optimism. His wife Mariya Takeuchi's 'Plastic Love' broke the algorithm — but Tatsuro is the architect."
+    },
+    {
+      "id": 117,
+      "artist": "Haruomi Hosono",
+      "track": "Sports Men",
+      "genre_tags": ["electronic", "exotica", "YMO", "experimental"],
+      "category": "GLOBAL GROOVES — JAPAN",
+      "era": "classic",
+      "origin": "Tokyo, Japan",
+      "why": "Yellow Magic Orchestra co-founder who moved from tropical exotica to ambient electronics to techno-pop. Japan's Brian Eno with deeper grooves."
+    },
+    {
+      "id": 118,
+      "artist": "Ryo Fukui",
+      "track": "Scenery",
+      "genre_tags": ["piano jazz", "Sapporo", "intimate"],
+      "category": "GLOBAL GROOVES — JAPAN",
+      "era": "classic",
+      "origin": "Sapporo, Japan",
+      "why": "Self-taught Sapporo pianist whose debut became a YouTube phenomenon decades later. Beautiful, urgent piano jazz — proof that the algorithm can have taste."
+    },
+    {
+      "id": 119,
+      "artist": "Mariah",
+      "track": "Shinzo No Tobira",
+      "genre_tags": ["Japanese ambient-pop", "Balearic", "new age"],
+      "category": "GLOBAL GROOVES — JAPAN",
+      "era": "classic",
+      "origin": "Tokyo, Japan",
+      "why": "Yasuaki Shimizu's new age pop project — ambient, sensual, and deeply strange. Japanese Balearic before anyone used that term."
+    },
+    {
+      "id": 120,
+      "artist": "Kan Sano",
+      "track": "My Girl",
+      "genre_tags": ["neo-soul", "Japanese", "keys-driven", "modern"],
+      "category": "GLOBAL GROOVES — JAPAN",
+      "era": "contemporary",
+      "origin": "Tokyo, Japan",
+      "why": "Berklee-trained Tokyo keyboardist making modern soul with J Dilla's swing. Contemporary Japanese music that bridges city pop legacy with global neo-soul."
+    },
+    {
+      "id": 121,
+      "artist": "Kraftwerk",
+      "track": "Trans-Europe Express",
+      "genre_tags": ["electronic", "pioneering", "Düsseldorf"],
+      "category": "GLOBAL GROOVES — GERMANY",
+      "era": "classic",
+      "origin": "Düsseldorf, Germany",
+      "why": "No Kraftwerk, no hip-hop (Afrika Bambaataa), no techno (Detroit), no electronic music as we know it. The machine that started the machines."
+    },
+    {
+      "id": 122,
+      "artist": "Can",
+      "track": "Vitamin C",
+      "genre_tags": ["krautrock", "experimental", "Cologne"],
+      "category": "GLOBAL GROOVES — GERMANY",
+      "era": "classic",
+      "origin": "Cologne, Germany",
+      "why": "Japanese singer Damo Suzuki fronting German experimentalists creating grooves that predicted post-punk, ambient, and electronic music by decades. Jaki Liebezeit's drumming is a genre unto itself."
+    },
+    {
+      "id": 123,
+      "artist": "Tangerine Dream",
+      "track": "Stratosfear",
+      "genre_tags": ["electronic", "Berlin school", "cosmic"],
+      "category": "GLOBAL GROOVES — GERMANY",
+      "era": "classic",
+      "origin": "Berlin, Germany",
+      "why": "Berlin school electronic pioneers — sequencer-driven cosmic music that influenced everything from ambient to synthwave. German engineering as art form."
+    },
+    {
+      "id": 124,
+      "artist": "Ricardo Villalobos",
+      "track": "Dexter",
+      "genre_tags": ["minimal techno", "Chilean-German", "deep"],
+      "category": "GLOBAL GROOVES — GERMANY",
+      "era": "contemporary",
+      "origin": "Santiago, Chile / Berlin, Germany",
+      "why": "Chilean-German producer making minimal techno that stretches time. Berlin club culture at its most hypnotic and cerebral."
+    },
+    {
+      "id": 125,
+      "artist": "Jan Jelinek",
+      "track": "Tendency",
+      "genre_tags": ["glitch", "minimal", "micro-house"],
+      "category": "GLOBAL GROOVES — GERMANY",
+      "era": "contemporary",
+      "origin": "Berlin, Germany",
+      "why": "Loop-Finding-Jazz-Records turned jazz samples into clicking, pulsing minimal electronic. The German precision approach to sample-based music."
+    },
+    {
+      "id": 126,
+      "artist": "Piero Umiliani",
+      "track": "Mah Nà Mah Nà",
+      "genre_tags": ["library music", "Italian soundtrack", "playful"],
+      "category": "GLOBAL GROOVES — ITALY",
+      "era": "classic",
+      "origin": "Florence, Italy",
+      "why": "Italian library music genius — his soundtracks moved from bossa nova to psychedelic jazz to proto-electronic. The Muppets made him famous, but his deep catalog is a treasure chest."
+    },
+    {
+      "id": 127,
+      "artist": "Nicola Conte",
+      "track": "Bossa Per Due",
+      "genre_tags": ["Italian jazz", "bossa nova", "cinematic"],
+      "category": "GLOBAL GROOVES — ITALY",
+      "era": "contemporary",
+      "origin": "Bari, Italy",
+      "why": "Schema Records founder connecting Italian jazz tradition to Brazilian bossa and global club culture. Bari's gift to sophisticated dancefloors worldwide."
+    },
+    {
+      "id": 128,
+      "artist": "Alessio Ferrante",
+      "track": "Movimento",
+      "genre_tags": ["Italian electronic", "jazz-house", "Nu Genea affiliated"],
+      "category": "GLOBAL GROOVES — ITALY",
+      "era": "contemporary",
+      "origin": "Naples, Italy",
+      "why": "Naples electronic scene connecting Mediterranean warmth to global dance music. Italian groove culture reimagined for modern sound systems."
+    },
+    {
+      "id": 129,
+      "artist": "Nu Genea",
+      "track": "Marechià",
+      "genre_tags": ["Neapolitan disco", "Mediterranean electronic"],
+      "category": "GLOBAL GROOVES — ITALY",
+      "era": "contemporary",
+      "origin": "Naples, Italy",
+      "why": "Naples duo reviving Neapolitan funk and disco traditions through modern production. Mediterranean sunshine in every groove."
+    },
+    {
+      "id": 130,
+      "artist": "Serge Gainsbourg",
+      "track": "Requiem pour un con",
+      "genre_tags": ["French chanson", "pop-art", "orchestral"],
+      "category": "GLOBAL GROOVES — FRANCE",
+      "era": "classic",
+      "origin": "Paris, France",
+      "why": "The provocateur poet of French pop. His arrangements — from ye-ye to reggae to funk — proved that genre tourism could be an art form when done with genuine curiosity."
+    },
+    {
+      "id": 131,
+      "artist": "Brigitte Fontaine",
+      "track": "Comme à la Radio",
+      "genre_tags": ["French avant-garde", "psychedelic", "Art Ensemble"],
+      "category": "GLOBAL GROOVES — FRANCE",
+      "era": "classic",
+      "origin": "Paris, France",
+      "why": "French avant-garde vocalist who recorded with the Art Ensemble of Chicago. Where Parisian chanson meets free jazz — the most Rhythm Lab thing France ever produced."
+    },
+    {
+      "id": 132,
+      "artist": "Claude Fontaine",
+      "track": "Cry for Another",
+      "genre_tags": ["tropical soul", "bossa", "cinematic"],
+      "category": "GLOBAL GROOVES — FRANCE",
+      "era": "contemporary",
+      "origin": "Los Angeles / Paris",
+      "why": "French-American artist channeling Tropicália and lovers rock through a cinematic lens. Warm, unhurried, transportive."
+    },
+    {
+      "id": 133,
+      "artist": "Pierre Bourne",
+      "track": "Hulu",
+      "genre_tags": ["French-American beats", "lo-fi trap", "melodic"],
+      "category": "GLOBAL GROOVES — FRANCE",
+      "era": "contemporary",
+      "origin": "New York, USA (French heritage)",
+      "why": "Pi'erre's production for Playboi Carti and solo work represents the melodic, spacious side of trap — beatmaking as atmosphere. French musical DNA in Atlanta hip-hop."
+    },
+    {
+      "id": 134,
+      "artist": "Tim Maia",
+      "track": "Que Beleza",
+      "genre_tags": ["Brazilian soul", "funk", "tropicália"],
+      "category": "GLOBAL GROOVES — BRAZIL",
+      "era": "classic",
+      "origin": "Rio de Janeiro, Brazil",
+      "why": "Brazil's godfather of soul — brought Motown to Rio and created something entirely new. His Rational Culture albums are psychedelic-soul masterpieces. Every Brazilian funk artist owes him everything."
+    },
+    {
+      "id": 135,
+      "artist": "Jorge Ben Jor",
+      "track": "Taj Mahal",
+      "genre_tags": ["samba-rock", "funk brasileiro", "Rio"],
+      "category": "GLOBAL GROOVES — BRAZIL",
+      "era": "classic",
+      "origin": "Rio de Janeiro, Brazil",
+      "why": "The inventor of samba-rock. Connected African rhythms to Brazilian carnival to American funk in ways nobody else could. Rod Stewart took his melody for 'Do Ya Think I'm Sexy' — the original is infinitely better."
+    },
+    {
+      "id": 136,
+      "artist": "Arthur Verocai",
+      "track": "Bis",
+      "genre_tags": ["Brazilian orchestral soul", "MPB", "arranger"],
+      "category": "GLOBAL GROOVES — BRAZIL",
+      "era": "classic",
+      "origin": "Rio de Janeiro, Brazil",
+      "why": "His self-titled 1972 album flopped in Brazil, became a holy grail for crate diggers worldwide. Orchestral Brazilian soul that MF DOOM and Ludacris sampled. The ultimate digger's reward."
+    },
+    {
+      "id": 137,
+      "artist": "Marcos Valle",
+      "track": "Estrelar",
+      "genre_tags": ["Brazilian boogie", "synth-funk", "MPB"],
+      "category": "GLOBAL GROOVES — BRAZIL",
+      "era": "classic",
+      "origin": "Rio de Janeiro, Brazil",
+      "why": "Bossa nova composer who evolved into synth-funk pioneer. His 1980s boogie records are as futuristic as anything from New York or Detroit."
+    },
+    {
+      "id": 138,
+      "artist": "Seu Jorge",
+      "track": "Tive Razão",
+      "genre_tags": ["Brazilian pop-soul", "samba", "contemporary"],
+      "category": "GLOBAL GROOVES — BRAZIL",
+      "era": "contemporary",
+      "origin": "Rio de Janeiro, Brazil",
+      "why": "From City of God to David Bowie covers in Portuguese. Seu Jorge bridges Rio's favelas to global stages with warmth and dignity."
+    },
+    {
+      "id": 139,
+      "artist": "Sessa",
+      "track": "Gostar do Mundo",
+      "genre_tags": ["Brazilian psychedelic folk", "tropicália revival"],
+      "category": "GLOBAL GROOVES — BRAZIL",
+      "era": "contemporary",
+      "origin": "São Paulo, Brazil",
+      "why": "São Paulo artist reviving Tropicália's spirit for a new generation. Acoustic, dreamy, deeply rooted in Brazilian musical tradition while looking forward."
+    },
+    {
+      "id": 140,
+      "artist": "Mulatu Astatke",
+      "track": "Yèkèrmo Sèw",
+      "genre_tags": ["Ethio-jazz", "vibraphone", "Addis Ababa"],
+      "category": "CANONICAL / TOUCHSTONES",
+      "era": "classic",
+      "origin": "Addis Ababa, Ethiopia",
+      "why": "The father of Ethio-jazz. Studied at Berklee, returned to Addis Ababa, and created an entirely new musical language by fusing jazz with Ethiopian pentatonic scales. Broken Flowers made him famous to new ears — the music was always this deep."
+    },
+    {
+      "id": 141,
+      "artist": "Fela Kuti",
+      "track": "Zombie",
+      "genre_tags": ["Afrobeat", "political", "Lagos"],
+      "category": "CANONICAL / TOUCHSTONES",
+      "era": "classic",
+      "origin": "Lagos, Nigeria",
+      "why": "Invented Afrobeat. Full stop. Every track in the global/Afrobeat section of this list exists because Fela fused James Brown's funk with Yoruba rhythms and radical politics into 20-minute protest anthems."
+    },
+    {
+      "id": 142,
+      "artist": "J Dilla",
+      "track": "Fall in Love",
+      "genre_tags": ["hip-hop production", "neo-soul", "Detroit"],
+      "category": "CANONICAL / TOUCHSTONES",
+      "era": "classic",
+      "origin": "Detroit, USA",
+      "why": "The swing. The off-kilter drums. The warmth. Every beat-driven artist on this list — from Makaya McCraven to Alfa Mist to Kaytranada — is working in the rhythmic space Dilla opened. Donuts is the Rosetta Stone."
+    },
+    {
+      "id": 143,
+      "artist": "Alice Coltrane",
+      "track": "Journey in Satchidananda",
+      "genre_tags": ["spiritual jazz", "harp", "transcendent"],
+      "category": "CANONICAL / TOUCHSTONES",
+      "era": "classic",
+      "origin": "Detroit / Los Angeles, USA",
+      "why": "Spiritual jazz that literally transcends. Her harp and organ work created a sonic vocabulary for divine searching that Angel Bat Dawid, Carlos Niño, and Flying Lotus (her grandnephew) continue to speak."
+    },
+    {
+      "id": 144,
+      "artist": "Brian Eno",
+      "track": "The Big Ship",
+      "genre_tags": ["ambient", "generative", "visionary"],
+      "category": "CANONICAL / TOUCHSTONES",
+      "era": "classic",
+      "origin": "Suffolk, UK",
+      "why": "Invented ambient music as a category. Every electronic artist on this list who values texture and space over beats is building in the architecture Eno designed."
+    },
+    {
+      "id": 145,
+      "artist": "Gil Scott-Heron",
+      "track": "The Revolution Will Not Be Televised",
+      "genre_tags": ["spoken word", "jazz-soul", "political"],
+      "category": "CANONICAL / TOUCHSTONES",
+      "era": "classic",
+      "origin": "Chicago / New York, USA",
+      "why": "Proto-rapper, jazz poet, political prophet. The direct line from Gil to the conscious hip-hop Rhythm Lab champions — Noname, billy woods, Moor Mother — is unbroken."
+    },
+    {
+      "id": 146,
+      "artist": "Burial",
+      "track": "Archangel",
+      "genre_tags": ["dubstep", "ambient", "UK garage", "nocturnal"],
+      "category": "CANONICAL / TOUCHSTONES",
+      "era": "contemporary",
+      "origin": "London, UK",
+      "why": "South London's anonymous ghost — turned UK garage's skeleton into something haunted and beautiful. Every moody, rain-soaked electronic track owes Burial a debt."
+    },
+    {
+      "id": 147,
+      "artist": "Madlib",
+      "track": "Road of the Lonely Ones",
+      "genre_tags": ["beat music", "crate digging", "experimental hip-hop"],
+      "category": "CANONICAL / TOUCHSTONES",
+      "era": "contemporary",
+      "origin": "Oxnard, California, USA",
+      "why": "The supreme crate digger. Madvillainy, Beat Konducta, Shades of Blue — he treats the entire history of recorded music as source material. The curatorial ethos of Rhythm Lab in producer form."
+    },
+    {
+      "id": 148,
+      "artist": "DJ Shadow",
+      "track": "Midnight in a Perfect World",
+      "genre_tags": ["trip-hop", "sample-based", "instrumental hip-hop"],
+      "category": "CANONICAL / TOUCHSTONES",
+      "era": "classic",
+      "origin": "Davis, California, USA",
+      "why": "Endtroducing proved an entire album could be built from samples alone. The philosophical foundation for sample-based electronic music and beat culture."
+    },
+    {
+      "id": 149,
+      "artist": "Erykah Badu",
+      "track": "Didn't Cha Know",
+      "genre_tags": ["neo-soul", "cosmic", "Dallas"],
+      "category": "CANONICAL / TOUCHSTONES",
+      "era": "classic",
+      "origin": "Dallas, USA",
+      "why": "The high priestess. Mama's Gun connected Billie Holiday to J Dilla to Sun Ra in one album. Every neo-soul and experimental R&B artist on this list exists in her gravitational field."
+    },
+    {
+      "id": 150,
+      "artist": "Aphex Twin",
+      "track": "Xtal",
+      "genre_tags": ["ambient techno", "IDM", "Cornish"],
+      "category": "CANONICAL / TOUCHSTONES",
+      "era": "classic",
+      "origin": "Cornwall / London, UK",
+      "why": "Richard D. James made electronic music that was simultaneously alien and deeply human. Selected Ambient Works is the benchmark for electronic music with emotional depth — the quality Rhythm Lab demands from every electronic track."
+    }
+  ],
+  "category_summary": {
+    "HIP-HOP": {
+      "count": 16,
+      "id_range": "1-16",
+      "description": "Production-forward, lyrical depth, boundary-pushing. Not mainstream trap."
+    },
+    "SOUL / NEO-SOUL / R&B": {
+      "count": 15,
+      "id_range": "17-31",
+      "description": "Textured, warm, vocalist-driven. Modern soul honoring tradition while pushing forward."
+    },
+    "JAZZ / JAZZ FUSION (Contemporary)": {
+      "count": 17,
+      "id_range": "32-48",
+      "description": "Modern, genre-bending, alive. Players who grew up on J Dilla AND John Coltrane."
+    },
+    "ELECTRONIC / DANCE": {
+      "count": 18,
+      "id_range": "49-66",
+      "description": "Deep, soulful, textured. Broken beat, house with soul, bass music with musical depth."
+    },
+    "AFROBEAT / GLOBAL / WORLD": {
+      "count": 17,
+      "id_range": "67-83",
+      "description": "Diaspora connections, rhythmic depth, cultural bridges across the global South."
+    },
+    "CROSS-GENRE / UNCLASSIFIABLE": {
+      "count": 17,
+      "id_range": "84-100",
+      "description": "The Rhythm Lab sweet spot — artists who refuse categorization."
+    },
+    "CANONICAL / TOUCHSTONES": {
+      "count": 16,
+      "id_range": "101-103, 140-150",
+      "description": "North star artists whose influence runs through the entire list. Björk, Herbie, Dilla, Fela, Alice Coltrane, etc."
+    },
+    "70s JAZZ FUSION": {
+      "count": 10,
+      "id_range": "104-113",
+      "description": "The fusionists who proved jazz could groove. Electric keyboards, funk rhythms, cosmic ambition."
+    },
+    "GLOBAL GROOVES — JAPAN": {
+      "count": 7,
+      "id_range": "114-120",
+      "description": "City pop, ambient, piano jazz, YMO lineage. Tokyo sophistication and Sapporo intimacy."
+    },
+    "GLOBAL GROOVES — GERMANY": {
+      "count": 5,
+      "id_range": "121-125",
+      "description": "Krautrock to techno to minimal. German precision meets cosmic exploration."
+    },
+    "GLOBAL GROOVES — ITALY": {
+      "count": 4,
+      "id_range": "126-129",
+      "description": "Library music, Schema Records jazz, Neapolitan disco. Mediterranean warmth and cinematic flair."
+    },
+    "GLOBAL GROOVES — FRANCE": {
+      "count": 4,
+      "id_range": "130-133",
+      "description": "Chanson to avant-garde to tropical soul. French artistic provocation and elegance."
+    },
+    "GLOBAL GROOVES — BRAZIL": {
+      "count": 6,
+      "id_range": "134-139",
+      "description": "Tropicália, samba-rock, Brazilian boogie, Ethio-jazz connections. Far Out Recordings territory."
+    }
+  },
+  "usage_notes": {
+    "for_curator_agent": "When evaluating a new track, ask: (1) Does it share sonic DNA with 3+ tracks on this list? (2) Does it exhibit qualities described in the WHY fields? (3) Would it create an interesting programming transition from one seed track to another? (4) Does the artist's origin story or label affiliation signal Rhythm Lab compatibility?",
+    "weighting": "CANONICAL/TOUCHSTONES tracks carry the most weight — they define the taste ceiling. Contemporary tracks define the current programming window. 70s FUSION and GLOBAL GROOVES tracks define the historical and geographic range.",
+    "discovery_priority": "The agent should prioritize finding NEW artists who exhibit seed list qualities over recommending established seed list artists. The seed list trains taste; the agent's job is to apply that taste to discovery.",
+    "milwaukee_flag": "Always flag Milwaukee, Wisconsin artists and connections. Even loose connections (toured through Milwaukee, collaborated with Milwaukee artists, played Summerfest) are worth noting."
+  }
+}

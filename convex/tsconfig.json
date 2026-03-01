@@ -9,7 +9,8 @@
     "module": "ESNext",
     "noEmit": true,
     "isolatedModules": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "resolveJsonModule": true
   },
   "include": ["./**/*"],
   "exclude": ["./_generated"]

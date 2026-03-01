@@ -1,11 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import { useConvexAuth } from "convex/react";
 import { SignInButton } from "@clerk/nextjs";
 import { ChatInterface } from "@/components/chat/ChatInterface";
+import { ExperienceGallery } from "@/components/gallery/ExperienceGallery";
 
 export default function Home() {
   const { isAuthenticated, isLoading } = useConvexAuth();
+  const [view, setView] = useState<"gallery" | "create">("gallery");
 
   if (isLoading) {
     return (
@@ -35,5 +38,19 @@ export default function Home() {
     );
   }
 
-  return <ChatInterface />;
+  if (view === "create") {
+    return (
+      <div className="relative">
+        <button
+          onClick={() => setView("gallery")}
+          className="absolute top-6 left-6 z-50 px-4 py-2 rounded-full bg-[#F1E8D9]/5 text-[#F1E8D9]/40 font-['Space_Grotesk'] text-xs tracking-wider uppercase hover:bg-[#F1E8D9]/10 transition-colors"
+        >
+          &larr; Gallery
+        </button>
+        <ChatInterface />
+      </div>
+    );
+  }
+
+  return <ExperienceGallery onCreateNew={() => setView("create")} />;
 }

@@ -8,6 +8,23 @@ import { runAgentConversation, parseAgentJson } from "./toolExecutor";
 import * as spotify from "../lib/spotify";
 import * as youtube from "../lib/youtube";
 import { computeAggregateProfile, derivePalette } from "../lib/palette";
+import seedData from "../lib/rhythm_lab_seed_list.json";
+
+/**
+ * Build a compact seed list reference for the agent prompt.
+ * Groups tracks by category in a single-line format to keep token count low.
+ */
+function buildSeedReference(): string {
+  const cats: Record<string, string[]> = {};
+  for (const t of seedData.tracks) {
+    if (!cats[t.category]) cats[t.category] = [];
+    cats[t.category].push(`${t.artist} — "${t.track}"`);
+  }
+  const lines = Object.entries(cats).map(
+    ([cat, tracks]) => `  ${cat}: ${tracks.join(", ")}`
+  );
+  return lines.join("\n");
+}
 
 /**
  * Step 2: Music Curator — selects 5 real tracks forming a dining arc.
@@ -36,7 +53,24 @@ export const run = internalAction({
 
       await think("Building your sonic journey. Let me find the perfect tracks...");
 
-      const prompt = `You are a world-class music curator inspired by Rhythm Lab Radio — the genre-defying show that weaves together hip-hop, electronic, soul, jazz, Afrobeat, indie, and world music into seamless, intentional sets. Every track transition tells a story. The curation is eclectic but never random — each song earns its place.
+      const seedReference = buildSeedReference();
+      const keyLabels = seedData.metadata.key_labels.join(", ");
+
+      const prompt = `You are a world-class music curator for Rhythm Lab Radio — the genre-defying show curated by Tarik Moody that weaves together hip-hop, electronic, soul, jazz, Afrobeat, indie, and world music into seamless, intentional sets. Every track transition tells a story. The curation is eclectic but never random — each song earns its place.
+
+═══════════════════════════════════════════════════════════
+RHYTHM LAB RADIO TASTE DNA — YOUR KNOWLEDGE BASE
+═══════════════════════════════════════════════════════════
+
+${seedData.metadata.curator_instructions}
+
+Key labels that define the aesthetic: ${keyLabels}
+
+REFERENCE TRACKS (150 tracks defining "Rhythm Lab Radio quality"):
+${seedReference}
+
+When selecting tracks, ask: Does this track share sonic DNA with at least 3-5 of these reference tracks? Does it have the same curatorial intentionality? Prioritize discovery (emerging artists, deep cuts) but anchor taste in these canonical references. You may select tracks FROM this seed list if they fit perfectly, or find new tracks that would feel at home alongside them.
+═══════════════════════════════════════════════════════════
 
 Mood: ${experience.brief.mood}
 Cuisine Direction: ${experience.brief.cuisineDirection}
@@ -51,7 +85,7 @@ The music MUST complement the food and wine. Think about how sound pairs with fl
 - Latin/Caribbean → Afro-Latin rhythms, bossa nova, tropical bass
 - American comfort → soul, R&B, blues, hip-hop with warmth
 
-Select 5 REAL tracks by real artists that exist on Spotify. Use search_spotify_tracks to verify each track exists and get the correct Spotify ID. Curate them the way Rhythm Lab Radio would — crossing genre boundaries, finding unexpected connections between sounds, cuisines, and cultures. The set should feel like a journey through a meal:
+Select 5 REAL tracks by real artists that exist on Spotify. Use search_spotify_tracks to verify each track exists and get the correct Spotify ID. Use web_search to discover newer artists and deep cuts that fit the Rhythm Lab aesthetic — don't just pick obvious hits. Curate like Rhythm Lab Radio — crossing genre boundaries, finding unexpected connections between sounds, cuisines, and cultures. The set should feel like a journey through a meal:
 
 1. Arrival (atmospheric) — An amuse-bouche for the ears. Something textured and inviting that sets the mood for the cuisine to come.
 2. Opening (warming) — The first course energy. A groove that opens the palate — match the warmth of the dish.

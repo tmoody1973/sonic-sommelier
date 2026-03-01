@@ -63,6 +63,25 @@ export const listByUser = query({
   },
 });
 
+/**
+ * Delete an experience. Only the owner can delete.
+ */
+export const remove = mutation({
+  args: { id: v.id("experiences") },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Not authenticated");
+
+    const experience = await ctx.db.get(args.id);
+    if (!experience) return;
+    if (experience.userId !== identity.subject) {
+      throw new Error("Not authorized");
+    }
+
+    await ctx.db.delete(args.id);
+  },
+});
+
 // ─── Internal Queries ────────────────────────────────────────────────────────
 
 /**
@@ -237,6 +256,7 @@ export const updateMedia = internalMutation({
     id: v.id("experiences"),
     // Experience-level media
     heroImageUrl: v.optional(v.string()),
+    shareImageUrl: v.optional(v.string()),
     introNarrationText: v.optional(v.string()),
     introNarrationUrl: v.optional(v.string()),
     fullNarrationUrl: v.optional(v.string()),
@@ -258,6 +278,9 @@ export const updateMedia = internalMutation({
 
     if (args.heroImageUrl !== undefined) {
       updates.heroImageUrl = args.heroImageUrl;
+    }
+    if (args.shareImageUrl !== undefined) {
+      updates.shareImageUrl = args.shareImageUrl;
     }
     if (args.introNarrationText !== undefined) {
       updates.introNarrationText = args.introNarrationText;

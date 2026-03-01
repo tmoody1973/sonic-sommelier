@@ -49,15 +49,21 @@ export const run = internalAction({
       // PHASE A — Generate narration text, save it, and mark "ready"
       // ══════════════════════════════════════════════════════════════════════
 
-      const narrationPrompt = `You are narrating a luxury dining experience called "${experience.title}" (${experience.subtitle}).
+      const narrationPrompt = `You are the voice of a luxury dining experience called "${experience.title}" (${experience.subtitle}).
+Your style is a seamless blend of a late-night radio host and an attentive fine-dining waiter:
+- RADIO HOST side: Warm, knowledgeable about the music. Drop context about the artist, the track's vibe, why it fits this moment. Speak like you're cueing up the next record — "Now let me set the mood with…", "This next track is going to change the temperature in the room…"
+- WAITER side: Gracious, descriptive about the dish and wine. Guide the guest through flavors, aromas, textures. "For your next course, we've prepared…", "Paired beautifully with a…"
+- Weave music and food together naturally — the track should feel like the soundtrack TO the dish, not separate from it.
+- Keep it conversational, never stiff. No bullet points. No clinical descriptions. This is storytelling.
+
 Mood: ${experience.brief?.mood ?? "eclectic"}
 Cuisine direction: ${experience.brief?.cuisineDirection ?? "eclectic"}
 
-Write narration text for this experience. Return a JSON object with:
-- "intro": A 2-3 sentence poetic introduction to the experience (sets the scene, welcomes the guest)
+Return a JSON object with:
+- "intro": A 2-3 sentence introduction that sets the scene like a radio host opening a special broadcast AND a maître d' welcoming a guest to their table.
 - "courses": An array of 5 objects, each with:
   - "courseNumber": the course number (1-5)
-  - "narration": A 2-3 sentence narration for each course, describing the dish ("${experience.courses.map((c) => c.dishName).join('", "')}"), its paired track ("${experience.tracks.map((t) => `${t.name} by ${t.artist}`).join('", "')}"), and the beverage pairing. Paint a vivid sensory picture.
+  - "narration": A 2-3 sentence narration blending radio host energy with waiter elegance. Name the dish, the track (artist + title), and the wine. Make the listener feel the connection between all three.
 
 The courses are:
 ${experience.courses
@@ -233,12 +239,76 @@ Return ONLY valid JSON. No markdown fences. No commentary.`;
           });
         }
       }
+
+      // Schedule poster generation as a separate action to avoid timeout
+      await ctx.scheduler.runAfter(0, internal.actions.media.generatePoster, {
+        experienceId: args.experienceId,
+      });
     } catch (error) {
       console.error("Media generation failed:", error);
       await ctx.runMutation(internal.experiences.updateStatus, {
         id: args.experienceId,
         status: "error",
       });
+    }
+  },
+});
+
+/**
+ * Separate action for generating the social share poster.
+ * Runs independently so it doesn't compete with audio/image generation for time.
+ */
+export const generatePoster = internalAction({
+  args: { experienceId: v.id("experiences") },
+  handler: async (ctx, args) => {
+    try {
+      const experience = await ctx.runQuery(
+        internal.experiences.getInternal,
+        { id: args.experienceId }
+      );
+      if (!experience?.courses || !experience?.tracks) return;
+
+      const geminiKey = process.env.GEMINI_API_KEY!;
+
+      const courseList = experience.courses
+        .map((c, i) => {
+          const track = experience.tracks![i];
+          return `Course ${c.courseNumber} (${c.courseType}): "${c.dishName}" — ${c.cuisineType}\n    Paired with: "${track.name}" by ${track.artist}\n    Wine: ${c.beverageName ?? "TBD"}`;
+        })
+        .join("\n  ");
+
+      const posterPrompt = `Create a luxurious restaurant menu poster design. Dark background (#1a1a1a or similar deep charcoal/black). Elegant typography. Gold/warm accent colors. Hand-drawn or vintage-style food illustrations scattered around the edges.
+
+The poster should read:
+
+SONIC SOMMELIER (small, top, elegant serif font)
+
+"${experience.title}" (large, centered, italic serif — the hero text)
+${experience.subtitle}
+
+Then list the 5-course tasting menu:
+  ${courseList}
+
+At the bottom: "Curated by Rhythm Lab Radio" in small elegant text.
+
+Style: Sophisticated fine-dining menu meets vinyl record sleeve. Think jazz club menu meets Michelin-star restaurant. Dark, warm, editorial. The food illustrations should be line-art style (like the vintage breakfast menu aesthetic). Include subtle musical elements — a vinyl record, music notes, or sound waves woven into the design. No photographs, only illustrated/typographic elements. Vertical portrait orientation (3:4 ratio).`;
+
+      const posterBase64 = await generateImage(posterPrompt, geminiKey, "3:4");
+      if (posterBase64) {
+        const posterBuffer = Buffer.from(posterBase64, "base64");
+        const posterBlob = new Blob([posterBuffer], { type: "image/png" });
+        const posterStorageId = await ctx.storage.store(posterBlob);
+        const shareImageUrl =
+          (await ctx.storage.getUrl(posterStorageId)) ?? undefined;
+        if (shareImageUrl) {
+          await ctx.runMutation(internal.experiences.updateMedia, {
+            id: args.experienceId,
+            shareImageUrl,
+          });
+        }
+      }
+    } catch (err) {
+      console.error("Failed to generate share poster:", err);
     }
   },
 });

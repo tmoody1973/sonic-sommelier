@@ -77,6 +77,7 @@ export interface Experience {
   courses?: Course[];
   introNarrationUrl?: string;
   heroImageUrl?: string;
+  shareImageUrl?: string;
   shareSlug?: string;
   thoughts?: Array<{ agent: string; message: string; timestamp: number }>;
   introNarrationText?: string;
