@@ -1,3 +1,5 @@
+"use node";
+
 import * as soundstat from "../lib/soundstat";
 import * as spotify from "../lib/spotify";
 import * as spoonacular from "../lib/spoonacular";

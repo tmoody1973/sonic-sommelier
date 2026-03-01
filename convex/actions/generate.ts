@@ -3,6 +3,7 @@
 import { action } from "../_generated/server";
 import { internal, api } from "../_generated/api";
 import { v } from "convex/values";
+import { Id } from "../_generated/dataModel";
 
 /**
  * Entry point: creates an experience and kicks off the full agent pipeline.
@@ -11,7 +12,7 @@ import { v } from "convex/values";
  */
 export const start = action({
   args: { userInput: v.string() },
-  handler: async (ctx, args) => {
+  handler: async (ctx, args): Promise<Id<"experiences">> => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) throw new Error("Not authenticated");
 

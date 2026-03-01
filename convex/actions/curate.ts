@@ -90,16 +90,17 @@ Select 5 real tracks that form the arc: Arrival (atmospheric) → Opening (warmi
             }
           }
 
-          const audioFeatures =
-            (track.audioFeatures as Record<string, number>) ?? {
-              energy: 0.5,
-              valence: 0.5,
-              tempo: 120,
-              danceability: 0.5,
-              acousticness: 0.5,
-              key: 0,
-              mode: 1,
-            };
+          const rawFeatures =
+            (track.audioFeatures as Record<string, number>) ?? {};
+          const audioFeatures = {
+            energy: Number(rawFeatures.energy ?? 0.5),
+            valence: Number(rawFeatures.valence ?? 0.5),
+            tempo: Number(rawFeatures.tempo ?? 120),
+            danceability: Number(rawFeatures.danceability ?? 0.5),
+            acousticness: Number(rawFeatures.acousticness ?? 0.5),
+            key: Number(rawFeatures.key ?? 0),
+            mode: Number(rawFeatures.mode ?? 1),
+          };
 
           return {
             spotifyId: spotifyData?.id ?? (track.spotifyId as string),
