@@ -688,7 +688,7 @@ After returning your pairings, hand back to the Maitre D' for narration compilat
 
 // ─── Agent Creation ────────────────────────────────────────────────────────
 
-const MODEL = "mistral-medium-latest";
+const MODEL = "mistral-large-latest";
 
 export interface AgentSet {
   maitreD: { id: string };

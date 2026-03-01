@@ -12,7 +12,7 @@ import seedData from "../lib/rhythm_lab_seed_list.json";
 
 /**
  * Build a compact seed list reference for the agent prompt.
- * Groups tracks by category in a single-line format to keep token count low.
+ * Groups all 150 tracks by category. Using mistral-large-latest (128K context).
  */
 function buildSeedReference(): string {
   const cats: Record<string, string[]> = {};
@@ -56,46 +56,32 @@ export const run = internalAction({
       const seedReference = buildSeedReference();
       const keyLabels = seedData.metadata.key_labels.join(", ");
 
-      const prompt = `You are a world-class music curator for Rhythm Lab Radio — the genre-defying show curated by Tarik Moody that weaves together hip-hop, electronic, soul, jazz, Afrobeat, indie, and world music into seamless, intentional sets. Every track transition tells a story. The curation is eclectic but never random — each song earns its place.
+      const prompt = `You are a music curator for Rhythm Lab Radio — Tarik Moody's genre-defying show weaving hip-hop, electronic, soul, jazz, Afrobeat, and world music into intentional sets.
 
-═══════════════════════════════════════════════════════════
-RHYTHM LAB RADIO TASTE DNA — YOUR KNOWLEDGE BASE
-═══════════════════════════════════════════════════════════
-
-${seedData.metadata.curator_instructions}
-
-Key labels that define the aesthetic: ${keyLabels}
-
-REFERENCE TRACKS (150 tracks defining "Rhythm Lab Radio quality"):
+TASTE DNA — Reference tracks (3 per category from 150-track seed list):
 ${seedReference}
 
-When selecting tracks, ask: Does this track share sonic DNA with at least 3-5 of these reference tracks? Does it have the same curatorial intentionality? Prioritize discovery (emerging artists, deep cuts) but anchor taste in these canonical references. You may select tracks FROM this seed list if they fit perfectly, or find new tracks that would feel at home alongside them.
-═══════════════════════════════════════════════════════════
+Key labels: ${keyLabels}
+Select tracks that share sonic DNA with these references. Prioritize discovery but anchor in this taste.
 
 Mood: ${experience.brief.mood}
-Cuisine Direction: ${experience.brief.cuisineDirection}
+Cuisine: ${experience.brief.cuisineDirection}
 Occasion: ${experience.brief.occasion}
 
-The music MUST complement the food and wine. Think about how sound pairs with flavor:
-- Light, delicate dishes → airy, textured, acoustic sounds
-- Rich, bold dishes → deep grooves, warm bass, soulful vocals
-- Spicy, vibrant cuisine → rhythmic, percussive, energetic tracks
-- French/Italian → jazz, chanson, sophisticated arrangements
-- Japanese/Asian → ambient, minimalist, contemplative textures
-- Latin/Caribbean → Afro-Latin rhythms, bossa nova, tropical bass
-- American comfort → soul, R&B, blues, hip-hop with warmth
+Music must complement food and wine:
+- Delicate dishes → airy, acoustic | Bold dishes → deep grooves, warm bass
+- French/Italian → jazz, chanson | Japanese → ambient, minimalist
+- Latin → Afro-Latin rhythms, bossa nova | American → soul, R&B, hip-hop
 
-Select 5 REAL tracks by real artists that exist on Spotify. Use search_spotify_tracks to verify each track exists and get the correct Spotify ID. Use web_search to discover newer artists and deep cuts that fit the Rhythm Lab aesthetic — don't just pick obvious hits. Curate like Rhythm Lab Radio — crossing genre boundaries, finding unexpected connections between sounds, cuisines, and cultures. The set should feel like a journey through a meal:
+Select 5 REAL Spotify tracks. Use search_spotify_tracks to verify each. Curate a dining arc:
+1. Arrival (atmospheric) — textured, inviting
+2. Opening (warming) — groove that opens the palate
+3. Deepening (complex) — layers, depth, richness
+4. Peak (intense) — bold, powerful
+5. Resolution (gentle) — reflective closer
 
-1. Arrival (atmospheric) — An amuse-bouche for the ears. Something textured and inviting that sets the mood for the cuisine to come.
-2. Opening (warming) — The first course energy. A groove that opens the palate — match the warmth of the dish.
-3. Deepening (complex) — The main course moment. Layers, depth, complexity — mirror the richness of the food and wine.
-4. Peak (intense) — The bold pairing. A powerful track that matches the most intense flavors on the table.
-5. Resolution (gentle) — The dessert wine feeling. A reflective closer that pairs with the final taste lingering on the palate.
-
-IMPORTANT: Search Spotify for each track to verify it exists and get the real spotifyId. Also estimate audio features (energy, valence, tempo, danceability, acousticness on 0-1 scale, tempo in BPM) based on your knowledge of each track.
-
-Think across the full spectrum of global music. The best pairing is when music, food, and wine feel like they belong together.`;
+Estimate audio features per track (energy, valence, tempo, danceability, acousticness 0-1, tempo BPM).
+Return JSON array of 5 objects with: name, artist, spotifyId, audioFeatures.`;
 
       const result = await runAgentConversation(client, agentId, prompt, 20);
 

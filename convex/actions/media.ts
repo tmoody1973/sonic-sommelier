@@ -1,6 +1,6 @@
 "use node";
 
-import { internalAction } from "../_generated/server";
+import { action, internalAction } from "../_generated/server";
 import { internal } from "../_generated/api";
 import { v } from "convex/values";
 import { createMistralClient } from "../lib/agents";
@@ -310,5 +310,19 @@ Style: Sophisticated fine-dining menu meets vinyl record sleeve. Think jazz club
     } catch (err) {
       console.error("Failed to generate share poster:", err);
     }
+  },
+});
+
+/**
+ * Public action to regenerate the share poster for an existing experience.
+ * Useful for experiences created before the poster feature existed.
+ */
+export const retryPoster = action({
+  args: { experienceId: v.id("experiences") },
+  handler: async (ctx, args) => {
+    await ctx.scheduler.runAfter(0, internal.actions.media.generatePoster, {
+      experienceId: args.experienceId,
+    });
+    return "Poster generation scheduled";
   },
 });
