@@ -1,6 +1,6 @@
 /**
  * ElevenLabs text-to-speech helper.
- * Synthesizes narration audio from text using ElevenLabs API v1.
+ * Synthesizes narration audio from text using ElevenLabs v3 model.
  */
 
 export async function synthesizeSpeech(
@@ -8,7 +8,7 @@ export async function synthesizeSpeech(
   apiKey: string,
   voiceId?: string
 ): Promise<ArrayBuffer> {
-  const voice = voiceId ?? "pNInz6obpgDQGcFmaJgB"; // Default: Adam (warm male voice)
+  const voice = voiceId ?? "RILOU7YmBhvwJGDGjNmP";
   const res = await fetch(
     `https://api.elevenlabs.io/v1/text-to-speech/${voice}`,
     {
@@ -19,7 +19,7 @@ export async function synthesizeSpeech(
       },
       body: JSON.stringify({
         text,
-        model_id: "eleven_multilingual_v2",
+        model_id: "eleven_v3",
         voice_settings: { stability: 0.6, similarity_boost: 0.8 },
       }),
     }
