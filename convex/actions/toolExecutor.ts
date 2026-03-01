@@ -141,57 +141,62 @@ export async function runAgentConversation(
       throw new Error("Agent returned empty outputs");
     }
 
-    const lastOutput = response.outputs[response.outputs.length - 1];
-
-    // If the agent produced a final message, extract text and return
-    if (lastOutput.type === "message.output") {
-      const content = (lastOutput as { content: string | unknown[] }).content;
+    // Check if there's a final message in the outputs
+    const messageOutput = response.outputs.find(
+      (o) => (o as { type?: string }).type === "message.output"
+    );
+    if (messageOutput) {
+      const content = (messageOutput as { content: string | unknown[] }).content;
       if (typeof content === "string") return content;
-      // If content is an array of chunks, concatenate text pieces
       return (content as Array<{ text?: string }>)
         .map((c) => c.text ?? "")
         .join("");
     }
 
-    // If the agent wants to call a function, execute it and feed result back
-    if (lastOutput.type === "function.call") {
-      const fc = lastOutput as {
-        name: string;
-        arguments: Record<string, unknown> | string;
-        toolCallId: string;
-      };
+    // Collect ALL function calls from the response and execute them
+    const functionCalls = response.outputs.filter(
+      (o) => (o as { type?: string }).type === "function.call"
+    );
 
-      const callArgs =
-        typeof fc.arguments === "string"
-          ? JSON.parse(fc.arguments)
-          : fc.arguments;
-      let result: string;
-      try {
-        result = await executeToolCall(fc.name, callArgs);
-      } catch (toolErr) {
-        console.error(`Tool call ${fc.name} failed:`, toolErr);
-        result = JSON.stringify({
-          error: `Tool ${fc.name} failed: ${toolErr instanceof Error ? toolErr.message : String(toolErr)}`,
-        });
-      }
-
-      response = await client.beta.conversations.append({
-        conversationId: response.conversationId,
-        conversationAppendRequest: {
-          inputs: [
-            {
-              type: "function.result",
-              toolCallId: fc.toolCallId,
-              result,
-            },
-          ],
-        },
-      });
-      continue;
+    if (functionCalls.length === 0) {
+      // Unknown output types — break
+      break;
     }
 
-    // Unknown output type — break out of the loop
-    break;
+    const toolResults = await Promise.all(
+      functionCalls.map(async (output: unknown) => {
+        const fc = output as {
+          name: string;
+          arguments: Record<string, unknown> | string;
+          toolCallId: string;
+        };
+        const callArgs =
+          typeof fc.arguments === "string"
+            ? JSON.parse(fc.arguments)
+            : fc.arguments;
+        let result: string;
+        try {
+          result = await executeToolCall(fc.name, callArgs);
+        } catch (toolErr) {
+          console.error(`Tool call ${fc.name} failed:`, toolErr);
+          result = JSON.stringify({
+            error: `Tool ${fc.name} failed: ${toolErr instanceof Error ? toolErr.message : String(toolErr)}`,
+          });
+        }
+        return {
+          type: "function.result" as const,
+          toolCallId: fc.toolCallId,
+          result,
+        };
+      })
+    );
+
+    response = await client.beta.conversations.append({
+      conversationId: response.conversationId,
+      conversationAppendRequest: {
+        inputs: toolResults,
+      },
+    });
   }
 
   // Fallback: return last output content as-is

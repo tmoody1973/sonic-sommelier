@@ -47,14 +47,15 @@ function functionTool(
 export const musicCuratorTools = [
   functionTool(
     "search_tracks_by_mood",
-    "Search for Spotify tracks that match a given mood or emotion keyword. Returns a list of track candidates with IDs and metadata.",
+    "Search for tracks that match a given mood. Returns a list of track candidates with IDs and metadata.",
     {
       type: "object",
       properties: {
         mood: {
           type: "string",
+          enum: ["happy", "sad", "energetic", "relaxed", "danceable"],
           description:
-            "A mood or emotion keyword to search by (e.g. 'melancholic', 'euphoric', 'nocturnal').",
+            "The mood to search by. Must be one of: happy, sad, energetic, relaxed, danceable.",
         },
       },
       required: ["mood"],
