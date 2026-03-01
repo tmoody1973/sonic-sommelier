@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Experience } from "@/lib/types";
 
@@ -10,6 +11,42 @@ export function FullMenuScreen({
 }) {
   const p = experience.palette;
   const courses = experience.courses ?? [];
+  const [shareLabel, setShareLabel] = useState("Share Menu");
+
+  const handleShare = useCallback(async () => {
+    if (!experience.shareSlug) return;
+
+    const shareUrl = `${window.location.origin}/menu/${experience.shareSlug}`;
+    const shareData = {
+      title: `Sonic Sommelier — ${experience.title}`,
+      text: experience.subtitle,
+      url: shareUrl,
+    };
+
+    try {
+      // Use Web Share API on mobile if available
+      if (navigator.share && navigator.canShare?.(shareData)) {
+        await navigator.share(shareData);
+        return;
+      }
+
+      // Fall back to clipboard copy
+      await navigator.clipboard.writeText(shareUrl);
+      setShareLabel("Copied!");
+      setTimeout(() => setShareLabel("Share Menu"), 2000);
+    } catch (err) {
+      // User cancelled share or clipboard failed — try fallback
+      if (err instanceof DOMException && err.name === "AbortError") return;
+
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        setShareLabel("Copied!");
+        setTimeout(() => setShareLabel("Share Menu"), 2000);
+      } catch {
+        // Last resort: do nothing
+      }
+    }
+  }, [experience.shareSlug, experience.title, experience.subtitle]);
 
   return (
     <div
@@ -119,13 +156,17 @@ export function FullMenuScreen({
         </button>
         {experience.shareSlug && (
           <button
-            className="font-['Space_Grotesk'] text-[11px] tracking-[0.12em] uppercase rounded-full px-7 py-2.5 cursor-pointer bg-transparent"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleShare();
+            }}
+            className="font-['Space_Grotesk'] text-[11px] tracking-[0.12em] uppercase rounded-full px-7 py-2.5 cursor-pointer bg-transparent transition-colors duration-200"
             style={{
-              color: p.text + "55",
-              border: `1px solid ${p.text}15`,
+              color: shareLabel === "Copied!" ? p.accent : p.text + "55",
+              border: `1px solid ${shareLabel === "Copied!" ? p.accent + "44" : p.text + "15"}`,
             }}
           >
-            Share Menu
+            {shareLabel}
           </button>
         )}
       </motion.div>
