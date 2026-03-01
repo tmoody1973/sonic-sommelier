@@ -38,11 +38,11 @@ export const run = internalAction({
         };
       });
 
-      const prompt = `Pair each course with wine or sake. At least one course MUST be sake.
+      const prompt = `Pair each course with a wine. Select wines that complement both the dish and the musical mood of its paired track.
 
 ${JSON.stringify({ courses: coursesInput }, null, 2)}
 
-Return a JSON object with a "pairings" array of 5 objects matching the output format in your instructions.`;
+Return a JSON object with a "pairings" array of 5 objects matching the output format in your instructions. Use beverageType "wine" for all pairings.`;
 
       const result = await runAgentConversation(
         client,

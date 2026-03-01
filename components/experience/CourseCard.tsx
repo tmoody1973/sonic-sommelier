@@ -189,9 +189,23 @@ export function CourseCard({ course, track, palette }: CourseCardProps) {
           </p>
         </div>
 
+        {/* Narration text — appears when media step delivers it */}
+        {course.narrationText && (
+          <p
+            className="font-['Instrument_Serif'] text-[13px] leading-[1.6] italic mb-2"
+            style={{
+              color: palette.accent + "88",
+              opacity: revealed ? 1 : 0,
+              transition: "opacity 0.6s ease-out 0.8s",
+            }}
+          >
+            {course.narrationText}
+          </p>
+        )}
+
         {/* Divider */}
         <div
-          className="my-4"
+          className="my-3"
           style={{
             width: pairingVisible ? "60px" : "0px",
             height: "1px",
@@ -209,35 +223,57 @@ export function CourseCard({ course, track, palette }: CourseCardProps) {
             transition: "all 0.7s cubic-bezier(0.25,0.46,0.45,0.94)",
           }}
         >
-          {/* Track info */}
-          <div className="flex items-center gap-3 mb-3.5">
+          {/* Spotify embed player — 30s preview, no auth needed */}
+          {track.spotifyId && (
             <div
-              className="w-11 h-11 rounded-md flex-shrink-0 flex items-center justify-center"
-              style={{
-                background: track.albumArt
-                  ? `url(${track.albumArt}) center/cover`
-                  : `linear-gradient(135deg, ${palette.primary}, ${palette.accent}40)`,
-              }}
+              className="mb-3 rounded-xl overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
+              onTouchEnd={(e) => e.stopPropagation()}
             >
-              {!track.albumArt && <span className="text-lg">&#9835;</span>}
+              <iframe
+                src={`https://open.spotify.com/embed/track/${track.spotifyId}?utm_source=generator&theme=0`}
+                width="100%"
+                height="80"
+                frameBorder="0"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+                style={{ borderRadius: "12px" }}
+              />
             </div>
-            <div>
-              <div
-                className="font-['Space_Grotesk'] text-[13px] font-medium"
-                style={{ color: palette.text }}
-              >
-                {track.name}
-              </div>
-              <div
-                className="font-['Space_Grotesk'] text-[11px]"
-                style={{ color: palette.text + "66" }}
-              >
-                {track.artist} &middot; {track.album}
-              </div>
-            </div>
-          </div>
+          )}
 
-          {/* Wine/Sake pairing */}
+          {/* Fallback track info (if no Spotify embed) */}
+          {!track.spotifyId && (
+            <div className="flex items-center gap-3 mb-3.5">
+              <div
+                className="w-11 h-11 rounded-md flex-shrink-0 flex items-center justify-center"
+                style={{
+                  background: track.albumArt
+                    ? `url(${track.albumArt}) center/cover`
+                    : `linear-gradient(135deg, ${palette.primary}, ${palette.accent}40)`,
+                }}
+              >
+                {!track.albumArt && <span className="text-lg">&#9835;</span>}
+              </div>
+              <div>
+                <div
+                  className="font-['Space_Grotesk'] text-[13px] font-medium"
+                  style={{ color: palette.text }}
+                >
+                  {track.name}
+                </div>
+                <div
+                  className="font-['Space_Grotesk'] text-[11px]"
+                  style={{ color: palette.text + "66" }}
+                >
+                  {track.artist} &middot; {track.album}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Wine pairing */}
           {course.beverageName && (
             <div
               className="rounded-xl p-3.5"

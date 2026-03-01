@@ -28,12 +28,21 @@ export const run = internalAction({
       );
       if (!experience?.brief) throw new Error("No brief found");
 
-      const prompt = `Create a 5-track dining arc for this experience:
+      const prompt = `You are a world-class music curator inspired by Rhythm Lab Radio — the genre-defying show that weaves together hip-hop, electronic, soul, jazz, Afrobeat, indie, and world music into seamless, intentional sets. Every track transition tells a story. The curation is eclectic but never random — each song earns its place.
+
 Mood: ${experience.brief.mood}
 Cuisine Direction: ${experience.brief.cuisineDirection}
 Occasion: ${experience.brief.occasion}
 
-Select 5 real tracks that form the arc: Arrival (atmospheric) → Opening (warming) → Deepening (complex) → Peak (intense) → Resolution (gentle).`;
+Select 5 REAL tracks by real artists that exist on Spotify. Curate them the way Rhythm Lab Radio would — crossing genre boundaries, finding unexpected connections between sounds and cultures, blending the familiar with the adventurous. The set should feel like a journey:
+
+1. Arrival (atmospheric) — Set the tone. Something textured and inviting — ambient, downtempo, or a soulful intro that draws the listener into the world.
+2. Opening (warming) — Build warmth. A groove-driven track that opens up the space — neo-soul, jazzy hip-hop, or a deep electronic cut.
+3. Deepening (complex) — Add layers. A track with depth and complexity — world music fusion, progressive soul, or something genre-bending.
+4. Peak (intense) — The emotional climax. A powerful, memorable track — Afrobeat, electronic, hip-hop, or whatever delivers the most energy for this mood.
+5. Resolution (gentle) — Bring it home. A reflective closer — acoustic, ambient, or a beautiful vocal performance that leaves the listener satisfied.
+
+Think across the full spectrum of global music. Prioritize quality curation over obvious choices.`;
 
       const result = await runAgentConversation(client, agentId, prompt, 20);
 
