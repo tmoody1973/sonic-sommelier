@@ -165,6 +165,7 @@ export function FullMenuScreen({
       <ShareModal
         isOpen={showShare}
         onClose={() => setShowShare(false)}
+        experienceId={experience._id as any}
         shareSlug={experience.shareSlug}
         shareImageUrl={experience.shareImageUrl}
         title={experience.title}

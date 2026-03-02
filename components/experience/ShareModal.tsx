@@ -1,12 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { useAction } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 import { motion, AnimatePresence } from "framer-motion";
 import { Palette } from "@/lib/types";
 
 interface ShareModalProps {
   isOpen: boolean;
   onClose: () => void;
+  experienceId: Id<"experiences">;
   shareSlug?: string;
   shareImageUrl?: string;
   title: string;
@@ -16,12 +20,15 @@ interface ShareModalProps {
 export function ShareModal({
   isOpen,
   onClose,
+  experienceId,
   shareSlug,
   shareImageUrl,
   title,
   palette,
 }: ShareModalProps) {
   const [copied, setCopied] = useState(false);
+  const [posterRequested, setPosterRequested] = useState(false);
+  const retryPoster = useAction(api.actions.media.retryPoster);
   const p = palette;
 
   const shareUrl = shareSlug
@@ -41,6 +48,15 @@ export function ShareModal({
     a.href = shareImageUrl;
     a.download = `sonic-sommelier-${shareSlug ?? "poster"}.png`;
     a.click();
+  };
+
+  const handleGeneratePoster = async () => {
+    setPosterRequested(true);
+    try {
+      await retryPoster({ experienceId });
+    } catch {
+      setPosterRequested(false);
+    }
   };
 
   const handleShareTwitter = () => {
@@ -118,15 +134,28 @@ export function ShareModal({
 
             {!shareImageUrl && (
               <div
-                className="mx-6 mb-4 rounded-xl h-32 flex items-center justify-center"
+                className="mx-6 mb-4 rounded-xl h-32 flex flex-col items-center justify-center gap-3"
                 style={{ backgroundColor: p.primary + "22" }}
               >
-                <span
-                  className="font-['Space_Grotesk'] text-xs tracking-wider"
-                  style={{ color: p.text + "33" }}
-                >
-                  Poster generating...
-                </span>
+                {posterRequested ? (
+                  <span
+                    className="font-['Space_Grotesk'] text-xs tracking-wider"
+                    style={{ color: p.text + "44" }}
+                  >
+                    Generating poster...
+                  </span>
+                ) : (
+                  <button
+                    onClick={handleGeneratePoster}
+                    className="px-5 py-2.5 rounded-full font-['Space_Grotesk'] text-xs tracking-wider transition-colors"
+                    style={{
+                      backgroundColor: p.accent + "22",
+                      color: p.accent,
+                    }}
+                  >
+                    Generate Poster
+                  </button>
+                )}
               </div>
             )}
 
