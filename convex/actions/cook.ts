@@ -90,10 +90,17 @@ Apply the sonic-to-culinary mapping for each dish. Include a recipeSearchQuery f
       // Enrich each course with a real recipe from Spoonacular
       const enrichedCourses = await Promise.all(
         courses.map(async (c: Record<string, unknown>) => {
+          const idx = Number(c.courseNumber) - 1;
           const base = {
             courseNumber: c.courseNumber as number,
-            courseType: c.courseType as string,
-            arcRole: c.arcRole as string,
+            courseType:
+              (c.courseType as string) ??
+              courseNames[idx] ??
+              "COURSE",
+            arcRole:
+              (c.arcRole as string) ??
+              arcRoles[idx] ??
+              "COURSE",
             dishName: c.dishName as string,
             dishDescription: c.dishDescription as string,
             cuisineType:
