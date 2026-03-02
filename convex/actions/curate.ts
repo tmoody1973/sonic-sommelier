@@ -56,22 +56,37 @@ export const run = internalAction({
       const seedReference = buildSeedReference();
       const keyLabels = seedData.metadata.key_labels.join(", ");
 
+      const rawInput = experience.userInput ?? "";
+
       const prompt = `You are a music curator for Rhythm Lab Radio — Tarik Moody's genre-defying show weaving hip-hop, electronic, soul, jazz, Afrobeat, and world music into intentional sets.
 
-TASTE DNA — Reference tracks (3 per category from 150-track seed list):
+TASTE DNA — Reference tracks from 150-track seed list:
 ${seedReference}
 
 Key labels: ${keyLabels}
 Select tracks that share sonic DNA with these references. Prioritize discovery but anchor in this taste.
 
+USER'S ORIGINAL REQUEST: "${rawInput}"
+^^^ THIS IS CRITICAL. If the user mentions a specific instrument (flute, piano, saxophone, guitar, etc.), genre, artist, era, or style — you MUST honor it. Select tracks that prominently FEATURE what they asked for. "Flute jazz" means tracks where the flute is a lead or prominent instrument. "Piano soul" means piano-driven soul music. Do NOT ignore these specifics.
+
 Mood: ${experience.brief.mood}
 Cuisine: ${experience.brief.cuisineDirection}
 Occasion: ${experience.brief.occasion}
 
-Music must complement food and wine:
+CULTURAL ROOTEDNESS — THIS IS CRITICAL:
+When the user specifies a genre or culture/country, you MUST select artists FROM that tradition. Think of the canonical and emerging artists of that specific tradition FIRST, then branch out:
+- "Brazilian" → Tim Maia, Jorge Ben Jor, Seu Jorge, Gilberto Gil, Gal Costa, Marcos Valle, Tom Jobim, Suba, Elza Soares
+- "Soul" → Marvin Gaye, Erykah Badu, D'Angelo, Curtis Mayfield, Al Green, Jill Scott, Leon Bridges, Solange
+- "Japanese" → Haruomi Hosono, Hiroshi Yoshimura, Nujabes, Cornelius, Minako Yoshida, Tatsuro Yamashita
+- "Afrobeat" → Fela Kuti, Tony Allen, Burna Boy, Angelique Kidjo, Ebo Taylor, Tinariwen
+- "Jazz" → Miles Davis, Kamasi Washington, Robert Glasper, Shabaka Hutchings, Nubya Garcia, Makaya McCraven
+Do NOT default to generic Western pop/indie when a specific tradition is requested. Go DEEP into that tradition's catalog.
+
+Music must complement food and setting:
 - Delicate dishes → airy, acoustic | Bold dishes → deep grooves, warm bass
-- French/Italian → jazz, chanson | Japanese → ambient, minimalist
-- Latin → Afro-Latin rhythms, bossa nova | American → soul, R&B, hip-hop
+- French/Italian → jazz, chanson | Japanese → ambient, city pop, minimalist
+- Latin/Brazilian → Afro-Latin rhythms, bossa nova, MPB, tropicália | American → soul, R&B, hip-hop
+- African → Afrobeat, highlife, desert blues | Electronic → downtempo, house, ambient
 
 Select 5 REAL Spotify tracks. Use search_spotify_tracks to verify each. Curate a dining arc:
 1. Arrival (atmospheric) — textured, inviting
@@ -80,8 +95,11 @@ Select 5 REAL Spotify tracks. Use search_spotify_tracks to verify each. Curate a
 4. Peak (intense) — bold, powerful
 5. Resolution (gentle) — reflective closer
 
-Estimate audio features per track (energy, valence, tempo, danceability, acousticness 0-1, tempo BPM).
-Return JSON array of 5 objects with: name, artist, spotifyId, audioFeatures.`;
+For each track, provide:
+1. audioFeatures: estimated numeric values (energy, valence, tempo, danceability, acousticness 0-1, tempo BPM) — used for UI visualization and palette generation.
+2. sonicCharacter: a 2-3 sentence "sonic fingerprint" describing the track's FEEL — texture, warmth, rhythm, mood, instrumentation, cultural DNA. This is the MOST IMPORTANT field. The Chef and Sommelier will read this to design dishes and pairings. Write it like a music critic describing a song to a chef: "Warm analog bass with humid bossa nova guitar, languid shuffle at 92 BPM, feels like a late afternoon in Rio with windows open. The vocal sits in a bed of Rhodes keys and lazy percussion."
+
+Return JSON array of 5 objects with: name, artist, spotifyId, audioFeatures, sonicCharacter.`;
 
       const result = await runAgentConversation(client, agentId, prompt, 20);
 
@@ -126,11 +144,15 @@ Return JSON array of 5 objects with: name, artist, spotifyId, audioFeatures.`;
           let videoId: string | null = null;
           try {
             videoId = await youtube.searchVideo(
-              `${track.artist} ${track.name}`,
-              ytKey
+              `${track.artist} ${track.name}`
             );
-          } catch {
-            // Continue without YouTube video
+            if (videoId) {
+              console.log(`YouTube found for "${track.name}": ${videoId}`);
+            } else {
+              console.log(`YouTube: no result for "${track.name}"`);
+            }
+          } catch (err) {
+            console.error(`YouTube search error for "${track.name}":`, err);
           }
 
           let artistImage = "";
@@ -170,6 +192,7 @@ Return JSON array of 5 objects with: name, artist, spotifyId, audioFeatures.`;
             artistImage,
             youtubeVideoId: videoId ?? "",
             audioFeatures,
+            sonicCharacter: (track.sonicCharacter as string) ?? "",
           };
         })
       );

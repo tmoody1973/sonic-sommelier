@@ -5,6 +5,37 @@ import * as spoonacular from "../lib/spoonacular";
 import { Mistral } from "@mistralai/mistralai";
 
 /**
+ * Retry a function up to `attempts` times with exponential backoff.
+ * Retries on timeout / connection errors only.
+ */
+async function withRetry<T>(
+  fn: () => Promise<T>,
+  attempts = 3,
+  baseDelay = 2000
+): Promise<T> {
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await fn();
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      const name = err instanceof Error ? (err as { name?: string }).name ?? "" : "";
+      const isRetryable =
+        msg.includes("timeout") ||
+        msg.includes("Timeout") ||
+        msg.includes("fetch failed") ||
+        msg.includes("ECONNRESET") ||
+        name === "ConnectionError" ||
+        name === "HeadersTimeoutError";
+      if (!isRetryable || i === attempts - 1) throw err;
+      const delay = baseDelay * Math.pow(2, i);
+      console.warn(`Retry ${i + 1}/${attempts} after ${delay}ms: ${msg}`);
+      await new Promise((r) => setTimeout(r, delay));
+    }
+  }
+  throw new Error("withRetry: unreachable");
+}
+
+/**
  * Parse JSON from an agent response, stripping markdown fences if present.
  * Throws if parsing fails after cleanup.
  */
@@ -90,12 +121,14 @@ export async function runAgentConversation(
   input: string,
   maxTurns = 10
 ): Promise<string> {
-  let response = await client.beta.conversations.start({
-    agentId,
-    inputs: [
-      { type: "message.input", role: "user", content: input },
-    ],
-  });
+  let response = await withRetry(() =>
+    client.beta.conversations.start({
+      agentId,
+      inputs: [
+        { type: "message.input", role: "user", content: input },
+      ],
+    })
+  );
 
   for (let turn = 0; turn < maxTurns; turn++) {
     if (!response.outputs || response.outputs.length === 0) {
@@ -152,12 +185,15 @@ export async function runAgentConversation(
       })
     );
 
-    response = await client.beta.conversations.append({
-      conversationId: response.conversationId,
-      conversationAppendRequest: {
-        inputs: toolResults,
-      },
-    });
+    const convId = response.conversationId;
+    response = await withRetry(() =>
+      client.beta.conversations.append({
+        conversationId: convId,
+        conversationAppendRequest: {
+          inputs: toolResults,
+        },
+      })
+    );
   }
 
   // Fallback: return last output content as-is

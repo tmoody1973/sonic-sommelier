@@ -9,6 +9,8 @@ interface NarrationPlayerProps {
   palette: Palette;
   autoPlay?: boolean;
   onEnded?: () => void;
+  onPlay?: () => void;
+  onPause?: () => void;
 }
 
 export function NarrationPlayer({
@@ -16,6 +18,8 @@ export function NarrationPlayer({
   palette,
   autoPlay = true,
   onEnded,
+  onPlay,
+  onPause,
 }: NarrationPlayerProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -44,8 +48,14 @@ export function NarrationPlayer({
       onEnded?.();
     });
 
-    audio.addEventListener("play", () => setIsPlaying(true));
-    audio.addEventListener("pause", () => setIsPlaying(false));
+    audio.addEventListener("play", () => {
+      setIsPlaying(true);
+      onPlay?.();
+    });
+    audio.addEventListener("pause", () => {
+      setIsPlaying(false);
+      onPause?.();
+    });
 
     // Handle audio errors gracefully
     audio.addEventListener("error", () => {
@@ -61,7 +71,7 @@ export function NarrationPlayer({
       audio.src = "";
       audioRef.current = null;
     };
-  }, [audioUrl, autoPlay, onEnded]);
+  }, [audioUrl, autoPlay, onEnded, onPlay, onPause]);
 
   const togglePlay = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
@@ -92,8 +102,8 @@ export function NarrationPlayer({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5, duration: 0.4 }}
-      className="flex items-center gap-3 px-4 py-2.5 rounded-full"
-      style={{ backgroundColor: p.text + "08" }}
+      className="flex items-center gap-3 px-4 py-2.5 rounded-full backdrop-blur-md"
+      style={{ backgroundColor: "rgba(13,13,13,0.75)", border: `1px solid ${p.text}10` }}
       onClick={(e) => e.stopPropagation()}
     >
       {/* Play/Pause */}

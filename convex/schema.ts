@@ -40,6 +40,7 @@ const trackValidator = v.object({
   artistImage: v.string(),
   youtubeVideoId: v.string(),
   audioFeatures: audioFeaturesValidator,
+  sonicCharacter: v.optional(v.string()),
 });
 
 const courseValidator = v.object({
@@ -78,6 +79,7 @@ export default defineSchema({
     status: v.string(),
     palette: paletteValidator,
     sonicProfile: v.optional(sonicProfileValidator),
+    userInput: v.optional(v.string()),
     brief: v.optional(
       v.object({
         mood: v.string(),

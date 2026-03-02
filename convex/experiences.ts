@@ -152,12 +152,14 @@ export const updateBrief = internalMutation({
     }),
     title: v.string(),
     subtitle: v.string(),
+    userInput: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     await ctx.db.patch(args.id, {
       brief: args.brief,
       title: args.title,
       subtitle: args.subtitle,
+      userInput: args.userInput,
       status: "curating_music",
     });
   },

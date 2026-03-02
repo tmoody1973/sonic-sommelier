@@ -40,14 +40,16 @@ export const run = internalAction({
           courseNumber: course.courseNumber,
           courseName: course.courseType,
           dishName: course.dishName,
+          dishDescription: course.dishDescription,
           cuisineType: course.cuisineType,
           trackName: `${track.name} - ${track.artist}`,
           artistName: track.artist,
+          sonicCharacter: track.sonicCharacter ?? "",
           sonicProfile: track.audioFeatures,
         };
       });
 
-      const prompt = `Pair each course with a wine. Select wines that complement both the dish and the musical mood of its paired track.
+      const prompt = `Pair each course with a wine. Select wines that complement both the dish and the musical mood of its paired track. Read the "sonicCharacter" field — it describes the track's feel, texture, and cultural DNA. Let that guide your pairing: a warm, languid bossa nova groove calls for a different wine than a crisp, driving electronic beat.
 
 ${JSON.stringify({ courses: coursesInput }, null, 2)}
 

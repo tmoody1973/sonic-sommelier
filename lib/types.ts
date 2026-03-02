@@ -37,6 +37,7 @@ export interface Track {
   artistImage: string;
   youtubeVideoId: string;
   audioFeatures: AudioFeatures;
+  sonicCharacter?: string;
 }
 
 export interface Course {

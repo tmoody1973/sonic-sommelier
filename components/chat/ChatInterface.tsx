@@ -51,11 +51,13 @@ export function ChatInterface() {
       // Navigate to the experience page
       setTimeout(() => router.push(`/experience/${experienceId}`), 2000);
     } catch (error) {
+      console.error("Generation failed:", error);
+      const errMsg = error instanceof Error ? error.message : String(error);
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: "Something went wrong. Please try again.",
+          content: `Something went wrong: ${errMsg}`,
         },
       ]);
       setIsGenerating(false);
@@ -82,6 +84,33 @@ export function ChatInterface() {
           ))}
           <div ref={messagesEndRef} />
         </div>
+
+        {/* Prompt suggestions — only show before user has sent a message */}
+        {messages.length === 1 && !isGenerating && (
+          <div className="px-4 pb-2 flex flex-wrap gap-2">
+            {[
+              "Flute jazz on a rainy night",
+              "Brazilian soul food",
+              "Radiohead",
+              "Late-night Coltrane",
+              "Upbeat Afrobeat summer BBQ",
+              "Mellow lo-fi & ramen",
+            ].map((suggestion) => (
+              <button
+                key={suggestion}
+                type="button"
+                onClick={() => setInput(suggestion)}
+                className="font-['Space_Grotesk'] text-[11px] px-3.5 py-2 rounded-full bg-transparent cursor-pointer transition-colors hover:bg-[#7C9082]/15"
+                style={{
+                  color: "#F1E8D9aa",
+                  border: "1px solid rgba(241,232,217,0.08)",
+                }}
+              >
+                {suggestion}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Input */}
         <form

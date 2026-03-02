@@ -31,7 +31,7 @@ export default function ExperiencePage() {
     <div className="relative">
       {/* Back to gallery */}
       <button
-        onClick={() => router.push("/")}
+        onClick={() => router.push("/dashboard")}
         className="fixed top-6 left-6 z-[60] px-4 py-2 rounded-full bg-black/30 backdrop-blur-sm text-white/40 font-['Space_Grotesk'] text-xs tracking-wider uppercase hover:bg-black/50 hover:text-white/60 transition-colors"
       >
         &larr; Gallery

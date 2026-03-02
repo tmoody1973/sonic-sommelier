@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { UserButton } from "@clerk/nextjs";
+import { RecipeRolodex } from "./RecipeRolodex";
+import { Course, Track, Palette } from "@/lib/types";
 
 const STATUS_LABELS: Record<string, string> = {
   interpreting: "Interpreting...",
@@ -95,9 +97,9 @@ function ExperienceCard({
     title: string;
     subtitle: string;
     status: string;
-    palette: { primary: string; secondary: string; accent: string; text: string; gradientStart: string; gradientEnd: string };
-    courses?: Array<{ dishName: string; courseType: string }>;
-    tracks?: Array<{ name: string; artist: string; albumArt: string }>;
+    palette: Palette;
+    courses?: Course[];
+    tracks?: Track[];
     shareSlug?: string;
     createdAt: number;
   };
@@ -108,11 +110,13 @@ function ExperienceCard({
   const isError = experience.status === "error";
   const courseCount = experience.courses?.length ?? 0;
   const trackCount = experience.tracks?.length ?? 0;
+  const hasCourses = isReady && (experience.courses?.length ?? 0) > 0;
   const date = new Date(experience.createdAt).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
   });
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [showRecipes, setShowRecipes] = useState(false);
   const deleteExperience = useMutation(api.experiences.remove);
 
   const handleDelete = async (e: React.MouseEvent) => {
@@ -211,15 +215,47 @@ function ExperienceCard({
         </p>
 
         {isReady && (
-          <div
-            className="flex items-center gap-4 text-[11px] font-['Space_Grotesk'] tracking-wider"
-            style={{ color: p.text + "44" }}
-          >
-            {trackCount > 0 && <span>{trackCount} tracks</span>}
-            {courseCount > 0 && <span>{courseCount} courses</span>}
+          <div className="flex items-center justify-between">
+            <div
+              className="flex items-center gap-4 text-[11px] font-['Space_Grotesk'] tracking-wider"
+              style={{ color: p.text + "44" }}
+            >
+              {trackCount > 0 && <span>{trackCount} tracks</span>}
+              {courseCount > 0 && <span>{courseCount} courses</span>}
+            </div>
+            {hasCourses && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowRecipes(true);
+                }}
+                className="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 cursor-pointer bg-transparent transition-colors hover:opacity-80"
+                style={{
+                  border: `1px solid ${p.accent}33`,
+                  color: p.accent,
+                }}
+              >
+                <span style={{ fontSize: "12px" }}>&#127860;</span>
+                <span className="font-['Space_Grotesk'] text-[10px] tracking-[0.1em] uppercase font-medium">
+                  Recipes
+                </span>
+              </button>
+            )}
           </div>
         )}
       </div>
+
+      {/* Recipe Rolodex modal */}
+      {showRecipes && experience.courses && experience.tracks && (
+        <RecipeRolodex
+          isOpen={showRecipes}
+          onClose={() => setShowRecipes(false)}
+          courses={experience.courses}
+          tracks={experience.tracks}
+          palette={p}
+          title={experience.title}
+        />
+      )}
     </div>
   );
 }

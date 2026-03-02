@@ -11,15 +11,75 @@ import { NarrationPlayer } from "./NarrationPlayer";
 
 // Screens: 0=Arrival, 1=SonicProfile, 2-6=Courses, 7=FullMenu
 const TOTAL_SCREENS = 8;
-const MUSIC_VOL_DURING_NARRATION = 0.15;
-const MUSIC_VOL_FULL = 0.5;
+const MUSIC_VOL_FULL = 25; // YouTube volume 0-100
+const MUSIC_VOL_DUCKED = 8; // During narration
+
+// YouTube IFrame API types
+interface YTPlayer {
+  playVideo: () => void;
+  pauseVideo: () => void;
+  stopVideo: () => void;
+  setVolume: (vol: number) => void;
+  destroy: () => void;
+}
+
+interface YTPlayerConstructor {
+  new (
+    elementId: string,
+    options: {
+      videoId: string;
+      width: number;
+      height: number;
+      playerVars: Record<string, number | string>;
+      events?: {
+        onReady?: (e: { target: YTPlayer }) => void;
+        onStateChange?: (e: { data: number }) => void;
+        onError?: (e: unknown) => void;
+      };
+    }
+  ): YTPlayer;
+}
+
+declare global {
+  interface Window {
+    YT?: { Player: YTPlayerConstructor };
+    onYouTubeIframeAPIReady?: () => void;
+  }
+}
+
+/** Load the YouTube IFrame API script (once) */
+function loadYTApi(): Promise<void> {
+  return new Promise((resolve) => {
+    if (window.YT?.Player) {
+      resolve();
+      return;
+    }
+    const existing = document.getElementById("yt-iframe-api");
+    if (existing) {
+      // Script is loading, wait for callback
+      const prev = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        prev?.();
+        resolve();
+      };
+      return;
+    }
+    window.onYouTubeIframeAPIReady = () => resolve();
+    const tag = document.createElement("script");
+    tag.id = "yt-iframe-api";
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+  });
+}
 
 export function StoryFlow({ experience }: { experience: Experience }) {
   const [currentScreen, setCurrentScreen] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [narrationPlaying, setNarrationPlaying] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const touchStartRef = useRef<number | null>(null);
-  const spotifyIframeRef = useRef<HTMLIFrameElement | null>(null);
+  const ytPlayerRef = useRef<YTPlayer | null>(null);
+  const ytContainerRef = useRef<HTMLDivElement>(null);
   const palette = experience.palette;
 
   const navigate = useCallback(
@@ -34,12 +94,21 @@ export function StoryFlow({ experience }: { experience: Experience }) {
 
   // Auto-advance after narration ends (with a short pause)
   const handleNarrationEnd = useCallback(() => {
+    setNarrationPlaying(false);
     setTimeout(() => {
       navigate(1);
-    }, 2000); // 2s pause after narration before advancing
+    }, 2000);
   }, [navigate]);
 
-  // Get the Spotify track ID for the current course screen
+  const handleNarrationPlay = useCallback(() => {
+    setNarrationPlaying(true);
+  }, []);
+
+  const handleNarrationPause = useCallback(() => {
+    setNarrationPlaying(false);
+  }, []);
+
+  // Get the current track for course screens
   const currentTrack =
     currentScreen >= 2 && currentScreen <= 6
       ? experience.tracks?.[currentScreen - 2]
@@ -51,6 +120,94 @@ export function StoryFlow({ experience }: { experience: Experience }) {
     (currentScreen >= 2 &&
       currentScreen <= 6 &&
       !!experience.courses?.[currentScreen - 2]?.narrationAudioUrl);
+
+  // ─── YouTube background music player ────────────────────────────────
+  useEffect(() => {
+    const videoId = currentTrack?.youtubeVideoId;
+    console.log(`[YT] Screen ${currentScreen}, videoId="${videoId || ""}"`);
+    if (!videoId) {
+      // No video for this screen — stop any playing music
+      if (ytPlayerRef.current) {
+        try { ytPlayerRef.current.stopVideo(); } catch {}
+        try { ytPlayerRef.current.destroy(); } catch {}
+        ytPlayerRef.current = null;
+      }
+      return;
+    }
+
+    let destroyed = false;
+
+    const initPlayer = async () => {
+      await loadYTApi();
+      if (destroyed || !window.YT?.Player) return;
+
+      // Destroy previous player
+      if (ytPlayerRef.current) {
+        try { ytPlayerRef.current.destroy(); } catch {}
+        ytPlayerRef.current = null;
+      }
+
+      // Need a fresh DOM element each time
+      if (ytContainerRef.current) {
+        ytContainerRef.current.innerHTML = "";
+        const div = document.createElement("div");
+        div.id = "yt-bg-player";
+        ytContainerRef.current.appendChild(div);
+      }
+
+      const player = new window.YT.Player("yt-bg-player", {
+        videoId,
+        width: 1,
+        height: 1,
+        playerVars: {
+          autoplay: 1,
+          controls: 0,
+          disablekb: 1,
+          fs: 0,
+          modestbranding: 1,
+          playsinline: 1,
+          rel: 0,
+          origin: window.location.origin,
+        },
+        events: {
+          onReady: (e) => {
+            if (destroyed) return;
+            console.log(`[YT] Player ready, playing at volume ${MUSIC_VOL_FULL}`);
+            ytPlayerRef.current = e.target;
+            e.target.setVolume(MUSIC_VOL_FULL);
+            e.target.playVideo();
+          },
+          onStateChange: (e) => {
+            console.log(`[YT] State changed: ${e.data}`);
+          },
+          onError: (e) => {
+            console.warn(`[YT] Player error:`, e);
+          },
+        },
+      });
+    };
+
+    initPlayer();
+
+    return () => {
+      destroyed = true;
+      if (ytPlayerRef.current) {
+        try { ytPlayerRef.current.stopVideo(); } catch {}
+        try { ytPlayerRef.current.destroy(); } catch {}
+        ytPlayerRef.current = null;
+      }
+    };
+  }, [currentTrack?.youtubeVideoId]);
+
+  // ─── Volume ducking when narration plays/pauses ─────────────────────
+  useEffect(() => {
+    if (!ytPlayerRef.current) return;
+    try {
+      ytPlayerRef.current.setVolume(
+        narrationPlaying ? MUSIC_VOL_DUCKED : MUSIC_VOL_FULL
+      );
+    } catch {}
+  }, [narrationPlaying]);
 
   const handleClick = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
@@ -99,19 +256,12 @@ export function StoryFlow({ experience }: { experience: Experience }) {
         backgroundColor: palette.secondary,
       }}
     >
-      {/* Background Spotify player — plays the current course's track at low volume */}
-      {currentTrack?.spotifyId && (
-        <iframe
-          key={currentTrack.spotifyId}
-          ref={spotifyIframeRef}
-          src={`https://open.spotify.com/embed/track/${currentTrack.spotifyId}?utm_source=generator&theme=0&autoplay=1`}
-          width="0"
-          height="0"
-          allow="autoplay; clipboard-write; encrypted-media"
-          className="absolute opacity-0 pointer-events-none"
-          style={{ position: "absolute", top: -9999, left: -9999 }}
-        />
-      )}
+      {/* Hidden YouTube player container */}
+      <div
+        ref={ytContainerRef}
+        className="absolute pointer-events-none"
+        style={{ position: "absolute", top: -9999, left: -9999, width: 1, height: 1, opacity: 0 }}
+      />
 
       {/* Progress bar */}
       <div className="absolute top-0 left-0 right-0 z-50 p-3 flex gap-1">
@@ -145,6 +295,8 @@ export function StoryFlow({ experience }: { experience: Experience }) {
               <ArrivalScreen
                 experience={experience}
                 onNarrationEnd={handleNarrationEnd}
+                onNarrationPlay={handleNarrationPlay}
+                onNarrationPause={handleNarrationPause}
               />
             )}
             {currentScreen === 1 && (
@@ -171,12 +323,14 @@ export function StoryFlow({ experience }: { experience: Experience }) {
       {currentScreen >= 2 &&
         currentScreen <= 6 &&
         experience.courses?.[currentScreen - 2]?.narrationAudioUrl && (
-          <div className="absolute bottom-10 left-0 right-0 z-50 px-6 max-w-md mx-auto">
+          <div className="absolute bottom-6 left-0 right-0 z-50 px-6 max-w-md mx-auto">
             <NarrationPlayer
               key={currentScreen}
               audioUrl={experience.courses[currentScreen - 2].narrationAudioUrl!}
               palette={palette}
               onEnded={handleNarrationEnd}
+              onPlay={handleNarrationPlay}
+              onPause={handleNarrationPause}
             />
           </div>
         )}
@@ -199,11 +353,19 @@ export function StoryFlow({ experience }: { experience: Experience }) {
 function ArrivalScreen({
   experience,
   onNarrationEnd,
+  onNarrationPlay,
+  onNarrationPause,
 }: {
   experience: Experience;
   onNarrationEnd: () => void;
+  onNarrationPlay: () => void;
+  onNarrationPause: () => void;
 }) {
   const p = experience.palette;
+  const albumArts = experience.tracks
+    ?.map((t) => t.albumArt)
+    .filter(Boolean) ?? [];
+
   return (
     <div
       className="absolute inset-0 flex flex-col items-center justify-center p-10"
@@ -211,7 +373,46 @@ function ArrivalScreen({
         background: `radial-gradient(ellipse at 50% 60%, ${p.primary}44, ${p.secondary})`,
       }}
     >
-      <div className="text-center max-w-xl">
+      {/* Floating album art background */}
+      {albumArts.length > 0 && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div
+            className="absolute inset-0 grid grid-cols-3 md:grid-cols-5 gap-4 p-6"
+            style={{
+              opacity: 0.08,
+              transform: "rotate(-5deg) scale(1.3)",
+              transformOrigin: "center center",
+            }}
+          >
+            {/* Duplicate to fill grid */}
+            {[...albumArts, ...albumArts, ...albumArts, ...albumArts].slice(0, 15).map((art, i) => (
+              <div
+                key={i}
+                className="aspect-square rounded-md overflow-hidden"
+                style={{
+                  backgroundImage: `url(${art})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  animationName: "floatTile",
+                  animationDuration: `${4 + (i % 3) * 2}s`,
+                  animationTimingFunction: "ease-in-out",
+                  animationIterationCount: "infinite",
+                  animationDelay: `${i * 0.3}s`,
+                }}
+              />
+            ))}
+          </div>
+          {/* Vignette overlay */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background: `radial-gradient(ellipse at 50% 50%, transparent 20%, ${p.secondary} 75%)`,
+            }}
+          />
+        </div>
+      )}
+
+      <div className="text-center max-w-xl relative z-10">
         <div
           className="font-mono text-[10px] tracking-[0.35em] uppercase mb-6"
           style={{ color: p.accent + "88" }}
@@ -236,6 +437,8 @@ function ArrivalScreen({
               audioUrl={experience.introNarrationUrl}
               palette={p}
               onEnded={onNarrationEnd}
+              onPlay={onNarrationPlay}
+              onPause={onNarrationPause}
             />
           </div>
         )}
