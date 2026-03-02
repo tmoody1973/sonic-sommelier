@@ -43,10 +43,11 @@ async function getToken(): Promise<string> {
   const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
   if (!clientId || !clientSecret) throw new Error("Missing Spotify credentials");
 
+  const encoded = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
   const res = await fetch(TOKEN_URL, {
     method: "POST",
     headers: {
-      Authorization: `Basic ${btoa(`${clientId}:${clientSecret}`)}`,
+      Authorization: `Basic ${encoded}`,
       "Content-Type": "application/x-www-form-urlencoded",
     },
     body: "grant_type=client_credentials",
@@ -102,7 +103,8 @@ export async function GET() {
       },
     });
   } catch (err) {
-    console.error("Seed art fetch failed:", err);
-    return NextResponse.json([], { status: 500 });
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("Seed art fetch failed:", msg);
+    return NextResponse.json({ error: msg, hasSpotifyId: !!process.env.SPOTIFY_CLIENT_ID }, { status: 500 });
   }
 }
