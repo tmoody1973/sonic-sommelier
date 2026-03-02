@@ -7,16 +7,19 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { SonicProfileScreen } from "./SonicProfileScreen";
 import { CourseCard } from "./CourseCard";
 import { FullMenuScreen } from "./FullMenuScreen";
+import { NarrationPlayer } from "./NarrationPlayer";
 
 // Screens: 0=Arrival, 1=SonicProfile, 2-6=Courses, 7=FullMenu
 const TOTAL_SCREENS = 8;
+const MUSIC_VOL_DURING_NARRATION = 0.15;
+const MUSIC_VOL_FULL = 0.5;
 
 export function StoryFlow({ experience }: { experience: Experience }) {
   const [currentScreen, setCurrentScreen] = useState(0);
   const [direction, setDirection] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
   const touchStartRef = useRef<number | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const spotifyIframeRef = useRef<HTMLIFrameElement | null>(null);
   const palette = experience.palette;
 
   const navigate = useCallback(
@@ -29,41 +32,25 @@ export function StoryFlow({ experience }: { experience: Experience }) {
     [currentScreen]
   );
 
-  // Play narration audio when screen changes
-  useEffect(() => {
-    // Stop any current audio
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
-    }
+  // Auto-advance after narration ends (with a short pause)
+  const handleNarrationEnd = useCallback(() => {
+    setTimeout(() => {
+      navigate(1);
+    }, 2000); // 2s pause after narration before advancing
+  }, [navigate]);
 
-    let audioUrl: string | undefined;
+  // Get the Spotify track ID for the current course screen
+  const currentTrack =
+    currentScreen >= 2 && currentScreen <= 6
+      ? experience.tracks?.[currentScreen - 2]
+      : null;
 
-    if (currentScreen === 0 && experience.introNarrationUrl) {
-      audioUrl = experience.introNarrationUrl;
-    } else if (currentScreen >= 2 && currentScreen <= 6) {
-      const course = experience.courses?.[currentScreen - 2];
-      if (course?.narrationAudioUrl) {
-        audioUrl = course.narrationAudioUrl;
-      }
-    }
-
-    if (audioUrl) {
-      const audio = new Audio(audioUrl);
-      audio.volume = 0.7;
-      audio.play().catch(() => {
-        // Autoplay blocked — user hasn't interacted yet
-      });
-      audioRef.current = audio;
-    }
-
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-    };
-  }, [currentScreen, experience]);
+  // Check if current screen has narration audio
+  const hasNarration =
+    (currentScreen === 0 && !!experience.introNarrationUrl) ||
+    (currentScreen >= 2 &&
+      currentScreen <= 6 &&
+      !!experience.courses?.[currentScreen - 2]?.narrationAudioUrl);
 
   const handleClick = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
@@ -112,6 +99,20 @@ export function StoryFlow({ experience }: { experience: Experience }) {
         backgroundColor: palette.secondary,
       }}
     >
+      {/* Background Spotify player — plays the current course's track at low volume */}
+      {currentTrack?.spotifyId && (
+        <iframe
+          key={currentTrack.spotifyId}
+          ref={spotifyIframeRef}
+          src={`https://open.spotify.com/embed/track/${currentTrack.spotifyId}?utm_source=generator&theme=0&autoplay=1`}
+          width="0"
+          height="0"
+          allow="autoplay; clipboard-write; encrypted-media"
+          className="absolute opacity-0 pointer-events-none"
+          style={{ position: "absolute", top: -9999, left: -9999 }}
+        />
+      )}
+
       {/* Progress bar */}
       <div className="absolute top-0 left-0 right-0 z-50 p-3 flex gap-1">
         {Array.from({ length: TOTAL_SCREENS }).map((_, i) => (
@@ -141,7 +142,10 @@ export function StoryFlow({ experience }: { experience: Experience }) {
         >
           <ErrorBoundary>
             {currentScreen === 0 && (
-              <ArrivalScreen experience={experience} />
+              <ArrivalScreen
+                experience={experience}
+                onNarrationEnd={handleNarrationEnd}
+              />
             )}
             {currentScreen === 1 && (
               <SonicProfileScreen experience={experience} />
@@ -163,9 +167,23 @@ export function StoryFlow({ experience }: { experience: Experience }) {
         </motion.div>
       </AnimatePresence>
 
+      {/* Narration player for course screens */}
+      {currentScreen >= 2 &&
+        currentScreen <= 6 &&
+        experience.courses?.[currentScreen - 2]?.narrationAudioUrl && (
+          <div className="absolute bottom-10 left-0 right-0 z-50 px-6 max-w-md mx-auto">
+            <NarrationPlayer
+              key={currentScreen}
+              audioUrl={experience.courses[currentScreen - 2].narrationAudioUrl!}
+              palette={palette}
+              onEnded={handleNarrationEnd}
+            />
+          </div>
+        )}
+
       {/* Navigation hint */}
-      {currentScreen < TOTAL_SCREENS - 1 && (
-        <div className="absolute bottom-4 left-0 right-0 text-center z-50">
+      {currentScreen < TOTAL_SCREENS - 1 && !hasNarration && (
+        <div className="absolute bottom-3 left-0 right-0 text-center z-50">
           <span
             className="font-['Space_Grotesk'] text-[9px] tracking-[0.1em] uppercase"
             style={{ color: palette.text + "22" }}
@@ -178,7 +196,13 @@ export function StoryFlow({ experience }: { experience: Experience }) {
   );
 }
 
-function ArrivalScreen({ experience }: { experience: Experience }) {
+function ArrivalScreen({
+  experience,
+  onNarrationEnd,
+}: {
+  experience: Experience;
+  onNarrationEnd: () => void;
+}) {
   const p = experience.palette;
   return (
     <div
@@ -207,21 +231,24 @@ function ArrivalScreen({ experience }: { experience: Experience }) {
           {experience.subtitle}
         </p>
         {experience.introNarrationUrl && (
-          <div
-            className="mt-6 font-['Space_Grotesk'] text-[10px] tracking-[0.15em] uppercase"
-            style={{ color: p.accent + "44" }}
-          >
-            &#9835; narration playing
+          <div className="mt-6 w-full max-w-xs mx-auto">
+            <NarrationPlayer
+              audioUrl={experience.introNarrationUrl}
+              palette={p}
+              onEnded={onNarrationEnd}
+            />
           </div>
         )}
-        <div className="mt-12">
-          <span
-            className="font-['Space_Grotesk'] text-[11px] tracking-[0.2em] uppercase"
-            style={{ color: p.text + "33" }}
-          >
-            Tap to begin
-          </span>
-        </div>
+        {!experience.introNarrationUrl && (
+          <div className="mt-12">
+            <span
+              className="font-['Space_Grotesk'] text-[11px] tracking-[0.2em] uppercase"
+              style={{ color: p.text + "33" }}
+            >
+              Tap to begin
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
